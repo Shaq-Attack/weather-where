@@ -18,7 +18,6 @@ export default function App() {
   const [userSelectedCity, setUserSelectedCity] = useState(false);
   const [lat, setLat] = useState<number | null>(null);
   const [lon, setLon] = useState<number | null>(null);
-  const [currentCityName, setCurrentCityName] = useState<string>("");
 
   const handleUnitToggle = async () => {
     const newIsCelsius = !isCelsius;
@@ -72,7 +71,6 @@ export default function App() {
 
       setLat(targetLat);
       setLon(targetLon);
-      setCurrentCityName(cityName || "Current Location");
       
       const units = isCelsius ? 'metric' : 'imperial';
       await fetchWeatherData(targetLat, targetLon, units);

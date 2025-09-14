@@ -19,8 +19,6 @@ import {
   ThermometerSnowflakeIcon,
   EyeIcon,
   GaugeIcon,
-  CloudRainIcon,
-  ZapIcon,
   MapPinIcon,
 } from "lucide-react";
 import { useState } from "react";

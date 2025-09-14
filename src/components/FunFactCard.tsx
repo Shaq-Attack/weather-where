@@ -7,7 +7,6 @@ import {
 import { Button } from "@progress/kendo-react-buttons";
 import { Loader } from "@progress/kendo-react-indicators";
 import { Notification } from "@progress/kendo-react-notification";
-import { ExternalLinkIcon } from "lucide-react";
 import { useState, useEffect } from "react";
 import { fetchCityFunFact, getRandomFallbackFact, FunFact } from "../api/wiki";
 
