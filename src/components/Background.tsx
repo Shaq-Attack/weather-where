@@ -22,11 +22,11 @@ const getBackgroundImage = (condition: string): string => {
     return "https://images.unsplash.com/photo-1548919973-5cef591cdbc9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&h=2160&q=80"; // Snowy city
   }
   if (cond.includes("clear")) {
-    return "https://images.unsplash.com/photo-1514565131-fce0801e5785?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&h=2160&q=80"; // Clear sky city
+    return "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&h=2160&q=80"; // Clear blue sky with modern city
   }
   
   // Default fallback - beautiful clear city skyline
-  return "https://images.unsplash.com/photo-1514565131-fce0801e5785?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&h=2160&q=80";
+  return "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&h=2160&q=80";
 };
 
 export function Background({ weatherCondition, children }: BackgroundProps) {
