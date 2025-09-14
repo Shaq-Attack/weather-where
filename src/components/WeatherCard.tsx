@@ -104,6 +104,7 @@ export function WeatherCard({ loading, error, data, isCelsius }: WeatherCardProp
           overflow: "hidden",
           border: "none",
           outline: "none",
+          zIndex: 2,
           backgroundClip: "padding-box",
         }}
       >
@@ -121,21 +122,22 @@ export function WeatherCard({ loading, error, data, isCelsius }: WeatherCardProp
         </CardBody>
       </Card>
 
-      {/* Sliding Extra Info Card */}
+      {/* Sliding Extra Info Card (slides right, visible above main card) */}
     <Card
       style={{
         position: "absolute",
-        top: "calc(100% - 20px)",
-        left: 0,
-        width: "100%",
-        borderRadius: "0 0 20px 20px",
+        top: 0,
+        left: 53,
+        height: "100%",
+        width: "80%",
+        borderRadius: "0 20px 20px 0",
         color: "white",
         background: darkerBg,
         padding: "2rem",
-        boxShadow: "0 10px 20px rgba(0,0,0,0.2)",
-        transform: hovered ? "translateY(0)" : "translateY(-100%)",
-        transition: "transform 0.3s ease",
-        zIndex: -1,
+        boxShadow: hovered ? "0 10px 20px rgba(0,0,0,0.2)" : "none",
+        transform: hovered ? "translateX(100%)" : "translateX(0)",
+        transition: "transform 0.3s cubic-bezier(0.4,0,0.2,1)",
+        zIndex: 1,
         border: "none",
         outline: "none",
         backgroundClip: "padding-box",
