@@ -78,7 +78,8 @@ export function ForecastCard({ daily, hourly, isCelsius, timezoneOffset }: Forec
       style={{ 
         borderRadius: "20px", 
         margin: "1rem auto", 
-        maxWidth: "800px",
+        maxWidth: "1500px",
+        width: "fit-content",
         boxShadow: "0 8px 32px rgba(0,0,0,0.1)" 
       }}
     >
