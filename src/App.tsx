@@ -49,14 +49,12 @@ export default function App() {
     const loadWeatherData = async () => {
       let targetLat: number;
       let targetLon: number;
-      let cityName = "";
 
       if (userSelectedCity && selectedCity) {
         const city = cityOptions.find(c => c.label === selectedCity);
         if (!city) return;
         targetLat = city.coordinates.lat;
         targetLon = city.coordinates.lon;
-        cityName = city.label;
       } else if (coords) {
         targetLat = coords.lat;
         targetLon = coords.lon;
@@ -64,7 +62,6 @@ export default function App() {
         const defaultCity = cityOptions[0];
         targetLat = defaultCity.coordinates.lat;
         targetLon = defaultCity.coordinates.lon;
-        cityName = defaultCity.label;
       } else {
         return;
       }
