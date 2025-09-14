@@ -7,7 +7,7 @@ import {
 import { Button } from "@progress/kendo-react-buttons";
 import { Loader } from "@progress/kendo-react-indicators";
 import { Notification } from "@progress/kendo-react-notification";
-import { RefreshCwIcon, ExternalLinkIcon } from "lucide-react";
+import { ExternalLinkIcon } from "lucide-react";
 import { useState, useEffect } from "react";
 import { fetchCityFunFact, getRandomFallbackFact, FunFact } from "../api/wiki";
 
@@ -45,10 +45,6 @@ export function FunFactCard({ cityName, countryCode }: FunFactCardProps) {
       setFadeClass("fade-in");
       setLoading(false);
     }
-  };
-
-  const generateNewFact = () => {
-    loadFunFact(true);
   };
 
   useEffect(() => {
@@ -133,7 +129,7 @@ export function FunFactCard({ cityName, countryCode }: FunFactCardProps) {
         style={{ 
           borderRadius: "20px", 
           margin: "1rem auto", 
-          maxWidth: "600px",
+          maxWidth: "800px",
           boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
           background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
           color: "white"
@@ -156,98 +152,36 @@ export function FunFactCard({ cityName, countryCode }: FunFactCardProps) {
             justifyContent: "center", 
             gap: "0.5rem" 
           }}>
-            <ExternalLinkIcon size={20} />
             Did You Know?
           </CardTitle>
         </CardHeader>
         
-        <CardBody style={{ padding: "1.5rem" }}>
+        <CardBody style={{ padding: "1.5rem", textAlign: "center" }}>
+          {funFact.image && (
+            <div style={{ marginBottom: "1.5rem" }}>
+              <img 
+                src={funFact.image} 
+                alt="Related image" 
+                className="fun-fact-image"
+                style={{ maxWidth: "300px", maxHeight: "200px" }}
+                onError={(e) => {
+                  (e.target as HTMLImageElement).style.display = 'none';
+                }}
+              />
+            </div>
+          )}
+          <div style={{ textAlign: "justify" }}>
+            <p style={{ fontSize: "1rem", lineHeight: "1.6", margin: "0 0 1rem 0" }}>
+              {funFact.text}
+            </p>
+          </div>
           <div style={{ 
-            display: "flex", 
-            gap: "1.5rem", 
-            alignItems: "flex-start",
-            flexDirection: window.innerWidth < 600 ? "column" : "row"
-          }}>
-            {funFact.image && (
-              <div style={{ 
-                flexShrink: 0, 
-                alignSelf: window.innerWidth < 600 ? "center" : "flex-start" 
-              }}>
-                <img 
-                  src={funFact.image} 
-                  alt="Related image" 
-                  className="fun-fact-image"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).style.display = 'none';
-                  }}
-                />
-              </div>
-            )}
-            
-            <div style={{ 
-              flex: 1, 
-              textAlign: window.innerWidth < 600 ? "center" : "left" 
-            }}>
-              <p style={{ 
-                fontSize: "1rem", 
-                lineHeight: "1.6", 
-                margin: "0 0 1rem 0",
-                textAlign: "justify"
-              }}>
-                {funFact.text}
-              </p>
-              
-              <div style={{ 
                 fontSize: "0.8rem", 
                 opacity: 0.8, 
                 marginBottom: "1.5rem",
                 fontStyle: "italic"
               }}>
                 Source: {funFact.source}
-              </div>
-              
-              <div style={{ 
-                display: "flex", 
-                justifyContent: window.innerWidth < 600 ? "center" : "flex-start", 
-                gap: "1rem" 
-              }}>
-                <Button
-                  onClick={generateNewFact}
-                  disabled={loading}
-                  style={{
-                    background: "rgba(255,255,255,0.2)",
-                    border: "1px solid rgba(255,255,255,0.3)",
-                    color: "white",
-                    borderRadius: "8px",
-                    padding: "0.5rem 1rem",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "0.5rem",
-                    cursor: loading ? "not-allowed" : "pointer",
-                    transition: "all 0.2s ease"
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!loading) {
-                      (e.target as HTMLElement).style.background = "rgba(255,255,255,0.3)";
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!loading) {
-                      (e.target as HTMLElement).style.background = "rgba(255,255,255,0.2)";
-                    }
-                  }}
-                  aria-label="Generate a new fun fact"
-                >
-                  <RefreshCwIcon 
-                    size={16} 
-                    style={{ 
-                      animation: loading ? "spin 1s linear infinite" : "none" 
-                    }} 
-                  />
-                  {loading ? "Loading..." : "New Fact"}
-                </Button>
-              </div>
-            </div>
           </div>
         </CardBody>
       </Card>
