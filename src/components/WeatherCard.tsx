@@ -109,6 +109,8 @@ export function WeatherCard({ loading, error, data, isCelsius }: WeatherCardProp
           overflow: "hidden",
           border: "none",
           outline: "none",
+          transform: hovered ? "translateX(-50%)" : "translateX(0)",
+          transition: "transform 0.3s cubic-bezier(0.4,0,0.2,1)",
           zIndex: 2,
           backgroundClip: "padding-box",
         }}
@@ -223,7 +225,7 @@ export function WeatherCard({ loading, error, data, isCelsius }: WeatherCardProp
         style={{
           position: "absolute",
           top: 0,
-          left: 53,
+          left: 18,
           height: "100%",
           width: "80%",
           borderRadius: "0 20px 20px 0",
@@ -231,7 +233,7 @@ export function WeatherCard({ loading, error, data, isCelsius }: WeatherCardProp
           background: darkerBg,
           padding: "2rem",
           boxShadow: hovered ? "0 10px 20px rgba(0,0,0,0.2)" : "none",
-          transform: hovered ? "translateX(100%)" : "translateX(0)",
+          transform: hovered ? "translateX(50%)" : "translateX(0)",
           transition: "transform 0.3s cubic-bezier(0.4,0,0.2,1)",
           zIndex: 1,
           border: "none",
