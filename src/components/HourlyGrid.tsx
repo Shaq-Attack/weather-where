@@ -209,21 +209,59 @@ export function HourlyGrid({
 
       {/* Enhanced Detail Dialog */}
       {selectedHour && (
-        <Dialog
-          title=""
-          onClose={closeDialog}
-          width={700}
-          height={"fit-content"}
-          style={{
-            overflow: "hidden",
-          }}    
-        >
-          <div
+        <>
+          <style>{`
+            .custom-dialog .k-dialog,
+            .custom-dialog .k-dialog-content,
+            .custom-dialog .k-dialog-wrapper,
+            .custom-dialog .k-window,
+            .custom-dialog .k-window-content {
+              background-color: transparent !important;
+              border-radius: 20px !important;
+              border: none !important;
+              padding: 0 !important;
+              margin: 0 !important;
+              overflow: hidden !important;
+              box-shadow: none !important;
+            }
+          `}</style>
+          <Dialog
+            title=""
+            onClose={closeDialog}
+            width={700}
+            height={"fit-content"}
+            className="custom-dialog"
             style={{
-              background: bg,
-              color: "white",
+              overflow: "hidden",
+              padding: "0 !important",
+              margin: "0 !important",
+              border: "none !important",
+              borderRadius: "20px !important",
+              backgroundColor: "transparent !important",
+              boxShadow: "none !important",
+            }}
+            contentStyle={{
+              padding: "0 !important",
+              margin: "0 !important",
+              border: "none !important",
+              backgroundColor: "transparent !important",
+              borderRadius: "20px !important",
+              overflow: "hidden !important",
+              boxShadow: "none !important",
             }}
           >
+            <div
+              style={{
+                background: bg,
+                color: "white",
+                margin: 0,
+                padding: 0,
+                borderRadius: "20px",
+                overflow: "hidden",
+                width: "100%",
+                height: "100%",
+              }}
+            >
             {/* Header */}
             <div
               style={{
@@ -289,7 +327,7 @@ export function HourlyGrid({
                       marginTop: "0.5rem",
                     }}
                   >
-                    Current Temperature
+                    Temperature
                   </div>
                 </div>
                 <div
@@ -478,6 +516,7 @@ export function HourlyGrid({
             </div>
           </div>
         </Dialog>
+        </>
       )}
     </>
   );
