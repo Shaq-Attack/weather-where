@@ -129,10 +129,9 @@ export function FunFactCard({ cityName, countryCode }: FunFactCardProps) {
         style={{ 
           borderRadius: "20px", 
           margin: "1rem auto", 
+          width: "fit-content",
           maxWidth: "800px",
           boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
-          background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-          color: "white"
         }}
         role="article"
         aria-label="Fun fact about the current city"
@@ -141,7 +140,7 @@ export function FunFactCard({ cityName, countryCode }: FunFactCardProps) {
           textAlign: "center", 
           fontWeight: "bold", 
           padding: "1.5rem 1.5rem 1rem",
-          background: "rgba(255,255,255,0.1)",
+          background: "linear-gradient(135deg, #34495e 0%, #2c3e50 100%)",
           borderTopLeftRadius: "20px",
           borderTopRightRadius: "20px"
         }}>

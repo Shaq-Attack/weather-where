@@ -1,12 +1,49 @@
 {
-    "name": "vite-integration",
+    "name": "weather-wonders",
+    "version": "1.0.0",
+    "description": "A modern weather application showcasing KendoReact components with real-time data and accessibility features",
+    "homepage": "https://weather-wonders.vercel.app",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/username/weather-where.git"
+    },
+    "bugs": {
+        "url": "https://github.com/username/weather-where/issues"
+    },
+    "keywords": [
+        "react",
+        "typescript",
+        "weather",
+        "kendoreact",
+        "vite",
+        "accessibility",
+        "responsive",
+        "pwa"
+    ],
+    "license": "MIT",
+    "author": {
+        "name": "Your Name",
+        "email": "your.email@example.com"
+    },
     "private": true,
-    "version": "0.0.0",
     "type": "module",
     "scripts": {
         "dev": "vite",
         "build": "tsc -b && vite build",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "test": "vitest",
+        "test:ui": "vitest --ui",
+        "test:watch": "vitest --watch",
+        "test:coverage": "vitest --coverage",
+        "e2e": "playwright test",
+        "e2e:ui": "playwright test --ui",
+        "e2e:headed": "playwright test --headed",
+        "lint": "tsc --noEmit && prettier --check src",
+        "lint:fix": "prettier --write src",
+        "format": "prettier --write src",
+        "type-check": "tsc --noEmit",
+        "analyze": "npx vite-bundle-analyzer dist",
+        "clean": "rm -rf dist coverage playwright-report"
     },
     "dependencies": {
         "@progress/kendo-data-query": "^1.7.1",
@@ -59,15 +96,24 @@
         "@progress/kendo-theme-material": "^11.0.2",
         "lucide-react": "^0.544.0",
         "react": "^18.3.1",
-        "react-dom": "^18.3.1"
+        "react-dom": "^18.3.1",
+        "recharts": "^3.2.0"
     },
     "devDependencies": {
+        "@playwright/test": "^1.55.0",
+        "@testing-library/jest-dom": "^6.8.0",
+        "@testing-library/react": "^16.3.0",
+        "@testing-library/user-event": "^14.6.1",
+        "@types/node": "^24.3.3",
         "@types/react": "^18.3.3",
         "@types/react-dom": "^18.3.0",
         "@vitejs/plugin-react": "^4.3.1",
         "globals": "^15.9.0",
+        "jsdom": "^27.0.0",
+        "playwright": "^1.55.0",
         "react-router-dom": "^6.26.2",
         "typescript": "^5.5.3",
-        "vite": "^5.4.1"
+        "vite": "^5.4.1",
+        "vitest": "^3.2.4"
     }
 }

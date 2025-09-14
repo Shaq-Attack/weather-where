@@ -83,8 +83,19 @@ export function ForecastCard({ daily, hourly, isCelsius, timezoneOffset }: Forec
         boxShadow: "0 8px 32px rgba(0,0,0,0.1)" 
       }}
     >
-      <CardHeader style={{ textAlign: "center", fontWeight: "bold", padding: "1.5rem" }}>
-        <CardTitle>Weather Forecast</CardTitle>
+      <CardHeader style={{ 
+        textAlign: "center", 
+        fontWeight: "bold", 
+        padding: "1.5rem",
+        background: "linear-gradient(135deg, #34495e 0%, #2c3e50 100%)",
+      }}>
+        <CardTitle style={{ 
+            color: "white", 
+            display: "flex", 
+            alignItems: "center", 
+            justifyContent: "center", 
+            gap: "0.5rem" 
+          }}>Weather Forecast</CardTitle>
       </CardHeader>
       <CardBody style={{ padding: "1.5rem" }}>
         <TabStrip 

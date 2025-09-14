@@ -250,7 +250,7 @@ export function HourlyGrid({
               boxShadow: "none !important",
             }}
           >
-            <div
+            <Card
               style={{
                 background: bg,
                 color: "white",
@@ -260,108 +260,117 @@ export function HourlyGrid({
                 overflow: "hidden",
                 width: "100%",
                 height: "100%",
+                border: "none",
+                boxShadow: "none",
               }}
             >
-            {/* Header */}
-            <div
-              style={{
-                padding: "2rem",
-                borderBottom: "1px solid rgba(255,255,255,0.1)",
-              }}
-            >
-              <div
+              <CardHeader
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "1.5rem",
-                  marginBottom: "1rem",
+                  padding: "2rem",
+                  borderBottom: "1px solid rgba(255,255,255,0.1)",
+                  background: "transparent",
+                  color: "white",
                 }}
               >
-                {getWeatherIcon(selectedHour.weatherMain, 64)}
-                <div>
-                  <h2
-                    style={{
-                      margin: 0,
-                      fontSize: "1.8rem",
-                      fontWeight: "600",
-                      textTransform: "capitalize",
-                    }}
-                  >
-                    {selectedHour.weatherDescription}
-                  </h2>
-                  <div
-                    style={{
-                      fontSize: "1.2rem",
-                      marginTop: "0.5rem",
-                      opacity: 0.9,
-                    }}
-                  >
-                    {selectedHour.formattedDateTime}
-                  </div>
-                </div>
-              </div>
-
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "2rem",
-                  justifyContent: "center",
-                  padding: "1rem 0",
-                }}
-              >
-                <div style={{ textAlign: "center" }}>
-                  <div
-                    style={{
-                      fontSize: "3rem",
-                      fontWeight: "200",
-                      lineHeight: "1",
-                    }}
-                  >
-                    {selectedHour.temperatureFormatted}
-                  </div>
-                  <div
-                    style={{
-                      fontSize: "0.9rem",
-                      opacity: 0.8,
-                      marginTop: "0.5rem",
-                    }}
-                  >
-                    Temperature
-                  </div>
-                </div>
                 <div
                   style={{
-                    width: "1px",
-                    height: "60px",
-                    background: "rgba(255,255,255,0.3)",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "1.5rem",
+                    marginBottom: "1rem",
                   }}
-                ></div>
-                <div style={{ textAlign: "center" }}>
-                  <div style={{ fontSize: "1.5rem", fontWeight: "400" }}>
-                    {selectedHour.feelsLikeFormatted}
+                >
+                  {getWeatherIcon(selectedHour.weatherMain, 64)}
+                  <div>
+                    <CardTitle
+                      style={{
+                        margin: 0,
+                        fontSize: "1.8rem",
+                        fontWeight: "600",
+                        textTransform: "capitalize",
+                        color: "white",
+                      }}
+                    >
+                      {selectedHour.weatherDescription}
+                    </CardTitle>
+                    <div
+                      style={{
+                        fontSize: "1.2rem",
+                        marginTop: "0.5rem",
+                        opacity: 0.9,
+                        color: "white",
+                      }}
+                    >
+                      {selectedHour.formattedDateTime}
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "2rem",
+                    justifyContent: "center",
+                    padding: "1rem 0",
+                  }}
+                >
+                  <div style={{ textAlign: "center" }}>
+                    <div
+                      style={{
+                        fontSize: "3rem",
+                        fontWeight: "200",
+                        lineHeight: "1",
+                        color: "white",
+                      }}
+                    >
+                      {selectedHour.temperatureFormatted}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: "0.9rem",
+                        opacity: 0.8,
+                        marginTop: "0.5rem",
+                        color: "white",
+                      }}
+                    >
+                      Temperature
+                    </div>
                   </div>
                   <div
                     style={{
-                      fontSize: "0.9rem",
-                      opacity: 0.8,
-                      marginTop: "0.5rem",
+                      width: "1px",
+                      height: "60px",
+                      background: "rgba(255,255,255,0.3)",
+                      color: "white",
                     }}
-                  >
-                    Feels Like
+                  ></div>
+                  <div style={{ textAlign: "center" }}>
+                    <div style={{ fontSize: "1.5rem", fontWeight: "400", color: "white" }}>
+                      {selectedHour.feelsLikeFormatted}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: "0.9rem",
+                        opacity: 0.8,
+                        marginTop: "0.5rem",
+                        color: "white",
+                      }}
+                    >
+                      Feels Like
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
+              </CardHeader>
 
-            {/* Details Grid */}
-            <div style={{ padding: "2rem" }}>
+              <CardBody style={{ padding: "2rem", color: "white" }}>
               <h3
                 style={{
                   margin: "0 0 1.5rem 0",
                   fontSize: "1.2rem",
                   fontWeight: "500",
                   opacity: 0.9,
+                  color: "white",
                 }}
               >
                 Detailed Conditions
@@ -513,8 +522,8 @@ export function HourlyGrid({
                   Close Details
                 </Button>
               </div>
-            </div>
-          </div>
+              </CardBody>
+          </Card>
         </Dialog>
         </>
       )}
