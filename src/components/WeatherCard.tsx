@@ -60,33 +60,33 @@ export function WeatherCard({ loading, error, data, isCelsius }: WeatherCardProp
     return <SunIcon size={48} />;
   };
 
-  // Background gradient mapping
+  // Background gradient mapping - made more subtle for background image compatibility
   const getBackground = (cond: string) => {
     if (cond.includes("rain"))
-      return "linear-gradient(135deg, #4a90e2, #005bea)";
+      return "linear-gradient(135deg, rgba(74, 144, 226, 0.9), rgba(0, 91, 234, 0.9))";
     if (cond.includes("cloud"))
-      return "linear-gradient(135deg, #bdc3c7, #2c3e50)";
+      return "linear-gradient(135deg, rgba(189, 195, 199, 0.9), rgba(44, 62, 80, 0.9))";
     if (cond.includes("snow"))
-      return "linear-gradient(135deg, #83a4d4, #b6fbff)";
+      return "linear-gradient(135deg, rgba(131, 164, 212, 0.9), rgba(182, 251, 255, 0.9))";
     if (cond.includes("clear"))
-      return "linear-gradient(135deg, #f7971e, #ffd200)";
-    return "linear-gradient(135deg, #2980b9, #6dd5fa)";
+      return "linear-gradient(135deg, rgba(247, 151, 30, 0.9), rgba(255, 210, 0, 0.9))";
+    return "linear-gradient(135deg, rgba(41, 128, 185, 0.9), rgba(109, 213, 250, 0.9))";
   };
 
   const bg = getBackground(condition);
   const icon = getWeatherIcon(condition);
 
-  // Function to darken the background by two shades
+  // Function to darken the background by two shades - made more subtle
   const getDarkerBackground = (cond: string) => {
     if (cond.includes("rain"))
-      return "linear-gradient(135deg, #2c5aa0, #003388)";
+      return "linear-gradient(135deg, rgba(44, 90, 160, 0.95), rgba(0, 51, 136, 0.95))";
     if (cond.includes("cloud"))
-      return "linear-gradient(135deg, #7f8c8d, #1a252f)";
+      return "linear-gradient(135deg, rgba(127, 140, 141, 0.95), rgba(26, 37, 47, 0.95))";
     if (cond.includes("snow"))
-      return "linear-gradient(135deg, #5a7fa7, #7dd3ff)";
+      return "linear-gradient(135deg, rgba(90, 127, 167, 0.95), rgba(125, 211, 255, 0.95))";
     if (cond.includes("clear"))
-      return "linear-gradient(135deg, #cc5500, #e6ac00)";
-    return "linear-gradient(135deg, #1e5f8c, #4a9bc1)";
+      return "linear-gradient(135deg, rgba(204, 85, 0, 0.95), rgba(230, 172, 0, 0.95))";
+    return "linear-gradient(135deg, rgba(30, 95, 140, 0.95), rgba(74, 155, 193, 0.95))";
   };
 
   const darkerBg = getDarkerBackground(condition);
@@ -103,7 +103,7 @@ export function WeatherCard({ loading, error, data, isCelsius }: WeatherCardProp
           borderRadius: "20px",
           color: "white",
           background: bg,
-          boxShadow: "0 10px 20px rgba(0,0,0,0.2)",
+          boxShadow: "0 10px 20px rgba(0,0,0,0.3)",
           overflow: "hidden",
           border: "none",
           outline: "none",
@@ -111,6 +111,7 @@ export function WeatherCard({ loading, error, data, isCelsius }: WeatherCardProp
           transition: "transform 0.3s cubic-bezier(0.4,0,0.2,1)",
           zIndex: 2,
           backgroundClip: "padding-box",
+          backdropFilter: "blur(10px)",
         }}
       >
         <CardHeader style={{ 
@@ -230,13 +231,14 @@ export function WeatherCard({ loading, error, data, isCelsius }: WeatherCardProp
           color: "white",
           background: darkerBg,
           padding: "2rem",
-          boxShadow: hovered ? "0 10px 20px rgba(0,0,0,0.2)" : "none",
+          boxShadow: hovered ? "0 10px 20px rgba(0,0,0,0.3)" : "none",
           transform: hovered ? "translateX(50%)" : "translateX(0)",
           transition: "transform 0.3s cubic-bezier(0.4,0,0.2,1)",
           zIndex: 1,
           border: "none",
           outline: "none",
           backgroundClip: "padding-box",
+          backdropFilter: "blur(10px)",
         }}
       >
         {/* Weather Details Header */}

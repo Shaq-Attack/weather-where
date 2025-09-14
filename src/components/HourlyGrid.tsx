@@ -62,17 +62,17 @@ export function HourlyGrid({
     visibility: (hour as any).visibility || 10000,
   }));
 
-  // Background gradient mapping
+  // Background gradient mapping - made more subtle for background image compatibility
   const getBackground = (cond: string) => {
     if (cond.includes("rain"))
-      return "linear-gradient(135deg, #4a90e2, #005bea)";
+      return "linear-gradient(135deg, rgba(74, 144, 226, 0.95), rgba(0, 91, 234, 0.95))";
     if (cond.includes("cloud"))
-      return "linear-gradient(135deg, #bdc3c7, #2c3e50)";
+      return "linear-gradient(135deg, rgba(189, 195, 199, 0.95), rgba(44, 62, 80, 0.95))";
     if (cond.includes("snow"))
-      return "linear-gradient(135deg, #83a4d4, #b6fbff)";
+      return "linear-gradient(135deg, rgba(131, 164, 212, 0.95), rgba(182, 251, 255, 0.95))";
     if (cond.includes("clear"))
-      return "linear-gradient(135deg, #f7971e, #ffd200)";
-    return "linear-gradient(135deg, #2980b9, #6dd5fa)";
+      return "linear-gradient(135deg, rgba(247, 151, 30, 0.95), rgba(255, 210, 0, 0.95))";
+    return "linear-gradient(135deg, rgba(41, 128, 185, 0.95), rgba(109, 213, 250, 0.95))";
   };
 
   const condition = selectedHour?.weather[0].main.toLowerCase() || "clear";

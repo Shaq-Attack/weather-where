@@ -7,6 +7,7 @@ import { WeatherAppBar } from "./components/WeatherAppBar";
 import { ForecastCard } from "./components/ForecastCard";
 import { FunFactCard } from "./components/FunFactCard";
 import { HourlyGrid } from "./components/HourlyGrid";
+import { Background } from "./components/Background";
 import "./App.css";
 import cityList from '../city.list.json';
 
@@ -76,30 +77,33 @@ export default function App() {
     loadWeatherData();
   }, [coords, selectedCity, userSelectedCity, geoError, permissionDenied, isCelsius, fetchWeatherData]);
 
+  // Get current weather condition for background
+  const weatherCondition = weatherData?.current?.weather?.[0]?.main || 'clear';
+
   return (
-    <div style={{ 
-      width: '100%', 
-      height: '100%', 
-      display: 'flex', 
-      flexDirection: 'column',
-      alignItems: 'center', 
-      justifyContent: 'flex-start',
-      minHeight: '100vh',
-      paddingTop: '80px',
-      background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
-      minWidth: '100vw'
-    }}>
-      <WeatherAppBar
-        cities={cityOptions.map(c => c.label)}
-        city={selectedCity || ""}
-        onCityChange={handleCityChange}
-        isCelsius={isCelsius}
-        onUnitToggle={handleUnitToggle}
-      />
-      
+    <Background weatherCondition={weatherCondition}>
       <div style={{ 
-        maxWidth: '1500px', 
         width: '100%', 
+        height: '100%', 
+        display: 'flex', 
+        flexDirection: 'column',
+        alignItems: 'center', 
+        justifyContent: 'flex-start',
+        minHeight: '100vh',
+        paddingTop: '80px',
+        minWidth: '100vw'
+      }}>
+        <WeatherAppBar
+          cities={cityOptions.map(c => c.label)}
+          city={selectedCity || ""}
+          onCityChange={handleCityChange}
+          isCelsius={isCelsius}
+          onUnitToggle={handleUnitToggle}
+        />
+        
+        <div style={{ 
+          maxWidth: '1500px', 
+          width: '100%', 
         display: 'flex',
         flexDirection: 'column',
         gap: '0',
@@ -182,7 +186,8 @@ export default function App() {
             />
           </div>
         )}
+        </div>
       </div>
-    </div>
+    </Background>
   );
 }
