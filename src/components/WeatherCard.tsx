@@ -17,6 +17,11 @@ import {
   SunsetIcon,
   ThermometerSunIcon,
   ThermometerSnowflakeIcon,
+  EyeIcon,
+  GaugeIcon,
+  CloudRainIcon,
+  ZapIcon,
+  MapPinIcon,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -108,68 +113,222 @@ export function WeatherCard({ loading, error, data, isCelsius }: WeatherCardProp
           backgroundClip: "padding-box",
         }}
       >
-        <CardHeader style={{ textAlign: "center", fontWeight: "bold", padding: "2rem", color: "white" }}>
-          {data.name}
+        <CardHeader style={{ 
+          textAlign: "center", 
+          fontWeight: "600", 
+          padding: "1.5rem 2rem 1rem", 
+          color: "white",
+          borderBottom: "1px solid rgba(255,255,255,0.1)"
+        }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.5rem" }}>
+            <MapPinIcon size={16} />
+            {data.name}, {data.sys.country}
+          </div>
+          <div style={{ fontSize: "0.85rem", opacity: 0.8, marginTop: "0.25rem" }}>
+            {new Date().toLocaleDateString('en-US', { 
+              weekday: 'long', 
+              year: 'numeric', 
+              month: 'long', 
+              day: 'numeric' 
+            })}
+          </div>
         </CardHeader>
-        <CardBody style={{ textAlign: "center", padding: "2rem" }}>
-          <div>{icon}</div>
-          <CardTitle style={{ fontSize: "3rem", margin: "0.5rem 0" }}>
-            {Math.round(data.main.temp)}{isCelsius ? "°C" : "°F"}
-          </CardTitle>
-          <p style={{ textTransform: "capitalize" }}>
-            {data.weather[0].description}
-          </p>
+        <CardBody style={{ padding: "2rem" }}>
+          {/* Main temperature display */}
+          <div style={{ textAlign: "center", marginBottom: "2rem" }}>
+            <div style={{ marginBottom: "1rem" }}>{icon}</div>
+            <CardTitle style={{ 
+              fontSize: "4rem", 
+              margin: "0", 
+              fontWeight: "200", 
+              lineHeight: "1",
+              letterSpacing: "-2px"
+            }}>
+              {Math.round(data.main.temp)}{isCelsius ? "°C" : "°F"}
+            </CardTitle>
+            <p style={{ 
+              textTransform: "capitalize", 
+              fontSize: "1.2rem", 
+              margin: "0.5rem 0 0",
+              opacity: 0.9,
+              fontWeight: "400"
+            }}>
+              {data.weather[0].description}
+            </p>
+          </div>
+          
+          {/* Secondary metrics in clean grid */}
+          <div style={{ 
+            display: "grid", 
+            gridTemplateColumns: "1fr 1fr", 
+            gap: "1.5rem",
+            fontSize: "0.95rem",
+            opacity: 0.9,
+            padding: "1rem 0",
+            borderTop: "1px solid rgba(255,255,255,0.15)"
+          }}>
+            <div style={{ 
+              display: "flex", 
+              flexDirection: "column", 
+              alignItems: "center", 
+              gap: "0.5rem",
+              textAlign: "center"
+            }}>
+              <ThermometerSunIcon size={18} />
+              <div>
+                <div style={{ fontSize: "0.8rem", opacity: 0.8 }}>Feels like</div>
+                <div style={{ fontWeight: "600" }}>{Math.round(data.main.feels_like)}{isCelsius ? "°C" : "°F"}</div>
+              </div>
+            </div>
+            <div style={{ 
+              display: "flex", 
+              flexDirection: "column", 
+              alignItems: "center", 
+              gap: "0.5rem",
+              textAlign: "center"
+            }}>
+              <EyeIcon size={18} />
+              <div>
+                <div style={{ fontSize: "0.8rem", opacity: 0.8 }}>Visibility</div>
+                <div style={{ fontWeight: "600" }}>{data.visibility ? Math.round(data.visibility / 1000) : 10}km</div>
+              </div>
+            </div>
+            <div style={{ 
+              display: "flex", 
+              flexDirection: "column", 
+              alignItems: "center", 
+              gap: "0.5rem",
+              textAlign: "center"
+            }}>
+              <GaugeIcon size={18} />
+              <div>
+                <div style={{ fontSize: "0.8rem", opacity: 0.8 }}>Pressure</div>
+                <div style={{ fontWeight: "600" }}>{data.main.pressure}hPa</div>
+              </div>
+            </div>
+            <div style={{ 
+              display: "flex", 
+              flexDirection: "column", 
+              alignItems: "center", 
+              gap: "0.5rem",
+              textAlign: "center"
+            }}>
+            </div>
+          </div>
         </CardBody>
       </Card>
 
-      {/* Sliding Extra Info Card (slides right, visible above main card) */}
-    <Card
-      style={{
-        position: "absolute",
-        top: 0,
-        left: 53,
-        height: "100%",
-        width: "80%",
-        borderRadius: "0 20px 20px 0",
-        color: "white",
-        background: darkerBg,
-        padding: "2rem",
-        boxShadow: hovered ? "0 10px 20px rgba(0,0,0,0.2)" : "none",
-        transform: hovered ? "translateX(100%)" : "translateX(0)",
-        transition: "transform 0.3s cubic-bezier(0.4,0,0.2,1)",
-        zIndex: 1,
-        border: "none",
-        outline: "none",
-        backgroundClip: "padding-box",
-      }}
-    >
-      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
-        <p style={{ display: "flex", alignItems: "center", gap: 4 }}>
-        <DropletIcon size={18} /> {data.main.humidity}%
-        </p>
-        <p style={{ display: "flex", alignItems: "center", gap: 4 }}>
-          <WindIcon size={18} /> {data.wind.speed} m/s
-        </p>
-      </div>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <p style={{ display: "flex", alignItems: "center", gap: 4 }}>
-          <ThermometerSunIcon size ={18} /> {data.main.temp_max}{isCelsius ? "°C" : "°F"}
-        </p>
-        <p style={{ display: "flex", alignItems: "center", gap: 4 }}>
-          <ThermometerSnowflakeIcon size ={18} /> {data.main.temp_min}{isCelsius ? "°C" : "°F"}
-        </p>
-      </div>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-      <p style={{ display: "flex", alignItems: "center", gap: 4 }}>
-        <SunriseIcon size={18} />{" "}
-        {new Date(data.sys.sunrise * 1000).toLocaleTimeString()}
-      </p>
-      <p style={{ display: "flex", alignItems: "center", gap: 4 }}>
-        <SunsetIcon size={18} />{" "}
-        {new Date(data.sys.sunset * 1000).toLocaleTimeString()}
-      </p>
-      </div>
-    </Card>
+      {/* Sliding Extra Info Card - Clean organized layout */}
+      <Card
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 53,
+          height: "100%",
+          width: "80%",
+          borderRadius: "0 20px 20px 0",
+          color: "white",
+          background: darkerBg,
+          padding: "2rem",
+          boxShadow: hovered ? "0 10px 20px rgba(0,0,0,0.2)" : "none",
+          transform: hovered ? "translateX(100%)" : "translateX(0)",
+          transition: "transform 0.3s cubic-bezier(0.4,0,0.2,1)",
+          zIndex: 1,
+          border: "none",
+          outline: "none",
+          backgroundClip: "padding-box",
+        }}
+      >
+        {/* Weather Details Header */}
+        <div style={{ 
+          fontSize: "1.1rem", 
+          fontWeight: "600", 
+          marginBottom: "1.5rem",
+          textAlign: "center",
+          borderBottom: "1px solid rgba(255,255,255,0.2)",
+          paddingBottom: "0.75rem"
+        }}>
+          Weather Details
+        </div>
+
+        {/* Organized metrics in sections */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+          
+          {/* Atmospheric Section */}
+          <div>
+            <div style={{ fontSize: "0.85rem", opacity: 0.8, marginBottom: "0.75rem", fontWeight: "500" }}>
+              Atmospheric
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontSize: "0.85rem", opacity: 0.8 }}>
+                  <DropletIcon size={14} />
+                  Humidity
+                </div>
+                <div style={{ fontWeight: "600", fontSize: "1rem" }}>{data.main.humidity}%</div>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontSize: "0.85rem", opacity: 0.8 }}>
+                  <WindIcon size={14} />
+                  Wind
+                </div>
+                <div style={{ fontWeight: "600", fontSize: "1rem" }}>{Math.round(data.wind.speed * 3.6)} km/h</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Temperature Section */}
+          <div>
+            <div style={{ fontSize: "0.85rem", opacity: 0.8, marginBottom: "0.75rem", fontWeight: "500" }}>
+              Temperature Range
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontSize: "0.85rem", opacity: 0.8 }}>
+                  <ThermometerSunIcon size={14} />
+                  High
+                </div>
+                <div style={{ fontWeight: "600", fontSize: "1rem" }}>{Math.round(data.main.temp_max)}{isCelsius ? "°C" : "°F"}</div>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontSize: "0.85rem", opacity: 0.8 }}>
+                  <ThermometerSnowflakeIcon size={14} />
+                  Low
+                </div>
+                <div style={{ fontWeight: "600", fontSize: "1rem" }}>{Math.round(data.main.temp_min)}{isCelsius ? "°C" : "°F"}</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Sun Times Section */}
+          <div>
+            <div style={{ fontSize: "0.85rem", opacity: 0.8, marginBottom: "0.75rem", fontWeight: "500" }}>
+              Sun Times
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontSize: "0.85rem", opacity: 0.8 }}>
+                  <SunriseIcon size={14} />
+                  Sunrise
+                </div>
+                <div style={{ fontWeight: "600", fontSize: "1rem" }}>
+                  {new Date(data.sys.sunrise * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                </div>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontSize: "0.85rem", opacity: 0.8 }}>
+                  <SunsetIcon size={14} />
+                  Sunset
+                </div>
+                <div style={{ fontWeight: "600", fontSize: "1rem" }}>
+                  {new Date(data.sys.sunset * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </Card>
     </div>
   );
 }
