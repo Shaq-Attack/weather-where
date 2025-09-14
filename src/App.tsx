@@ -100,44 +100,87 @@ export default function App() {
       <div style={{ 
         maxWidth: '1500px', 
         width: '100%', 
-        padding: '0 1rem',
         display: 'flex',
         flexDirection: 'column',
-        gap: '1rem'
+        gap: '0',
       }}>
-        {/* Current Weather Card */}
-        <WeatherCard 
-          loading={loading} 
-          error={error || geoError} 
-          data={weatherData?.current} 
-          isCelsius={isCelsius} 
-        />
-        
-        {/* Forecast Card */}
-        {weatherData?.daily && weatherData?.hourly && (
-          <ForecastCard 
-            daily={weatherData.daily}
-            hourly={weatherData.hourly}
-            isCelsius={isCelsius}
-            timezoneOffset={weatherData.timezone_offset}
+        {/* Current Weather Card - Start with immediate conditions */}
+        <div 
+          id="weather-current"
+          style={{ 
+            minHeight: '100vh', 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'center',
+            padding: '2rem 1rem'
+          }}
+        >
+          <WeatherCard 
+            loading={loading} 
+            error={error || geoError} 
+            data={weatherData?.current} 
+            isCelsius={isCelsius} 
           />
-        )}
+        </div>
         
-        {/* Fun Fact Card */}
-        {weatherData?.current && (
-          <FunFactCard 
-            cityName={weatherData.current.name}
-            countryCode={weatherData.current.sys?.country}
-          />
-        )}
-        
-        {/* Hourly Grid */}
+        {/* Hourly Grid - Detailed next 48 hours for planning */}
         {weatherData?.hourly && (
-          <HourlyGrid 
-            hourly={weatherData.hourly}
-            isCelsius={isCelsius}
-            timezoneOffset={weatherData.timezone_offset}
-          />
+          <div 
+            id="weather-hourly"
+            style={{ 
+              minHeight: '100vh', 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center',
+              padding: '2rem 1rem'
+            }}
+          >
+            <HourlyGrid 
+              hourly={weatherData.hourly}
+              isCelsius={isCelsius}
+              timezoneOffset={weatherData.timezone_offset}
+            />
+          </div>
+        )}
+        
+        {/* Forecast Card - Weekly overview for longer-term planning */}
+        {weatherData?.daily && weatherData?.hourly && (
+          <div 
+            id="weather-forecast"
+            style={{ 
+              minHeight: '100vh', 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center',
+              padding: '2rem 1rem'
+            }}
+          >
+            <ForecastCard 
+              daily={weatherData.daily}
+              hourly={weatherData.hourly}
+              isCelsius={isCelsius}
+              timezoneOffset={weatherData.timezone_offset}
+            />
+          </div>
+        )}
+        
+        {/* Fun Fact Card - Engaging content to end the experience */}
+        {weatherData?.current && (
+          <div 
+            id="weather-facts"
+            style={{ 
+              minHeight: '100vh', 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center',
+              padding: '2rem 1rem'
+            }}
+          >
+            <FunFactCard 
+              cityName={weatherData.current.name}
+              countryCode={weatherData.current.sys?.country}
+            />
+          </div>
         )}
       </div>
     </div>
