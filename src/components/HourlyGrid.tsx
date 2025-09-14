@@ -62,6 +62,22 @@ export function HourlyGrid({
     visibility: (hour as any).visibility || 10000,
   }));
 
+  // Background gradient mapping
+  const getBackground = (cond: string) => {
+    if (cond.includes("rain"))
+      return "linear-gradient(135deg, #4a90e2, #005bea)";
+    if (cond.includes("cloud"))
+      return "linear-gradient(135deg, #bdc3c7, #2c3e50)";
+    if (cond.includes("snow"))
+      return "linear-gradient(135deg, #83a4d4, #b6fbff)";
+    if (cond.includes("clear"))
+      return "linear-gradient(135deg, #f7971e, #ffd200)";
+    return "linear-gradient(135deg, #2980b9, #6dd5fa)";
+  };
+
+  const condition = selectedHour?.weather[0].main.toLowerCase() || "clear";
+  const bg = getBackground(condition);
+
   const handleRowClick = (dataItem: GridData) => {
     setSelectedHour(dataItem);
   };
@@ -197,17 +213,15 @@ export function HourlyGrid({
           title=""
           onClose={closeDialog}
           width={700}
-          height={600}
+          height={"fit-content"}
           style={{
-            borderRadius: "20px",
             overflow: "hidden",
-          }}
+          }}    
         >
           <div
             style={{
-              background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+              background: bg,
               color: "white",
-              padding: "0",
             }}
           >
             {/* Header */}
