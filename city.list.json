@@ -1,0 +1,52 @@
+[
+    {
+        "id": 2643743,
+        "name": "London",
+        "state": "",
+        "country": "GB",
+        "coord": {
+            "lon": -0.12574,
+            "lat": 51.50853
+        }
+    },
+    {
+        "id": 5128581,
+        "name": "New York City",
+        "state": "NY",
+        "country": "US",
+        "coord": {
+            "lon": -74.005966,
+            "lat": 40.714272
+        }
+    },
+    {
+        "id": 1850147,
+        "name": "Tokyo",
+        "state": "",
+        "country": "JP",
+        "coord": {
+            "lon": 139.691711,
+            "lat": 35.689499
+        }
+    },
+    {
+        "id": 3369157,
+        "name": "Cape Town",
+        "state": "",
+        "country": "ZA",
+        "coord": {
+            "lon": 18.42322,
+            "lat": -33.925838
+        }
+    },
+    {
+        "id": 6160752,
+        "name": "Sydney",
+        "state": "",
+        "country": "CA",
+        "coord": {
+            "lon": -60.181751,
+            "lat": 46.150139
+        }
+    }
+]
