@@ -56,47 +56,57 @@ export function SunProgressBar({ sunrise, sunset, timezoneOffset }: SunProgressB
       right: 0,
       background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
       backdropFilter: 'blur(10px)',
-      padding: '0.5rem 1rem',
+      padding: '0.5rem 0.5rem',
       borderTop: '1px solid rgba(255,255,255,0.1)',
       zIndex: 1000,
-      boxShadow: '0 -2px 10px rgba(0, 0, 0, 0.1)'
+      boxShadow: '0 -2px 10px rgba(0, 0, 0, 0.1)',
+      overflowX: 'hidden'
     }}>
       <div style={{
         maxWidth: '1200px',
         margin: '0 auto',
         display: 'flex',
         alignItems: 'center',
-        gap: '0.75rem'
+        gap: '0.5rem',
+        width: '100%',
+        minWidth: 0
       }}>
         {/* Sunrise Icon and Time */}
         <div style={{
           display: 'flex',
           alignItems: 'center',
           gap: '0.25rem',
-          minWidth: '80px'
+          flexShrink: 0,
+          minWidth: '60px'
         }}>
           <SunriseIcon 
             size={16} 
             color="white" 
           />
           <div style={{
-            fontSize: '0.75rem',
+            fontSize: '0.7rem',
             fontWeight: '500',
-            color: 'white'
+            color: 'white',
+            whiteSpace: 'nowrap'
           }}>
             {formatTime(sunrise)}
           </div>
         </div>
 
         {/* Progress Bar */}
-        <div style={{ flex: 1, position: 'relative' }}>
+        <div style={{ 
+          flex: 1, 
+          position: 'relative',
+          minWidth: '100px'
+        }}>
           <ProgressBar
             value={progress}
             style={{
               height: '8px',
               backgroundColor: 'rgba(255,255,255,0.2)',
               borderRadius: '4px',
-              overflow: 'hidden'
+              overflow: 'hidden',
+              width: '100%'
             }}
             progressStyle={{
               backgroundColor: 'rgba(255,255,255,0.8)',
@@ -128,13 +138,15 @@ export function SunProgressBar({ sunrise, sunset, timezoneOffset }: SunProgressB
           display: 'flex',
           alignItems: 'center',
           gap: '0.25rem',
-          minWidth: '80px',
+          flexShrink: 0,
+          minWidth: '60px',
           justifyContent: 'flex-end'
         }}>
           <div style={{
-            fontSize: '0.75rem',
+            fontSize: '0.7rem',
             fontWeight: '500',
-            color: 'white'
+            color: 'white',
+            whiteSpace: 'nowrap'
           }}>
             {formatTime(sunset)}
           </div>

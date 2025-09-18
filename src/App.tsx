@@ -91,8 +91,7 @@ export default function App() {
         alignItems: 'center', 
         justifyContent: 'flex-start',
         minHeight: '100vh',
-        paddingTop: '80px',
-        minWidth: '100vw'
+        paddingTop: '80px'
       }}>
         <WeatherAppBar
           cities={cityOptions.map(c => c.label)}
