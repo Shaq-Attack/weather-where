@@ -25,3 +25,4 @@ dist-ssr
 .env
 telerik-license.txt
 FullCityList.json
+todo.ts
