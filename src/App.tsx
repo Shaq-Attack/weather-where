@@ -8,6 +8,7 @@ import { ForecastCard } from "./components/ForecastCard";
 import { FunFactCard } from "./components/FunFactCard";
 import { HourlyGrid } from "./components/HourlyGrid";
 import { Background } from "./components/Background";
+import { SunProgressBar } from "./components/SunProgressBar";
 import "./App.css";
 import cityList from '../city.list.json';
 
@@ -187,6 +188,15 @@ export default function App() {
           </div>
         )}
         </div>
+        
+        {/* Sun Progress Bar - Fixed at bottom */}
+        {weatherData?.current?.sys && (
+          <SunProgressBar
+            sunrise={weatherData.current.sys.sunrise}
+            sunset={weatherData.current.sys.sunset}
+            timezoneOffset={weatherData.timezone_offset || 0}
+          />
+        )}
       </div>
     </Background>
   );
