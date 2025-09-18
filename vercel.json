@@ -1,11 +1,6 @@
 {
   "version": 2,
   "name": "weather-wonders",
-  "functions": {
-    "app.js": {
-      "includeFiles": "dist/**"
-    }
-  },
   "rewrites": [
     {
       "source": "/(.*)",
