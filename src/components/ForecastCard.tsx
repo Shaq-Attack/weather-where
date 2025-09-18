@@ -207,6 +207,35 @@ export function ForecastCard({ daily, hourly, isCelsius, timezoneOffset }: Forec
                     />
                   </LineChart>
                 </ResponsiveContainer>
+                
+                {/* Legend */}
+                <div style={{ 
+                  display: "flex", 
+                  justifyContent: "left", 
+                  gap: "2rem", 
+                  marginTop: "1rem",
+                  fontSize: "0.9rem"
+                }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                    <div style={{ 
+                      width: "20px", 
+                      height: "3px", 
+                      backgroundColor: "#3498db",
+                      borderRadius: "2px",
+                    }}></div>
+                    <span>Temperature</span>
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                    <div style={{ 
+                      width: "20px", 
+                      height: "2px", 
+                      backgroundColor: "#e74c3c",
+                      borderRadius: "1px",
+                      backgroundImage: "repeating-linear-gradient(90deg, #e74c3c 0px, #e74c3c 5px, transparent 5px, transparent 10px)"
+                    }}></div>
+                    <span>Feels Like</span>
+                  </div>
+                </div>
               </div>
               
               <div 
