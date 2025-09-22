@@ -154,6 +154,39 @@ export function convertToHourly(data: FiveDay3HourResponse): ForecastHour[] {
   }));
 }
 
+// Air Pollution API interfaces
+export interface AirPollutionData {
+  coord: {
+    lon: number;
+    lat: number;
+  };
+  list: {
+    dt: number;
+    main: {
+      aqi: number; // Air Quality Index (1-5)
+    };
+    components: {
+      co: number;    // Carbon monoxide (μg/m³)
+      no: number;    // Nitric oxide (μg/m³)
+      no2: number;   // Nitrogen dioxide (μg/m³)
+      o3: number;    // Ozone (μg/m³)
+      so2: number;   // Sulphur dioxide (μg/m³)
+      pm2_5: number; // Fine particles matter (μg/m³)
+      pm10: number;  // Coarse particulate matter (μg/m³)
+      nh3: number;   // Ammonia (μg/m³)
+    };
+  }[];
+}
+
+export async function fetchAirPollution(lat: number, lon: number): Promise<AirPollutionData> {
+  const API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
+  const url = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`;
+
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`Air Pollution API error: ${res.status}`);
+  return res.json();
+}
+
 export async function fetchWeather(lat: number, lon: number, units: 'metric' | 'imperial' = 'metric') {
   const API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
   const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${units}&appid=${API_KEY}`;

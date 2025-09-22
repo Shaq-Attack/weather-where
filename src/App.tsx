@@ -151,7 +151,7 @@ export default function App() {
         />
       }
       rightPanel={
-        <DashboardWidgets />
+        <DashboardWidgets lat={lat} lon={lon} />
       }
     />
   );
