@@ -2,19 +2,18 @@ import { useEffect, useState } from "react";
 import { useGeolocation } from "./hooks/useGeolocation";
 import { useWeather } from "./hooks/useWeather";
 import { useLocalStorage } from "./hooks/useLocalStorage";
-import { WeatherCard } from "./components/WeatherCard";
-import { WeatherAppBar } from "./components/WeatherAppBar";
-import { ForecastCard } from "./components/ForecastCard";
-import { FunFactCard } from "./components/FunFactCard";
-import { HourlyGrid } from "./components/HourlyGrid";
-import { Background } from "./components/Background";
-import { SunProgressBar } from "./components/SunProgressBar";
+import { DashboardLayout } from "./components/DashboardLayout";
+import { DashboardHeader } from "./components/DashboardHeader";
+import { DashboardSidebar } from "./components/DashboardSidebar";
+import { WeatherDashboardCards } from "./components/WeatherDashboardCards";
+import { DashboardWidgets } from "./components/DashboardWidgets";
 import "./App.css";
 import cityList from '../city.list.json';
+import "@progress/kendo-theme-material/dist/all.css";
 
 export default function App() {
   const { coords, error: geoError, permissionDenied } = useGeolocation();
-  const { data: weatherData, loading, error, fetchWeatherData } = useWeather();
+  const { data: weatherData, fetchWeatherData } = useWeather();
   const [selectedCity, setSelectedCity] = useLocalStorage<string | null>('selectedCity', null);
   const [isCelsius, setIsCelsius] = useLocalStorage<boolean>('isCelsius', true);
   const [userSelectedCity, setUserSelectedCity] = useState(false);
@@ -78,125 +77,29 @@ export default function App() {
     loadWeatherData();
   }, [coords, selectedCity, userSelectedCity, geoError, permissionDenied, isCelsius, fetchWeatherData]);
 
-  // Get current weather condition for background
-  const weatherCondition = weatherData?.current?.weather?.[0]?.main || 'clear';
-
   return (
-    <Background weatherCondition={weatherCondition}>
-      <div style={{ 
-        width: '100%', 
-        height: '100%', 
-        display: 'flex', 
-        flexDirection: 'column',
-        alignItems: 'center', 
-        justifyContent: 'flex-start',
-        minHeight: '100vh',
-        paddingTop: '80px'
-      }}>
-        <WeatherAppBar
+    <DashboardLayout
+      header={
+        <DashboardHeader
           cities={cityOptions.map(c => c.label)}
           city={selectedCity || ""}
           onCityChange={handleCityChange}
           isCelsius={isCelsius}
           onUnitToggle={handleUnitToggle}
         />
-        
-        <div style={{ 
-          maxWidth: '1500px', 
-          width: '100%', 
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '0',
-      }}>
-        {/* Current Weather Card - Start with immediate conditions */}
-        <div 
-          id="weather-current"
-          style={{ 
-            minHeight: '100vh', 
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'center',
-            padding: '2rem 1rem'
-          }}
-        >
-          <WeatherCard 
-            loading={loading} 
-            error={error || geoError} 
-            data={weatherData?.current} 
-            isCelsius={isCelsius} 
-          />
-        </div>
-        
-        {/* Hourly Grid - Detailed next 48 hours for planning */}
-        {weatherData?.hourly && (
-          <div 
-            id="weather-hourly"
-            style={{ 
-              minHeight: '100vh', 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'center',
-              padding: '2rem 1rem'
-            }}
-          >
-            <HourlyGrid 
-              hourly={weatherData.hourly}
-              isCelsius={isCelsius}
-              timezoneOffset={weatherData.timezone_offset}
-            />
-          </div>
-        )}
-        
-        {/* Forecast Card - Weekly overview for longer-term planning */}
-        {weatherData?.daily && weatherData?.hourly && (
-          <div 
-            id="weather-forecast"
-            style={{ 
-              minHeight: '100vh', 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'center',
-              padding: '2rem 1rem'
-            }}
-          >
-            <ForecastCard 
-              daily={weatherData.daily}
-              hourly={weatherData.hourly}
-              isCelsius={isCelsius}
-              timezoneOffset={weatherData.timezone_offset}
-            />
-          </div>
-        )}
-        
-        {/* Fun Fact Card - Engaging content to end the experience */}
-        {weatherData?.current && (
-          <div 
-            id="weather-facts"
-            style={{ 
-              minHeight: '100vh', 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'center',
-              padding: '2rem 1rem'
-            }}
-          >
-            <FunFactCard 
-              cityName={weatherData.current.name}
-              countryCode={weatherData.current.sys?.country}
-            />
-          </div>
-        )}
-        </div>
-        
-        {/* Sun Progress Bar - Fixed at bottom */}
-        {weatherData?.current?.sys && (
-          <SunProgressBar
-            sunrise={weatherData.current.sys.sunrise}
-            sunset={weatherData.current.sys.sunset}
-            timezoneOffset={weatherData.timezone_offset || 0}
-          />
-        )}
-      </div>
-    </Background>
+      }
+      sidebar={
+        <DashboardSidebar />
+      }
+      mainContent={
+        <WeatherDashboardCards
+          weatherData={weatherData}
+          isCelsius={isCelsius}
+        />
+      }
+      rightPanel={
+        <DashboardWidgets />
+      }
+    />
   );
 }
