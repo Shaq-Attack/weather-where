@@ -31,35 +31,65 @@ export default function App() {
   };
 
   const handleCityChange = (city: string) => {
-    setSelectedCity(city);
-    setUserSelectedCity(true);
+    if (city === "Your Location") {
+      // User wants to use geolocation
+      setSelectedCity(null);
+      setUserSelectedCity(false);
+    } else {
+      // User selected a specific city
+      setSelectedCity(city);
+      setUserSelectedCity(true);
+    }
   };
 
-    const topCities = cityList.filter(city => {
-      const selectedCountries = ['GB', 'US', 'JP', 'ZA', 'AU'];
-      return selectedCountries.includes(city.country);
-    })
+  // Filter cities from the imported list
+  const topCities = cityList.filter((city: any) => {
+    const selectedCountries = ['GB', 'US', 'JP', 'ZA', 'AU'];
+    return selectedCountries.includes(city.country);
+  });
+
+  // Create city options with "Your Location" as first option
+  const createCityOptions = () => {
+    const cityList = topCities.map((city: any) => ({
+      label: `${city.name}`,
+      value: city.id,
+      coordinates: { lat: city.coord.lat, lon: city.coord.lon }
+    }));
+    
+    return cityList;
+  };
+
+  const cityOptions = createCityOptions();
   
-  const cityOptions = topCities.map(city => ({
-  label: `${city.name}`,
-  value: city.id,
-  coordinates: { lat: city.coord.lat, lon: city.coord.lon }
-  }));
+  // Create dropdown list with "Your Location" option
+  const getDropdownCities = () => {
+    const cities = cityOptions.map((c: any) => c.label);
+    
+    // Only add "Your Location" if geolocation is available or already being used
+    if (!geoError && !permissionDenied) {
+      return ["Your Location", ...cities];
+    }
+    
+    return cities;
+  };
 
   useEffect(() => {
     const loadWeatherData = async () => {
       let targetLat: number;
       let targetLon: number;
 
-      if (userSelectedCity && selectedCity) {
-        const city = cityOptions.find(c => c.label === selectedCity);
+      if (userSelectedCity && selectedCity && selectedCity !== "Your Location") {
+        // User selected a specific city
+        const city = cityOptions.find((c: any) => c.label === selectedCity);
         if (!city) return;
         targetLat = city.coordinates.lat;
         targetLon = city.coordinates.lon;
-      } else if (coords) {
+      } else if (coords && (!userSelectedCity || selectedCity === "Your Location")) {
+        // Use geolocation (either auto or user selected "Your Location")
         targetLat = coords.lat;
         targetLon = coords.lon;
       } else if (geoError || permissionDenied) {
+        // Fallback to default city if geolocation fails
         const defaultCity = cityOptions[0];
         targetLat = defaultCity.coordinates.lat;
         targetLon = defaultCity.coordinates.lon;
@@ -88,13 +118,24 @@ export default function App() {
     return "";
   };
 
+  // Get the value to show in the dropdown
+  const getDropdownValue = () => {
+    if (userSelectedCity && selectedCity) {
+      return selectedCity;
+    }
+    if (coords && !userSelectedCity && !geoError && !permissionDenied) {
+      return "Your Location";
+    }
+    return null;
+  };
+
   return (
     <DashboardLayout
       header={
         <DashboardHeader
-          cities={cityOptions.map(c => c.label)}
+          cities={getDropdownCities()}
           city={getDisplayLocationName()}
-          selectedCityValue={userSelectedCity ? selectedCity : null}
+          selectedCityValue={getDropdownValue()}
           onCityChange={handleCityChange}
           isCelsius={isCelsius}
           onUnitToggle={handleUnitToggle}

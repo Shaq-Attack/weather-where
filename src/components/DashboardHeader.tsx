@@ -282,7 +282,6 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                 data={cities}
                 value={selectedCityValue}
                 onChange={(e) => onCityChange(e.target.value)}
-                defaultItem="Select city..."
               />
 
               {/* Temperature Unit Toggle */}
