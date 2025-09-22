@@ -1,72 +1,15 @@
-import React, { useState } from 'react';
 import { Card, CardHeader, CardBody, CardTitle } from '@progress/kendo-react-layout';
-import { Calendar } from '@progress/kendo-react-dateinputs';
-import { Scheduler } from '@progress/kendo-react-scheduler';
-import { Chat } from '@progress/kendo-react-conversational-ui';
 import { Button } from '@progress/kendo-react-buttons';
+import { AirQualityCard } from './AirQualityCard';
+import { WeatherAlertsRadarCard } from './WeatherAlertsRadarCard';
 import '@progress/kendo-theme-material/dist/all.css';
 
-export const DashboardWidgets: React.FC = () => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [messages, setMessages] = useState([
-    {
-      author: { id: 1, name: "Weather Bot", avatarUrl: "☁️" },
-      text: "Welcome to Weather Dashboard! I can help you with weather insights.",
-      timestamp: new Date()
-    }
-  ]);
+interface DashboardWidgetsProps {
+  lat?: number | null;
+  lon?: number | null;
+}
 
-  // Mock weather events for scheduler
-  const weatherEvents = [
-    {
-      id: 1,
-      title: "Heavy Rain Expected",
-      start: new Date(2024, 11, 25, 14, 0),
-      end: new Date(2024, 11, 25, 18, 0),
-      description: "Prepare for heavy rainfall"
-    },
-    {
-      id: 2,
-      title: "Sunny Day",
-      start: new Date(2024, 11, 26, 8, 0),
-      end: new Date(2024, 11, 26, 19, 0),
-      description: "Perfect day for outdoor activities"
-    },
-    {
-      id: 3,
-      title: "Temperature Drop",
-      start: new Date(2024, 11, 27, 20, 0),
-      end: new Date(2024, 11, 28, 6, 0),
-      description: "Significant temperature decrease expected"
-    }
-  ];
-
-  const onSendMessage = (event: any) => {
-    const newMessage = {
-      author: { id: 2, name: "You", avatarUrl: "👤" },
-      text: event.message.text,
-      timestamp: new Date()
-    };
-    
-    const botResponse = {
-      author: { id: 1, name: "Weather Bot", avatarUrl: "☁️" },
-      text: generateBotResponse(),
-      timestamp: new Date(Date.now() + 1000)
-    };
-
-    setMessages([...messages, newMessage, botResponse]);
-  };
-
-  const generateBotResponse = () => {
-    const responses = [
-      "Based on current conditions, I'd recommend checking the hourly forecast for more details.",
-      "The weather patterns show interesting trends. Would you like me to explain?",
-      "I see you're interested in weather data. Let me pull up the latest information.",
-      "That's a great question! The meteorological data suggests several factors at play.",
-      "Weather patterns can be complex. I'm here to help you understand them better."
-    ];
-    return responses[Math.floor(Math.random() * responses.length)];
-  };
+export const DashboardWidgets: React.FC<DashboardWidgetsProps> = ({ lat, lon }) => {
 
   return (
     <>
@@ -76,7 +19,8 @@ export const DashboardWidgets: React.FC = () => {
           flex-direction: column;
           gap: 24px;
           padding: 0;
-          height: 100%;
+          height: auto;
+          min-height: 100%;
           overflow-y: auto;
         }
 
@@ -88,6 +32,8 @@ export const DashboardWidgets: React.FC = () => {
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           overflow: hidden;
           position: relative;
+          height: auto;
+          min-height: fit-content;
         }
 
         .widget-card::before {
@@ -140,6 +86,8 @@ export const DashboardWidgets: React.FC = () => {
 
         .widget-body {
           padding: 24px;
+          height: auto;
+          min-height: fit-content;
         }
 
         .quick-stats-grid {
@@ -386,6 +334,8 @@ export const DashboardWidgets: React.FC = () => {
           
           .widget-body {
             padding: 20px;
+            height: auto;
+            min-height: fit-content;
           }
           
           .action-buttons {
@@ -409,6 +359,8 @@ export const DashboardWidgets: React.FC = () => {
         @media (max-width: 480px) {
           .widget-body {
             padding: 16px;
+            height: auto;
+            min-height: fit-content;
           }
           
           .weather-tip {
@@ -423,67 +375,11 @@ export const DashboardWidgets: React.FC = () => {
       `}} />
 
       <div className="widgets-container">
-        {/* Calendar Widget */}
-        <Card className="widget-card calendar-widget">
-          <CardHeader className="widget-header">
-            <CardTitle className="widget-title">Weather Calendar</CardTitle>
-          </CardHeader>
-          <CardBody className="widget-body">
-            <Calendar
-              value={selectedDate}
-              onChange={(e) => setSelectedDate(e.value || new Date())}
-            />
-            
-            <div className="weather-tip">
-              <div className="tip-title">💡 Today's Tip</div>
-              <div className="tip-content">
-                Perfect weather for a morning walk! Temperature will be ideal between 8-10 AM.
-              </div>
-            </div>
+        {/* Air Quality Index Widget */}
+        <AirQualityCard lat={lat ?? undefined} lon={lon ?? undefined} />
 
-            <div className="action-buttons">
-              <Button className="action-btn" icon="calendar">
-                Plan Day
-              </Button>
-              <Button className="action-btn" icon="notification">
-                Set Alert
-              </Button>
-            </div>
-          </CardBody>
-        </Card>
-
-        {/* Weather Events Scheduler */}
-        <Card className="widget-card scheduler-widget">
-          <CardHeader className="widget-header">
-            <CardTitle className="widget-title">Weather Events</CardTitle>
-          </CardHeader>
-          <CardBody className="widget-body">
-            <Scheduler
-              data={weatherEvents}
-              defaultDate={new Date()}
-              view="week"
-              timezone="Etc/UTC"
-            />
-          </CardBody>
-        </Card>
-
-        {/* Weather Assistant Chat */}
-        <Card className="widget-card chat-widget">
-          <CardHeader className="widget-header">
-            <CardTitle className="widget-title">Weather Assistant</CardTitle>
-          </CardHeader>
-          <CardBody className="widget-body">
-            <div className="chat-container">
-              <Chat
-                user={{ id: 2, name: "You" }}
-                messages={messages}
-                onMessageSend={onSendMessage}
-                placeholder="Ask me about the weather..."
-                width="100%"
-              />
-            </div>
-          </CardBody>
-        </Card>
+        {/* Weather Alerts & Radar Widget */}
+        <WeatherAlertsRadarCard />
 
         {/* Weather Insights */}
         <Card className="widget-card">
@@ -519,34 +415,6 @@ export const DashboardWidgets: React.FC = () => {
               <Button className="action-btn" icon="download">
                 Export
               </Button>
-            </div>
-          </CardBody>
-        </Card>
-
-        {/* Location Tiles */}
-        <Card className="widget-card">
-          <CardHeader className="widget-header">
-            <CardTitle className="widget-title">Favorite Locations</CardTitle>
-          </CardHeader>
-          <CardBody className="widget-body">
-            <div style={{ display: 'grid', gap: '12px' }}>
-              <div style={{ background: '#667eea', color: 'white', borderRadius: '8px', padding: '16px' }}>
-                <h4 style={{ margin: 0 }}>New York</h4>
-                <p style={{ margin: '4px 0', fontSize: '1.2rem' }}>22°C</p>
-                <p style={{ margin: 0, fontSize: '0.85rem', opacity: 0.9 }}>Partly Cloudy</p>
-              </div>
-
-              <div style={{ background: '#4ecdc4', color: 'white', borderRadius: '8px', padding: '16px' }}>
-                <h4 style={{ margin: 0 }}>London</h4>
-                <p style={{ margin: '4px 0', fontSize: '1.2rem' }}>18°C</p>
-                <p style={{ margin: 0, fontSize: '0.85rem', opacity: 0.9 }}>Light Rain</p>
-              </div>
-
-              <div style={{ background: '#45b7d1', color: 'white', borderRadius: '8px', padding: '16px' }}>
-                <h4 style={{ margin: 0 }}>Tokyo</h4>
-                <p style={{ margin: '4px 0', fontSize: '1.2rem' }}>26°C</p>
-                <p style={{ margin: 0, fontSize: '0.85rem', opacity: 0.9 }}>Sunny</p>
-              </div>
             </div>
           </CardBody>
         </Card>
