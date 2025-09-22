@@ -20,70 +20,6 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
       title: 'Overview',
       icon: 'k-i-dashboard',
       route: '/dashboard'
-    },
-    {
-      id: 'current',
-      title: 'Current Weather',
-      icon: 'k-i-cloud',
-      route: '/current'
-    },
-    {
-      id: 'forecast',
-      title: 'Forecast',
-      icon: 'k-i-calendar',
-      route: '/forecast'
-    },
-    {
-      id: 'analytics',
-      title: 'Analytics',
-      icon: 'k-i-chart-line',
-      route: '/analytics'
-    },
-    {
-      id: 'maps',
-      title: 'Weather Maps',
-      icon: 'k-i-map-marker-target',
-      route: '/maps'
-    },
-    {
-      id: 'alerts',
-      title: 'Alerts',
-      icon: 'k-i-notification',
-      route: '/alerts'
-    }
-  ];
-
-  const treeData = [
-    {
-      text: "Weather Data",
-      icon: "k-i-folder",
-      expanded: true,
-      items: [
-        { text: "Temperature", icon: "k-i-thermometer" },
-        { text: "Humidity", icon: "k-i-drop" },
-        { text: "Pressure", icon: "k-i-gauge" },
-        { text: "Wind", icon: "k-i-trending-up" },
-      ]
-    },
-    {
-      text: "Locations",
-      icon: "k-i-marker-pin-target",
-      expanded: false,
-      items: [
-        { text: "Favorites", icon: "k-i-heart" },
-        { text: "Recent", icon: "k-i-clock" },
-        { text: "Nearby", icon: "k-i-marker-pin" }
-      ]
-    },
-    {
-      text: "Reports",
-      icon: "k-i-file-txt",
-      expanded: false,
-      items: [
-        { text: "Daily", icon: "k-i-calendar-date" },
-        { text: "Weekly", icon: "k-i-calendar" },
-        { text: "Monthly", icon: "k-i-calendar-month" }
-      ]
     }
   ];
 
@@ -344,40 +280,9 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
           ))}
         </div>
 
-        {/* Data Explorer Section */}
-        {!collapsed && (
-          <div className="sidebar-section">
-            <div className="section-title">Data Explorer</div>
-            <div className="tree-container">
-              <TreeView
-                data={treeData}
-                expandIcons={true}
-              />
-            </div>
-          </div>
-        )}
 
-        {/* Quick Actions */}
-        <div className="quick-actions">
-          <Button
-            className={`quick-action-btn ${collapsed ? 'collapsed' : ''}`}
-            icon="refresh"
-          >
-            {!collapsed && <span className="btn-text">Refresh Data</span>}
-          </Button>
-          <Button
-            className={`quick-action-btn ${collapsed ? 'collapsed' : ''}`}
-            icon="download"
-          >
-            {!collapsed && <span className="btn-text">Export</span>}
-          </Button>
-          <Button
-            className={`quick-action-btn ${collapsed ? 'collapsed' : ''}`}
-            icon="gear"
-          >
-            {!collapsed && <span className="btn-text">Settings</span>}
-          </Button>
-        </div>
+
+
       </div>
     </>
   );
