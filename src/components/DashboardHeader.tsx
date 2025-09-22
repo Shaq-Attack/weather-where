@@ -9,6 +9,7 @@ import '@progress/kendo-theme-material/dist/all.css';
 interface DashboardHeaderProps {
   cities: string[];
   city: string;
+  selectedCityValue: string | null;
   onCityChange: (city: string) => void;
   isCelsius: boolean;
   onUnitToggle: () => void;
@@ -17,6 +18,7 @@ interface DashboardHeaderProps {
 export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   cities,
   city,
+  selectedCityValue,
   onCityChange,
   isCelsius,
   onUnitToggle
@@ -26,7 +28,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   const breadcrumbItems = [
     { text: 'Dashboard', url: '#' },
     { text: 'Weather Analytics', url: '#' },
-    { text: city || 'Current Location' }
+    { text: city || 'Your Location' }
   ];
 
   return (
@@ -278,9 +280,9 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
               <DropDownList
                 className="header-dropdown"
                 data={cities}
-                value={city}
+                value={selectedCityValue}
                 onChange={(e) => onCityChange(e.target.value)}
-                defaultValue="Select city..."
+                defaultItem="Select city..."
               />
 
               {/* Temperature Unit Toggle */}

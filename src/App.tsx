@@ -77,12 +77,24 @@ export default function App() {
     loadWeatherData();
   }, [coords, selectedCity, userSelectedCity, geoError, permissionDenied, isCelsius, fetchWeatherData]);
 
+  // Determine the display name for the current location
+  const getDisplayLocationName = () => {
+    if (userSelectedCity && selectedCity) {
+      return selectedCity;
+    }
+    if (coords && !userSelectedCity) {
+      return "Your Location";
+    }
+    return "";
+  };
+
   return (
     <DashboardLayout
       header={
         <DashboardHeader
           cities={cityOptions.map(c => c.label)}
-          city={selectedCity || ""}
+          city={getDisplayLocationName()}
+          selectedCityValue={userSelectedCity ? selectedCity : null}
           onCityChange={handleCityChange}
           isCelsius={isCelsius}
           onUnitToggle={handleUnitToggle}
