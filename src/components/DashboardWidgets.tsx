@@ -41,13 +41,6 @@ export const DashboardWidgets: React.FC = () => {
     }
   ];
 
-  const quickStats = [
-    { title: "Today's High", value: "24°C", trend: "+2°", color: "#ff6b6b" },
-    { title: "Today's Low", value: "12°C", trend: "-1°", color: "#4ecdc4" },
-    { title: "Precipitation", value: "15%", trend: "-5%", color: "#45b7d1" },
-    { title: "Wind Speed", value: "12 mph", trend: "+3 mph", color: "#f9ca24" }
-  ];
-
   const onSendMessage = (event: any) => {
     const newMessage = {
       author: { id: 2, name: "You", avatarUrl: "👤" },
@@ -430,28 +423,6 @@ export const DashboardWidgets: React.FC = () => {
       `}} />
 
       <div className="widgets-container">
-        {/* Quick Stats */}
-        <Card className="widget-card stats-widget">
-          <CardHeader className="widget-header">
-            <CardTitle className="widget-title">Quick Stats</CardTitle>
-          </CardHeader>
-          <CardBody className="widget-body">
-            <div className="quick-stats-grid">
-              {quickStats.map((stat, index) => (
-                <div 
-                  key={index}
-                  className="stat-tile" 
-                  style={{ borderLeftColor: stat.color }}
-                >
-                  <div className="stat-title">{stat.title}</div>
-                  <div className="stat-value">{stat.value}</div>
-                  <div className="stat-trend">{stat.trend}</div>
-                </div>
-              ))}
-            </div>
-          </CardBody>
-        </Card>
-
         {/* Calendar Widget */}
         <Card className="widget-card calendar-widget">
           <CardHeader className="widget-header">
