@@ -1,4 +1,3 @@
-import "@progress/kendo-theme-default/dist/all.css";
 import { AppBar } from "@progress/kendo-react-layout";
 import { DropDownList } from "@progress/kendo-react-dropdowns";
 import { Switch } from '@progress/kendo-react-inputs';
