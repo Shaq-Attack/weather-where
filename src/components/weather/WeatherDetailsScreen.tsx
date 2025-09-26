@@ -360,13 +360,21 @@ export const WeatherDetailsScreen: React.FC<WeatherDetailsScreenProps> = ({
           box-shadow: 0 8px 24px rgba(0,0,0,0.1);
         }
 
-        .k-grid-header th {
-          background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
-          font-weight: 600 !important;
-          color: #495057 !important;
+        .k-grid-header th,
+        .k-grid-header .k-header {
+          background: #34495e !important;
+          font-weight: 700 !important;
+          color: #fff !important;
           border-bottom: 2px solid #dee2e6 !important;
           padding: 16px 12px !important;
-          font-size: 0.9rem !important;
+          font-size: 1rem !important;
+          text-shadow: 0 1px 2px rgba(0,0,0,0.2) !important;
+        }
+        
+        .k-grid-header {
+          background: #34495e !important;
+          border-top-left-radius: 12px !important;
+          border-top-right-radius: 12px !important;
         }
 
         .k-grid tbody tr {
