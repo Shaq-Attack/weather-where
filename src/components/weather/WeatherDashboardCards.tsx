@@ -144,6 +144,11 @@ export const WeatherDashboardCards: React.FC<WeatherDashboardCardsProps> = ({
           display: flex;
           flex-direction: column;
           justify-content: center;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          position: relative;
+          overflow: hidden;
+          border-radius: 16px 16px 0 0;
         }
 
         .card-title {
@@ -222,13 +227,7 @@ export const WeatherDashboardCards: React.FC<WeatherDashboardCardsProps> = ({
           height: 6px;
         }
 
-        .card-header {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          color: white;
-          padding: 20px 24px;
-          position: relative;
-          overflow: hidden;
-        }
+
 
         .card-header::before {
           content: '';
@@ -239,6 +238,7 @@ export const WeatherDashboardCards: React.FC<WeatherDashboardCardsProps> = ({
           bottom: 0;
           background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
           opacity: 0.5;
+          border-radius: 16px 16px 0 0;
         }
 
         .card-title {
@@ -563,12 +563,13 @@ export const WeatherDashboardCards: React.FC<WeatherDashboardCardsProps> = ({
 
       <div className="dashboard-grid">
         {/* Single Unified Weather Dashboard Card */}
-        <Card className="dashboard-card main-dashboard-card">
-          <CardHeader className="card-header">
-            <CardTitle className="card-title">Weather Dashboard</CardTitle>
-            <CardSubtitle className="card-subtitle">
-              Complete weather overview and analytics
-            </CardSubtitle>
+        <div style={{ borderRadius: '16px', overflow: 'hidden' }}>
+          <Card className="dashboard-card main-dashboard-card" style={{ borderRadius: 0 }}>
+            <CardHeader className="card-header">
+              <CardTitle className="card-title">Weather Dashboard</CardTitle>
+              <CardSubtitle className="card-subtitle">
+                Complete weather overview and analytics
+              </CardSubtitle>
           </CardHeader>
           <CardBody className="card-body" style={{ padding: 0, height: '100%' }}>
             <div className="dashboard-content">
@@ -850,8 +851,9 @@ export const WeatherDashboardCards: React.FC<WeatherDashboardCardsProps> = ({
 
             </div>
           </CardBody>
-        </Card>
+          </Card>
+        </div>
       </div>
     </>
   );
-};
+}
