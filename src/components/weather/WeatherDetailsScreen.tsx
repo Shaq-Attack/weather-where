@@ -5,6 +5,7 @@ import { formatTime } from '../../utils/time';
 interface HourlyWeatherRow {
   id: number;
   time: string;
+  dateTime: string;
   hour: string;
   temperature: number;
   temperatureDisplay: string;
@@ -192,41 +193,50 @@ export const WeatherDetailsScreen: React.FC<WeatherDetailsScreenProps> = ({
   lon
 }) => {
   // Always call hooks first - before any conditional returns
-  const [currentPage, setCurrentPage] = useState(0);
   const [selectedHour, setSelectedHour] = useState<any>(null);
 
-  // Group hourly data by days (24 hours per page) - hook called unconditionally
-  const hourlyByDays = useMemo(() => {
+  // Prepare all hourly data for the grid with pagination support
+  const allHourlyData = useMemo(() => {
     // Handle case where weatherData or hourly data doesn't exist
     if (!weatherData?.hourly || weatherData.hourly.length === 0) {
       return [];
     }
 
     const { hourly } = weatherData;
-    const days: HourlyWeatherRow[][] = [];
-    for (let i = 0; i < hourly.length; i += 24) {
-      const dayHours = hourly.slice(i, i + 24).map((hour: any, index: number) => {
-        return {
-          id: i + index,
-          time: formatTime(hour.dt),
-          hour: new Date(hour.dt * 1000).getHours().toString().padStart(2, '0') + ':00',
-          temperature: Math.round(hour.temp || 0),
-          temperatureDisplay: `${Math.round(hour.temp || 0)}°${isCelsius ? 'C' : 'F'}`,
-          feelsLike: Math.round(hour.feels_like || 0),
-          feelsLikeDisplay: `${Math.round(hour.feels_like || 0)}°${isCelsius ? 'C' : 'F'}`,
-          condition: hour.weather?.description || 'N/A',
-          conditionIcon: hour.weather?.icon || '',
-          humidity: hour.humidity || 0,
-          windSpeed: Math.round(hour.wind?.speed || 0),
-          windDisplay: `${Math.round(hour.wind?.speed || 0)} ${isCelsius ? 'm/s' : 'mph'}`,
-          precipitationChance: Math.round((hour.pop || 0) * 100),
-          precipitationDisplay: `${Math.round((hour.pop || 0) * 100)}%`,
-          rawData: hour
-        };
+    // Sort by timestamp to ensure chronological order
+    const sortedHourly = [...hourly].sort((a, b) => a.dt - b.dt);
+    
+    return sortedHourly.map((hour: any, index: number) => {
+      const hourDate = new Date(hour.dt * 1000);
+      const dateTimeString = hourDate.toLocaleDateString('en-US', { 
+        weekday: 'short', 
+        month: 'short', 
+        day: 'numeric'
+      }) + ' ' + hourDate.toLocaleTimeString('en-US', { 
+        hour: 'numeric', 
+        minute: '2-digit',
+        hour12: true 
       });
-      days.push(dayHours);
-    }
-    return days;
+      
+      return {
+        id: index,
+        time: formatTime(hour.dt),
+        dateTime: dateTimeString,
+        hour: new Date(hour.dt * 1000).getHours().toString().padStart(2, '0') + ':00',
+        temperature: Math.round(hour.temp || 0),
+        temperatureDisplay: `${Math.round(hour.temp || 0)}°${isCelsius ? 'C' : 'F'}`,
+        feelsLike: Math.round(hour.feels_like || 0),
+        feelsLikeDisplay: `${Math.round(hour.feels_like || 0)}°${isCelsius ? 'C' : 'F'}`,
+        condition: hour.weather?.description || 'N/A',
+        conditionIcon: hour.weather?.icon || '',
+        humidity: hour.humidity || 0,
+        windSpeed: Math.round(hour.wind?.speed || 0),
+        windDisplay: `${Math.round(hour.wind?.speed || 0)} ${isCelsius ? 'm/s' : 'mph'}`,
+        precipitationChance: Math.round((hour.pop || 0) * 100),
+        precipitationDisplay: `${Math.round((hour.pop || 0) * 100)}%`,
+        rawData: hour
+      };
+    });
   }, [weatherData?.hourly, isCelsius]);
 
   // Early returns after all hooks are called
@@ -260,24 +270,45 @@ export const WeatherDetailsScreen: React.FC<WeatherDetailsScreenProps> = ({
     );
   }
 
-  const currentDayData = hourlyByDays[currentPage] || [];
-  const totalPages = hourlyByDays.length;
+  // Pagination state
+  const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(7);
 
-  const getDayName = (pageIndex: number) => {
-    if (pageIndex === 0) return 'Today';
-    if (pageIndex === 1) return 'Tomorrow';
-    const date = new Date();
-    date.setDate(date.getDate() + pageIndex);
-    return date.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+  // Handle page change
+  const handlePageChange = (event: any) => {
+    setPage(event.page.skip / event.page.take);
+    setPageSize(event.page.take);
   };
+
+  // Data for current page
+  const pagedData = useMemo(() => {
+    const start = page * pageSize;
+    return allHourlyData.slice(start, start + pageSize);
+  }, [allHourlyData, page, pageSize]);
 
   const handleRowClick = (dataItem: HourlyWeatherRow) => {
     setSelectedHour(dataItem.rawData);
-  };
+  } 
 
   return (
     <>
-      <style dangerouslySetInnerHTML={{__html: `
+  <style dangerouslySetInnerHTML={{__html: `
+        /* Make items per page dropdown bigger for double digit numbers */
+        .k-pager-sizes .k-dropdownlist,
+        .k-pager-sizes .k-picker,
+        .k-pager-sizes .k-input-inner,
+        .k-pager-sizes .k-dropdownlist .k-input {
+          min-width: 64px !important;
+          width: 80px !important;
+          font-size: 1.1rem !important;
+          height: 40px !important;
+        }
+        .k-pager-sizes .k-dropdownlist .k-input {
+          padding-left: 12px !important;
+        }
+        .k-pager-sizes {
+          font-size: 1.1rem !important;
+        }
         .details-container {
           padding: 24px;
           height: 100%;
@@ -389,40 +420,76 @@ export const WeatherDetailsScreen: React.FC<WeatherDetailsScreenProps> = ({
         }
 
         .k-grid tbody td {
-          padding: 16px 12px !important;
+          padding: 12px 8px !important;
           vertical-align: middle !important;
           border-bottom: 1px solid #f1f3f4 !important;
+          font-size: 0.9rem !important;
+        }
+
+        .k-grid thead th {
+          padding: 10px 8px !important;
+          font-size: 0.85rem !important;
+          font-weight: 600 !important;
         }
 
         .time-column {
           font-weight: 600 !important;
           color: #2c3e50 !important;
+          font-size: 0.85rem !important;
         }
 
         .temp-column {
           font-weight: 600 !important;
-          font-size: 1.1rem !important;
+          font-size: 1rem !important;
           color: #e74c3c !important;
+          text-align: center !important;
         }
 
         .condition-column {
           text-transform: capitalize;
           color: #495057 !important;
+          font-size: 0.85rem !important;
         }
 
         .humidity-column {
           color: #3498db !important;
           font-weight: 500 !important;
+          text-align: center !important;
         }
 
         .wind-column {
           color: #2ecc71 !important;
+          text-align: center !important;
           font-weight: 500 !important;
         }
 
         .precip-column {
           color: #9b59b6 !important;
           font-weight: 500 !important;
+          text-align: center !important;
+        }
+
+        /* Improve grid overall readability */
+        .k-grid .k-table {
+          font-size: 0.9rem !important;
+        }
+
+        .k-grid .k-table tbody tr:hover {
+          background-color: #f8f9fa !important;
+          cursor: pointer !important;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+          .k-grid tbody td {
+            padding: 8px 4px !important;
+            font-size: 0.8rem !important;
+          }
+          
+          .k-grid thead th {
+            padding: 8px 4px !important;
+            font-size: 0.75rem !important;
+          }
         }
       `}} />
 
@@ -432,56 +499,53 @@ export const WeatherDetailsScreen: React.FC<WeatherDetailsScreenProps> = ({
           <p className="details-subtitle">
             📍 {lat?.toFixed(4) || '0.0000'}°, {lon?.toFixed(4) || '0.0000'}°
           </p>
-        </div>
-
-        <div className="pagination-controls">
-          <button 
-            className="pagination-button"
-            onClick={() => setCurrentPage(prev => Math.max(0, prev - 1))}
-            disabled={currentPage === 0}
-          >
-            ← Previous Day
-          </button>
-          
-          <div className="day-title">
-            {getDayName(currentPage)}
-          </div>
-          
-          <button 
-            className="pagination-button"
-            onClick={() => setCurrentPage(prev => Math.min(totalPages - 1, prev + 1))}
-            disabled={currentPage === totalPages - 1}
-          >
-            Next Day →
-          </button>
+          <p className="details-subtitle">
+            48-hour detailed weather outlook. Click any row for more details
+          </p>
         </div>
 
         <div style={{
           backgroundColor: 'white',
-          borderRadius: '20px',
-          padding: '20px',
-          boxShadow: '0 8px 32px rgba(0,0,0,0.08)',
-          width: '100%'
+          borderRadius: '12px',
+          padding: '16px',
+          boxShadow: '0 4px 16px rgba(0,0,0,0.06)',
+          width: '100%',
+          overflow: 'hidden'
         }}>
           <Grid
-            data={currentDayData}
+            data={pagedData}
             style={{
-              height: '600px',
+              height: 'auto',
+              maxHeight: '500px',
               background: 'white',
               border: 'none',
-              width: '100%'
+              width: '100%',
+              minWidth: 0,
+              maxWidth: '100%'
             }}
-            rowHeight={65}
+            rowHeight={55}
             onRowClick={(e) => handleRowClick(e.dataItem)}
+            pageable={allHourlyData.length > 7 ? {
+              buttonCount: 5,
+              info: true,
+              type: "numeric",
+              pageSizes: [7, 14, 21],
+              previousNext: true,
+            } : false}
+            pageSize={pageSize}
+            skip={page * pageSize}
+            total={allHourlyData.length}
+            onPageChange={handlePageChange}
+            resizable={false}
           >
             <GridColumn 
-              field="hour" 
-              title="Time" 
+              field="dateTime" 
+              title="Date & Time" 
               className="time-column"
             />
             <GridColumn 
               field="temperatureDisplay" 
-              title="Temperature"
+              title="Temp"
               className="temp-column"
             />
             <GridColumn 
@@ -496,7 +560,7 @@ export const WeatherDetailsScreen: React.FC<WeatherDetailsScreenProps> = ({
             />
             <GridColumn 
               field="humidity" 
-              title="Humidity (%)"
+              title="Humidity"
               className="humidity-column"
             />
             <GridColumn 
@@ -506,7 +570,7 @@ export const WeatherDetailsScreen: React.FC<WeatherDetailsScreenProps> = ({
             />
             <GridColumn 
               field="precipitationDisplay" 
-              title="Rain %"
+              title="Rain"
               className="precip-column"
             />
           </Grid>

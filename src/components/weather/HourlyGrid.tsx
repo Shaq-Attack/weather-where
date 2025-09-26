@@ -45,11 +45,13 @@ export function HourlyGrid({
   timezoneOffset,
 }: HourlyGridProps) {
   const [selectedHour, setSelectedHour] = useState<GridData | null>(null);
-  const [page, setPage] = useState({ skip: 0, take: 20 });
 
   const tempUnit = isCelsius ? "C" : "F";
 
-  const gridData: GridData[] = hourly.map((hour, index) => ({
+  // Sort hourly data by timestamp to ensure chronological order
+  const sortedHourly = [...hourly].sort((a, b) => a.dt - b.dt);
+  
+  const gridData: GridData[] = sortedHourly.map((hour, index) => ({
     ...hour,
     id: index + 1,
     formattedTime: formatTime(hour.dt, timezoneOffset),
@@ -86,10 +88,6 @@ export function HourlyGrid({
     setSelectedHour(null);
   };
 
-  const handlePageChange = (event: any) => {
-    setPage(event.page);
-  };
-
   const getWeatherIcon = (condition: string, size = 20) => {
     const cond = condition.toLowerCase();
     if (cond.includes("rain")) return <CloudDrizzleIcon size={size} />;
@@ -116,9 +114,8 @@ export function HourlyGrid({
           style={{
             textAlign: "center",
             fontWeight: "600",
-            background:
-              "linear-gradient(135deg, #34495e 0%, #2c3e50 100%)",
-            borderBottom: "1px solid rgba(255,255,255,0.1)",
+            background: "#3b82f6",
+            borderBottom: "1px solid rgba(255,255,255,0.2)",
           }}
         >
           <CardTitle
@@ -142,7 +139,7 @@ export function HourlyGrid({
               color: "white",
             }}
           >
-            48-hour detailed weather outlook • Click any row for more details
+            48-hour detailed weather outlook with pagination • Click any row for more details
           </p>
         </CardHeader>
 
@@ -156,7 +153,7 @@ export function HourlyGrid({
             }}
           >
             <Grid
-              data={gridData.slice(page.skip, page.skip + page.take)}
+              data={gridData}
               style={{
                 height: "600px",
                 borderRadius: "12px",
@@ -168,16 +165,14 @@ export function HourlyGrid({
                 buttonCount: 5,
                 info: true,
                 type: "numeric",
-                pageSizes: [10, 20, 50],
+                pageSizes: [12, 24, 48],
                 previousNext: true,
               }}
-              pageSize={page.take}
-              skip={page.skip}
-              total={gridData.length} // Added total property
-              onPageChange={handlePageChange}
+              pageSize={12}
+              total={gridData.length}
             >
               <GridColumn
-                field="formattedTime"
+                field="formattedDateTime"
                 title="Date & Time"
                 width="200px"
               />
