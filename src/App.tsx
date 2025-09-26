@@ -22,7 +22,7 @@ export default function App() {
   const [userSelectedCity, setUserSelectedCity] = useState(false);
   const [lat, setLat] = useState<number | null>(null);
   const [lon, setLon] = useState<number | null>(null);
-  const [currentView, setCurrentView] = useLocalStorage<string>('currentView', 'overview');
+  const [currentView, setCurrentView] = useState<string>('overview');
 
   const handleUnitToggle = async () => {
     const newIsCelsius = !isCelsius;
@@ -49,6 +49,11 @@ export default function App() {
   const handleNavigation = (view: string) => {
     setCurrentView(view);
   };
+
+  // Ensure we always start on the overview page
+  useEffect(() => {
+    setCurrentView('overview');
+  }, []); // Empty dependency array means this runs only once on mount
 
   // Filter cities from the imported list
   const topCities = cityList.filter((city: any) => {
@@ -179,7 +184,7 @@ export default function App() {
         />
       }
       sidebar={
-        <DashboardSidebar onNavigate={handleNavigation} />
+        <DashboardSidebar onNavigate={handleNavigation} currentView={currentView} />
       }
       mainContent={renderMainContent()}
       rightPanel={

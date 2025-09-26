@@ -1,16 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '@progress/kendo-theme-material/dist/all.css';
 
 interface DashboardSidebarProps {
   collapsed?: boolean;
   onNavigate?: (route: string) => void;
+  currentView?: string;
 }
 
 export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
   collapsed = false,
-  onNavigate
+  onNavigate,
+  currentView = 'overview'
 }) => {
-  const [activeItem, setActiveItem] = useState('overview');
+  const [activeItem, setActiveItem] = useState(currentView);
+
+  // Keep activeItem in sync with currentView prop
+  useEffect(() => {
+    setActiveItem(currentView);
+  }, [currentView]);
 
   const navigationItems = [
     {
