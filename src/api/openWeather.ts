@@ -8,7 +8,7 @@ export interface ForecastHour {
     main: string;
     description: string;
     icon: string;
-  }[];
+  };
   wind: {
     speed: number;
   };
@@ -148,7 +148,7 @@ export function convertToHourly(data: FiveDay3HourResponse): ForecastHour[] {
     temp: item.main.temp,
     feels_like: item.main.feels_like,
     humidity: item.main.humidity,
-    weather: item.weather,
+    weather: item.weather[0], // Take the first weather condition
     wind: item.wind,
     pop: item.pop
   }));
@@ -194,4 +194,128 @@ export async function fetchWeather(lat: number, lon: number, units: 'metric' | '
   const res = await fetch(url);
   if (!res.ok) throw new Error("Weather API error");
   return res.json();
+}
+
+// UV Index API interfaces and functions (using Open-Meteo API)
+export interface UVIndexData {
+  latitude: number;
+  longitude: number;
+  generationtime_ms: number;
+  utc_offset_seconds: number;
+  timezone: string;
+  timezone_abbreviation: string;
+  hourly_units: {
+    time: string;
+    uv_index: string;
+  };
+  hourly: {
+    time: string[];
+    uv_index: number[];
+  };
+}
+
+export async function fetchUVIndex(lat: number, lon: number): Promise<UVIndexData> {
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=uv_index&timezone=auto`;
+
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`UV Index API error: ${res.status}`);
+  return res.json();
+}
+
+// Helper function to get current UV index from hourly data
+export function getCurrentUVIndex(uvData: UVIndexData): number {
+  // Create a date object in the API's timezone
+  const offsetMs = uvData.utc_offset_seconds * 1000;
+  const now = new Date();
+  const localTime = new Date(now.getTime() + offsetMs + (now.getTimezoneOffset() * 60000));
+  const currentHour = localTime.getHours();
+  
+  // Find the closest time entry for current hour
+  const hourlyTimes = uvData.hourly.time;
+  const hourlyUVIndex = uvData.hourly.uv_index;
+  
+  // Get today's date in YYYY-MM-DD format (in API timezone)
+  const today = localTime.toISOString().split('T')[0];
+  
+  // Find today's UV data - get the closest hour
+  let closestIndex = -1;
+  let closestHourDiff = 24;
+  
+  for (let i = 0; i < hourlyTimes.length; i++) {
+    const timeEntry = hourlyTimes[i];
+    if (timeEntry.startsWith(today)) {
+      const entryHour = parseInt(timeEntry.split('T')[1].split(':')[0]);
+      const hourDiff = Math.abs(entryHour - currentHour);
+      
+      if (hourDiff < closestHourDiff) {
+        closestHourDiff = hourDiff;
+        closestIndex = i;
+      }
+    }
+  }
+  
+  if (closestIndex >= 0) {
+    const uvValue = Math.round(hourlyUVIndex[closestIndex] || 0);
+    
+    // If it's nighttime (UV = 0) and between 10 PM and 6 AM, show today's peak UV instead
+    if (uvValue === 0 && (currentHour >= 22 || currentHour <= 6)) {
+      // Find today's peak UV value directly
+      let peakValue = 0;
+      for (let i = 0; i < hourlyTimes.length; i++) {
+        const timeEntry = hourlyTimes[i];
+        if (timeEntry.startsWith(today)) {
+          const uvVal = hourlyUVIndex[i];
+          if (uvVal > peakValue) {
+            peakValue = uvVal;
+          }
+        }
+      }
+      if (peakValue > 0) {
+        return Math.round(peakValue);
+      }
+    }
+    
+    return uvValue;
+  }
+  
+  // Fallback: return first available UV index or 0
+  const fallbackValue = Math.round(hourlyUVIndex[0] || 0);
+  return fallbackValue;
+}
+
+// Helper function to get peak UV time and value for today
+export function getTodayPeakUV(uvData: UVIndexData): { peakTime: string; peakValue: number } {
+  // Create a date object in the API's timezone
+  const offsetMs = uvData.utc_offset_seconds * 1000;
+  const now = new Date();
+  const localTime = new Date(now.getTime() + offsetMs + (now.getTimezoneOffset() * 60000));
+  const today = localTime.toISOString().split('T')[0];
+  
+  let peakValue = 0;
+  let peakTime = '12:00 PM';
+  let peakHour = 12;
+  
+  for (let i = 0; i < uvData.hourly.time.length; i++) {
+    const timeEntry = uvData.hourly.time[i];
+    if (timeEntry.startsWith(today)) {
+      const uvValue = uvData.hourly.uv_index[i];
+      if (uvValue > peakValue) {
+        peakValue = uvValue;
+        peakHour = parseInt(timeEntry.split('T')[1].split(':')[0]);
+      }
+    }
+  }
+  
+  // Format peak time
+  if (peakHour === 0) {
+    peakTime = '12:00 AM';
+  } else if (peakHour < 12) {
+    peakTime = `${peakHour}:00 AM`;
+  } else if (peakHour === 12) {
+    peakTime = '12:00 PM';
+  } else {
+    peakTime = `${peakHour - 12}:00 PM`;
+  }
+  
+  return { peakTime, peakValue: Math.round(peakValue) };
 }
