@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { AppBar, AppBarSection, AppBarSpacer } from '@progress/kendo-react-layout';
 import { DropDownList } from '@progress/kendo-react-dropdowns';
-import { Switch, TextBox } from '@progress/kendo-react-inputs';
+import { Switch } from '@progress/kendo-react-inputs';
 import '@progress/kendo-theme-material/dist/all.css';
 
 interface DashboardHeaderProps {
@@ -19,9 +19,6 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   isCelsius,
   onUnitToggle
 }) => {
-  const [searchValue, setSearchValue] = useState('');
-
-
 
   return (
     <>
