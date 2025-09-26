@@ -39,7 +39,7 @@ export const ForecastScreen: React.FC<ForecastScreenProps> = ({
           padding: 24px;
           height: 100%;
           overflow-y: auto;
-          background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+          background: linear-gradient(135deg, #ff0000ff 0%, #0080ffff 100%);
         }
 
         .forecast-header {
@@ -217,7 +217,6 @@ export const ForecastScreen: React.FC<ForecastScreenProps> = ({
         }
       `}} />
 
-      <div className="forecast-container">
         <div className="forecast-header">
           <h1 className="forecast-title">🌤️ 7-Day Forecast</h1>
           <p className="forecast-subtitle">
@@ -284,7 +283,6 @@ export const ForecastScreen: React.FC<ForecastScreenProps> = ({
             );
           })}
         </div>
-      </div>
     </>
   );
 };

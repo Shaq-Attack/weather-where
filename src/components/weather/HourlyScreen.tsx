@@ -103,7 +103,7 @@ export const HourlyScreen: React.FC<HourlyScreenProps> = ({
         .hourly-day-title {
           font-size: 1.6rem;
           font-weight: 700;
-          color: #2c3e50;
+          color: #ffffffff;
           margin-bottom: 16px;
           padding-left: 8px;
         }
@@ -206,7 +206,6 @@ export const HourlyScreen: React.FC<HourlyScreenProps> = ({
         }
       `}} />
 
-      <div className="hourly-container">
         <div className="hourly-header">
           <h1 className="hourly-title">⏰ Hourly Forecast</h1>
           <p className="hourly-subtitle">
@@ -268,7 +267,6 @@ export const HourlyScreen: React.FC<HourlyScreenProps> = ({
             </div>
           </div>
         ))}
-      </div>
     </>
   );
 };

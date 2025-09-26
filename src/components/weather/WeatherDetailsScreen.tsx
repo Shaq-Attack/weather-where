@@ -493,7 +493,6 @@ export const WeatherDetailsScreen: React.FC<WeatherDetailsScreenProps> = ({
         }
       `}} />
 
-      <div className="details-container">
         <div className="details-header">
           <h1 className="details-title">Hourly Weather Forecast</h1>
           <p className="details-subtitle">
@@ -575,7 +574,6 @@ export const WeatherDetailsScreen: React.FC<WeatherDetailsScreenProps> = ({
             />
           </Grid>
         </div>
-      </div>
 
       {selectedHour && (
         <WeatherDetailPopup 
