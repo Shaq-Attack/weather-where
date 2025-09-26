@@ -1,6 +1,17 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Weather & Wonders App', () => {
+/**
+ * E2E Tests for Weather Where App
+ * 
+ * Note: These E2E tests are currently disabled in the CI/CD pipeline but are
+ * kept for potential future use. The tests verify end-to-end functionality
+ * including weather data loading, user interactions, and API integration.
+ * 
+ * To run locally: pnpm e2e
+ * To run with UI: pnpm e2e:ui
+ */
+
+test.describe('Weather Where App', () => {
   test.beforeEach(async ({ page, context }) => {
     // Mock geolocation to a known location (London)
     await context.grantPermissions(['geolocation']);
@@ -85,7 +96,7 @@ test.describe('Weather & Wonders App', () => {
     await page.goto('/');
     
     // Wait for the app to load
-    await expect(page.getByText('Weather & Wonders')).toBeVisible();
+    await expect(page.getByText('Weather Where')).toBeVisible();
     
     // Check that weather card loads
     await expect(page.getByText('London')).toBeVisible({ timeout: 10000 });
@@ -152,7 +163,7 @@ test.describe('Weather & Wonders App', () => {
     await page.goto('/');
     
     // Wait for initial load
-    await expect(page.getByText('Weather & Wonders')).toBeVisible();
+    await expect(page.getByText('Weather Where')).toBeVisible();
     
     // Open city dropdown and select different city
     await page.locator('.k-dropdownlist').click();

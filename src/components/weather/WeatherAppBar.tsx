@@ -1,13 +1,12 @@
-import "@progress/kendo-theme-default/dist/all.css";
 import { AppBar } from "@progress/kendo-react-layout";
 import { DropDownList } from "@progress/kendo-react-dropdowns";
-import { Switch } from '@progress/kendo-react-inputs';
+import { Switch } from "@progress/kendo-react-inputs";
 import { Button } from "@progress/kendo-react-buttons";
 
 // Add custom CSS for modern styling
 const customStyles = `
   .modern-weather-app-bar {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    background: #3b82f6 !important;
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(255,255,255,0.1);
     box-shadow: 0 8px 32px rgba(0,0,0,0.1);
@@ -77,8 +76,8 @@ const customStyles = `
 `;
 
 // Inject custom styles
-if (typeof document !== 'undefined') {
-  const styleElement = document.createElement('style');
+if (typeof document !== "undefined") {
+  const styleElement = document.createElement("style");
   styleElement.textContent = customStyles;
   document.head.appendChild(styleElement);
 }
@@ -91,14 +90,19 @@ interface WeatherAppBarProps {
   onUnitToggle: () => void;
 }
 
-export function WeatherAppBar({ cities, city, onCityChange, isCelsius, onUnitToggle }: WeatherAppBarProps) {
-  
+export function WeatherAppBar({
+  cities,
+  city,
+  onCityChange,
+  isCelsius,
+  onUnitToggle,
+}: WeatherAppBarProps) {
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
       });
     }
   };
@@ -106,9 +110,9 @@ export function WeatherAppBar({ cities, city, onCityChange, isCelsius, onUnitTog
   return (
     <AppBar
       className="modern-weather-app-bar"
-      style={{ 
-        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-        color: "white", 
+      style={{
+        background: "#3b82f6",
+        color: "white",
         padding: "0 2rem",
         position: "fixed",
         top: 0,
@@ -118,7 +122,7 @@ export function WeatherAppBar({ cities, city, onCityChange, isCelsius, onUnitTog
         zIndex: 1000,
         backdropFilter: "blur(10px)",
         borderBottom: "1px solid rgba(255,255,255,0.1)",
-        boxShadow: "0 8px 32px rgba(0,0,0,0.1)"
+        boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
       }}
       position="top"
     >
@@ -130,64 +134,70 @@ export function WeatherAppBar({ cities, city, onCityChange, isCelsius, onUnitTog
           height: "80px",
           width: "100%",
           maxWidth: "1400px",
-          margin: "0 auto"
+          margin: "0 auto",
         }}
       >
         {/* Left: App Name */}
-        <div style={{ 
-          fontWeight: "600", 
-          fontSize: "1.5rem", 
-          letterSpacing: "0.5px",
-          flex: "0 0 auto",
-          background: "linear-gradient(45deg, #fff, #e8f4f8)",
-          backgroundClip: "text",
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent"
-        }}>
-          Weather & Wonders
+        <div
+          style={{
+            fontWeight: "600",
+            fontSize: "1.5rem",
+            letterSpacing: "0.5px",
+            flex: "0 0 auto",
+            background: "linear-gradient(45deg, #fff, #e8f4f8)",
+            backgroundClip: "text",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+          }}
+        >
+          Weather Where
         </div>
 
         {/* Center: Navigation */}
-        <div style={{ 
-          display: "flex",
-          gap: "1rem",
-          flex: "1 1 auto",
-          justifyContent: "center",
-          margin: "0 2rem"
-        }}>
+        <div
+          style={{
+            display: "flex",
+            gap: "1rem",
+            flex: "1 1 auto",
+            justifyContent: "center",
+            margin: "0 2rem",
+          }}
+        >
           <Button
             className="nav-button"
-            onClick={() => scrollToSection('weather-current')}
+            onClick={() => scrollToSection("weather-current")}
           >
             Current
           </Button>
           <Button
             className="nav-button"
-            onClick={() => scrollToSection('weather-hourly')}
+            onClick={() => scrollToSection("weather-hourly")}
           >
             Hourly
           </Button>
           <Button
             className="nav-button"
-            onClick={() => scrollToSection('weather-forecast')}
+            onClick={() => scrollToSection("weather-forecast")}
           >
             Forecast
           </Button>
           <Button
             className="nav-button"
-            onClick={() => scrollToSection('weather-facts')}
+            onClick={() => scrollToSection("weather-facts")}
           >
             Facts
           </Button>
         </div>
 
         {/* Right: Controls */}
-        <div style={{ 
-          display: "flex", 
-          alignItems: "center", 
-          gap: "1.5rem",
-          flex: "0 0 auto"
-        }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "1.5rem",
+            flex: "0 0 auto",
+          }}
+        >
           <DropDownList
             data={cities}
             value={city}
@@ -197,18 +207,20 @@ export function WeatherAppBar({ cities, city, onCityChange, isCelsius, onUnitTog
               borderRadius: "12px",
               background: "rgba(255,255,255,0.1)",
               border: "1px solid rgba(255,255,255,0.2)",
-              backdropFilter: "blur(10px)"
+              backdropFilter: "blur(10px)",
             }}
           />
-          
-          <div style={{ 
-            display: "flex", 
-            alignItems: "center", 
-            gap: "0.75rem"
-          }}>
+
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.75rem",
+            }}
+          >
             <span style={{ fontSize: "0.9rem", fontWeight: "500" }}>°F</span>
-            <Switch 
-              checked={isCelsius} 
+            <Switch
+              checked={isCelsius}
               onChange={onUnitToggle}
               onLabel=""
               offLabel=""

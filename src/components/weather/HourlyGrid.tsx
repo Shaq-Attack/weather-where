@@ -1,3 +1,4 @@
+// This is the old card
 import {
   Card,
   CardHeader,
@@ -17,9 +18,9 @@ import {
   EyeIcon,
 } from "lucide-react";
 import { useState } from "react";
-import { ForecastHour } from "../api/openWeather";
-import { formatDateTime, formatTime } from "../utils/time";
-import { formatTemperature } from "../utils/convertTemp";
+import { ForecastHour } from "../../api/openWeather";
+import { formatDateTime, formatTime } from "../../utils/time";
+import { formatTemperature } from "../../utils/convertTemp";
 
 interface HourlyGridProps {
   hourly: ForecastHour[];
@@ -45,17 +46,23 @@ export function HourlyGrid({
   timezoneOffset,
 }: HourlyGridProps) {
   const [selectedHour, setSelectedHour] = useState<GridData | null>(null);
-  const [page, setPage] = useState({ skip: 0, take: 20 });
 
   const tempUnit = isCelsius ? "C" : "F";
 
-  const gridData: GridData[] = hourly.map((hour, index) => ({
+  // Sort hourly data by timestamp to ensure chronological order
+  const sortedHourly = [...hourly].sort((a, b) => a.dt - b.dt);
+
+  const gridData: GridData[] = sortedHourly.map((hour, index) => ({
     ...hour,
     id: index + 1,
     formattedTime: formatTime(hour.dt, timezoneOffset),
     formattedDateTime: formatDateTime(hour.dt, timezoneOffset),
-    weatherMain: hour.weather[0].main,
-    weatherDescription: hour.weather[0].description,
+    weatherMain: Array.isArray(hour.weather)
+      ? hour.weather[0].main
+      : hour.weather.main,
+    weatherDescription: Array.isArray(hour.weather)
+      ? hour.weather[0].description
+      : hour.weather.description,
     temperatureFormatted: formatTemperature(hour.temp, tempUnit),
     feelsLikeFormatted: formatTemperature(hour.feels_like, tempUnit),
     precipitationPercent: Math.round(hour.pop * 100),
@@ -75,7 +82,7 @@ export function HourlyGrid({
     return "linear-gradient(135deg, rgba(41, 128, 185, 0.95), rgba(109, 213, 250, 0.95))";
   };
 
-  const condition = selectedHour?.weather[0].main.toLowerCase() || "clear";
+  const condition = selectedHour?.weather?.main?.toLowerCase() || "clear";
   const bg = getBackground(condition);
 
   const handleRowClick = (dataItem: GridData) => {
@@ -84,10 +91,6 @@ export function HourlyGrid({
 
   const closeDialog = () => {
     setSelectedHour(null);
-  };
-
-  const handlePageChange = (event: any) => {
-    setPage(event.page);
   };
 
   const getWeatherIcon = (condition: string, size = 20) => {
@@ -116,9 +119,8 @@ export function HourlyGrid({
           style={{
             textAlign: "center",
             fontWeight: "600",
-            background:
-              "linear-gradient(135deg, #34495e 0%, #2c3e50 100%)",
-            borderBottom: "1px solid rgba(255,255,255,0.1)",
+            background: "#3b82f6",
+            borderBottom: "1px solid rgba(255,255,255,0.2)",
           }}
         >
           <CardTitle
@@ -142,7 +144,8 @@ export function HourlyGrid({
               color: "white",
             }}
           >
-            48-hour detailed weather outlook • Click any row for more details
+            48-hour detailed weather outlook with pagination • Click any row for
+            more details
           </p>
         </CardHeader>
 
@@ -156,7 +159,7 @@ export function HourlyGrid({
             }}
           >
             <Grid
-              data={gridData.slice(page.skip, page.skip + page.take)}
+              data={gridData}
               style={{
                 height: "600px",
                 borderRadius: "12px",
@@ -168,16 +171,14 @@ export function HourlyGrid({
                 buttonCount: 5,
                 info: true,
                 type: "numeric",
-                pageSizes: [10, 20, 50],
+                pageSizes: [12, 24, 48],
                 previousNext: true,
               }}
-              pageSize={page.take}
-              skip={page.skip}
-              total={gridData.length} // Added total property
-              onPageChange={handlePageChange}
+              pageSize={12}
+              total={gridData.length}
             >
               <GridColumn
-                field="formattedTime"
+                field="formattedDateTime"
                 title="Date & Time"
                 width="200px"
               />
@@ -196,12 +197,12 @@ export function HourlyGrid({
                 title="Feels Like"
                 width="130px"
               />
+              <GridColumn field="humidity" title="Humidity %" width="120px" />
               <GridColumn
-                field="humidity"
-                title="Humidity %"
-                width="120px"
+                field="precipitationPercent"
+                title="Rain %"
+                width="100px"
               />
-              <GridColumn field="precipitationPercent" title="Rain %" width="100px" />
             </Grid>
           </div>
         </CardBody>
@@ -346,7 +347,13 @@ export function HourlyGrid({
                     }}
                   ></div>
                   <div style={{ textAlign: "center" }}>
-                    <div style={{ fontSize: "1.5rem", fontWeight: "400", color: "white" }}>
+                    <div
+                      style={{
+                        fontSize: "1.5rem",
+                        fontWeight: "400",
+                        color: "white",
+                      }}
+                    >
                       {selectedHour.feelsLikeFormatted}
                     </div>
                     <div
@@ -364,167 +371,169 @@ export function HourlyGrid({
               </CardHeader>
 
               <CardBody style={{ padding: "2rem", color: "white" }}>
-              <h3
-                style={{
-                  margin: "0 0 1.5rem 0",
-                  fontSize: "1.2rem",
-                  fontWeight: "500",
-                  opacity: 0.9,
-                  color: "white",
-                }}
-              >
-                Detailed Conditions
-              </h3>
-
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-                  gap: "1.5rem",
-                }}
-              >
-                <div
+                <h3
                   style={{
-                    background: "rgba(255,255,255,0.1)",
-                    padding: "1.5rem",
-                    borderRadius: "16px",
-                    backdropFilter: "blur(10px)",
-                    border: "1px solid rgba(255,255,255,0.2)",
-                    textAlign: "center",
-                  }}
-                >
-                  <DropletIcon
-                    size={32}
-                    style={{ marginBottom: "1rem", opacity: 0.8 }}
-                  />
-                  <div
-                    style={{
-                      fontSize: "1.5rem",
-                      fontWeight: "600",
-                      marginBottom: "0.5rem",
-                    }}
-                  >
-                    {selectedHour.humidity}%
-                  </div>
-                  <div style={{ fontSize: "0.9rem", opacity: 0.8 }}>Humidity</div>
-                </div>
-
-                <div
-                  style={{
-                    background: "rgba(255,255,255,0.1)",
-                    padding: "1.5rem",
-                    borderRadius: "16px",
-                    backdropFilter: "blur(10px)",
-                    border: "1px solid rgba(255,255,255,0.2)",
-                    textAlign: "center",
-                  }}
-                >
-                  <WindIcon
-                    size={32}
-                    style={{ marginBottom: "1rem", opacity: 0.8 }}
-                  />
-                  <div
-                    style={{
-                      fontSize: "1.5rem",
-                      fontWeight: "600",
-                      marginBottom: "0.5rem",
-                    }}
-                  >
-                    {Math.round((selectedHour.wind?.speed || 0) * 3.6)} km/h
-                  </div>
-                  <div style={{ fontSize: "0.9rem", opacity: 0.8 }}>
-                    Wind Speed
-                  </div>
-                </div>
-
-                <div
-                  style={{
-                    background: "rgba(255,255,255,0.1)",
-                    padding: "1.5rem",
-                    borderRadius: "16px",
-                    backdropFilter: "blur(10px)",
-                    border: "1px solid rgba(255,255,255,0.2)",
-                    textAlign: "center",
-                  }}
-                >
-                  <CloudDrizzleIcon
-                    size={32}
-                    style={{ marginBottom: "1rem", opacity: 0.8 }}
-                  />
-                  <div
-                    style={{
-                      fontSize: "1.5rem",
-                      fontWeight: "600",
-                      marginBottom: "0.5rem",
-                    }}
-                  >
-                    {selectedHour.precipitationPercent}%
-                  </div>
-                  <div style={{ fontSize: "0.9rem", opacity: 0.8 }}>
-                    Chance of Rain
-                  </div>
-                </div>
-
-                <div
-                  style={{
-                    background: "rgba(255,255,255,0.1)",
-                    padding: "1.5rem",
-                    borderRadius: "16px",
-                    backdropFilter: "blur(10px)",
-                    border: "1px solid rgba(255,255,255,0.2)",
-                    textAlign: "center",
-                  }}
-                >
-                  <EyeIcon
-                    size={32}
-                    style={{ marginBottom: "1rem", opacity: 0.8 }}
-                  />
-                  <div
-                    style={{
-                      fontSize: "1.5rem",
-                      fontWeight: "600",
-                      marginBottom: "0.5rem",
-                    }}
-                  >
-                    {selectedHour.visibility
-                      ? Math.round(selectedHour.visibility / 1000)
-                      : 10}{" "}
-                    km
-                  </div>
-                  <div style={{ fontSize: "0.9rem", opacity: 0.8 }}>
-                    Visibility
-                  </div>
-                </div>
-              </div>
-
-              {/* Action Button */}
-              <div
-                style={{
-                  textAlign: "center",
-                  marginTop: "2rem",
-                  paddingTop: "1.5rem",
-                  borderTop: "1px solid rgba(255,255,255,0.1)",
-                }}
-              >
-                <Button
-                  onClick={closeDialog}
-                  style={{
-                    background: "rgba(255,255,255,0.2)",
-                    border: "1px solid rgba(255,255,255,0.3)",
-                    borderRadius: "12px",
-                    color: "white",
-                    padding: "0.75rem 2rem",
-                    fontSize: "1rem",
+                    margin: "0 0 1.5rem 0",
+                    fontSize: "1.2rem",
                     fontWeight: "500",
-                    backdropFilter: "blur(10px)",
+                    opacity: 0.9,
+                    color: "white",
                   }}
                 >
-                  Close Details
-                </Button>
-              </div>
+                  Detailed Conditions
+                </h3>
+
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+                    gap: "1.5rem",
+                  }}
+                >
+                  <div
+                    style={{
+                      background: "rgba(255,255,255,0.1)",
+                      padding: "1.5rem",
+                      borderRadius: "16px",
+                      backdropFilter: "blur(10px)",
+                      border: "1px solid rgba(255,255,255,0.2)",
+                      textAlign: "center",
+                    }}
+                  >
+                    <DropletIcon
+                      size={32}
+                      style={{ marginBottom: "1rem", opacity: 0.8 }}
+                    />
+                    <div
+                      style={{
+                        fontSize: "1.5rem",
+                        fontWeight: "600",
+                        marginBottom: "0.5rem",
+                      }}
+                    >
+                      {selectedHour.humidity}%
+                    </div>
+                    <div style={{ fontSize: "0.9rem", opacity: 0.8 }}>
+                      Humidity
+                    </div>
+                  </div>
+
+                  <div
+                    style={{
+                      background: "rgba(255,255,255,0.1)",
+                      padding: "1.5rem",
+                      borderRadius: "16px",
+                      backdropFilter: "blur(10px)",
+                      border: "1px solid rgba(255,255,255,0.2)",
+                      textAlign: "center",
+                    }}
+                  >
+                    <WindIcon
+                      size={32}
+                      style={{ marginBottom: "1rem", opacity: 0.8 }}
+                    />
+                    <div
+                      style={{
+                        fontSize: "1.5rem",
+                        fontWeight: "600",
+                        marginBottom: "0.5rem",
+                      }}
+                    >
+                      {Math.round((selectedHour.wind?.speed || 0) * 3.6)} km/h
+                    </div>
+                    <div style={{ fontSize: "0.9rem", opacity: 0.8 }}>
+                      Wind Speed
+                    </div>
+                  </div>
+
+                  <div
+                    style={{
+                      background: "rgba(255,255,255,0.1)",
+                      padding: "1.5rem",
+                      borderRadius: "16px",
+                      backdropFilter: "blur(10px)",
+                      border: "1px solid rgba(255,255,255,0.2)",
+                      textAlign: "center",
+                    }}
+                  >
+                    <CloudDrizzleIcon
+                      size={32}
+                      style={{ marginBottom: "1rem", opacity: 0.8 }}
+                    />
+                    <div
+                      style={{
+                        fontSize: "1.5rem",
+                        fontWeight: "600",
+                        marginBottom: "0.5rem",
+                      }}
+                    >
+                      {selectedHour.precipitationPercent}%
+                    </div>
+                    <div style={{ fontSize: "0.9rem", opacity: 0.8 }}>
+                      Chance of Rain
+                    </div>
+                  </div>
+
+                  <div
+                    style={{
+                      background: "rgba(255,255,255,0.1)",
+                      padding: "1.5rem",
+                      borderRadius: "16px",
+                      backdropFilter: "blur(10px)",
+                      border: "1px solid rgba(255,255,255,0.2)",
+                      textAlign: "center",
+                    }}
+                  >
+                    <EyeIcon
+                      size={32}
+                      style={{ marginBottom: "1rem", opacity: 0.8 }}
+                    />
+                    <div
+                      style={{
+                        fontSize: "1.5rem",
+                        fontWeight: "600",
+                        marginBottom: "0.5rem",
+                      }}
+                    >
+                      {selectedHour.visibility
+                        ? Math.round(selectedHour.visibility / 1000)
+                        : 10}{" "}
+                      km
+                    </div>
+                    <div style={{ fontSize: "0.9rem", opacity: 0.8 }}>
+                      Visibility
+                    </div>
+                  </div>
+                </div>
+
+                {/* Action Button */}
+                <div
+                  style={{
+                    textAlign: "center",
+                    marginTop: "2rem",
+                    paddingTop: "1.5rem",
+                    borderTop: "1px solid rgba(255,255,255,0.1)",
+                  }}
+                >
+                  <Button
+                    onClick={closeDialog}
+                    style={{
+                      background: "rgba(255,255,255,0.2)",
+                      border: "1px solid rgba(255,255,255,0.3)",
+                      borderRadius: "12px",
+                      color: "white",
+                      padding: "0.75rem 2rem",
+                      fontSize: "1rem",
+                      fontWeight: "500",
+                      backdropFilter: "blur(10px)",
+                    }}
+                  >
+                    Close Details
+                  </Button>
+                </div>
               </CardBody>
-          </Card>
-        </Dialog>
+            </Card>
+          </Dialog>
         </>
       )}
     </>

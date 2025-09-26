@@ -22,11 +22,12 @@ export function useGeolocation() {
           console.error("Geolocation error:", err.message);
           setError(err.message);
           // Check if permission was denied
-          if (err.code === 1) { // PERMISSION_DENIED
+          if (err.code === 1) {
+            // PERMISSION_DENIED
             setPermissionDenied(true);
           }
           setCoords(null);
-        }
+        },
       );
     } else {
       setError("Geolocation not supported");

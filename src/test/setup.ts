@@ -1,10 +1,10 @@
-import '@testing-library/jest-dom';
-import { vi, afterEach } from 'vitest';
+import "@testing-library/jest-dom";
+import { vi, afterEach } from "vitest";
 
 // Mock environment variables for tests
-Object.defineProperty(import.meta, 'env', {
+Object.defineProperty(import.meta, "env", {
   value: {
-    VITE_OPENWEATHER_API_KEY: 'test-api-key',
+    VITE_OPENWEATHER_API_KEY: "test-api-key",
   },
   writable: true,
 });
@@ -13,7 +13,7 @@ Object.defineProperty(import.meta, 'env', {
 globalThis.fetch = vi.fn();
 
 // Mock geolocation
-Object.defineProperty(globalThis.navigator, 'geolocation', {
+Object.defineProperty(globalThis.navigator, "geolocation", {
   value: {
     getCurrentPosition: vi.fn(),
   },
@@ -27,7 +27,7 @@ const localStorageMock = {
   removeItem: vi.fn(),
   clear: vi.fn(),
 };
-Object.defineProperty(window, 'localStorage', {
+Object.defineProperty(window, "localStorage", {
   value: localStorageMock,
 });
 

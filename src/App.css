@@ -1,21 +1,519 @@
+/* Dashboard-specific styles */
 #root {
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
   margin: 0;
   padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* Removed position: fixed to allow scrolling */
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+    "Cantarell", sans-serif;
+  background: #f8f9fa;
+  overflow: hidden;
 }
 
-.card {
-  padding: 2em;
+/* Global Dashboard Overrides */
+body {
+  margin: 0;
+  padding: 0;
+  background: #f8f9fa;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+    "Cantarell", sans-serif;
+  line-height: 1.6;
+  color: #2c3e50;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Hourly forecast card hover effects */
-.hourly-card:hover {
-  transform: translateY(-4px);
-  background: rgba(255, 255, 255, 0.25) !important;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+/* KendoReact Material Theme Customizations - Simplified color palette */
+:root {
+  --kendo-color-primary: #3b82f6;
+  --kendo-color-primary-hover: #2563eb;
+  --kendo-color-primary-active: #1d4ed8;
+  --kendo-color-secondary: #64748b;
+  --kendo-font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+    "Cantarell", sans-serif;
+  --kendo-border-radius: 8px;
+  --kendo-elevation-1: 0 2px 8px rgba(0, 0, 0, 0.12);
+  --kendo-elevation-2: 0 4px 16px rgba(0, 0, 0, 0.15);
+  --kendo-elevation-3: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+/* Universal box-sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Typography improvements */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+p {
+  margin: 0 0 1rem 0;
+}
+
+/* Dashboard Card Animations */
+.dashboard-card,
+.widget-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, box-shadow;
+}
+
+.dashboard-card:hover,
+.widget-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+/* Enhanced button styling - Simplified */
+.k-button {
+  border-radius: 8px !important;
+  transition: all 0.2s ease !important;
+  font-weight: 500 !important;
+}
+
+.k-button.k-primary {
+  background: #3b82f6 !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2) !important;
+}
+
+.k-button.k-primary:hover {
+  background: #2563eb !important;
+  border-color: #2563eb !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3) !important;
+}
+
+.k-button.k-primary:active {
+  transform: translateY(0) !important;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2) !important;
+}
+
+/* Chart Styling */
+.k-chart {
+  background: transparent !important;
+  border: none !important;
+}
+
+.k-chart-surface {
+  border-radius: 12px !important;
+}
+
+.k-chart-legend {
+  border: none !important;
+  background: transparent !important;
+}
+
+/* Grid Styling - Simplified */
+.k-grid {
+  border: none !important;
+  border-radius: 8px !important;
+  background: white !important;
+  overflow: hidden !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+}
+
+.k-grid-header {
+  background: #3b82f6 !important;
+  color: white !important;
+  border: none !important;
+}
+
+.k-grid-header .k-header {
+  background: transparent !important;
+  color: white !important;
+  border: none !important;
+  font-weight: 600 !important;
+  padding: 12px !important;
+  font-size: 0.875rem !important;
+}
+
+.k-grid-content {
+  border: none !important;
+}
+
+.k-grid tr {
+  border-bottom: 1px solid rgba(230, 236, 245, 0.6) !important;
+  transition: background-color 0.3s ease !important;
+}
+
+.k-grid tr:hover {
+  background-color: rgba(59, 130, 246, 0.05) !important;
+}
+
+.k-grid td {
+  padding: 16px !important;
+  border: none !important;
+  font-weight: 500 !important;
+}
+
+/* Gauge Styling */
+.k-arcgauge,
+.k-lineargauge {
+  background: transparent !important;
+}
+
+.k-gauge-pointer {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2)) !important;
+}
+
+/* Progress Bar Styling - Simplified */
+.k-progressbar {
+  background: #e5e7eb !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  height: 8px !important;
+  border: none !important;
+}
+
+.k-progressbar .k-progress {
+  background: #3b82f6 !important;
+  border-radius: 8px !important;
+  transition: width 0.3s ease !important;
+}
+
+/* Calendar Styling - Simplified */
+.k-calendar {
+  border: none !important;
+  background: transparent !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+}
+
+.k-calendar .k-header {
+  background: #3b82f6 !important;
+  color: white !important;
+  border: none !important;
+  padding: 12px !important;
+  font-weight: 600 !important;
+}
+
+.k-calendar .k-content {
+  border: none !important;
+  padding: 12px !important;
+}
+
+.k-calendar td {
+  border-radius: 6px !important;
+  transition: all 0.2s ease !important;
+  margin: 1px !important;
+}
+
+.k-calendar .k-selected {
+  background: #3b82f6 !important;
+  color: white !important;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3) !important;
+}
+
+.k-calendar .k-today {
+  border: 2px solid #3b82f6 !important;
+  font-weight: 600 !important;
+}
+
+/* Scheduler Styling - Simplified */
+.k-scheduler {
+  border: none !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+}
+
+.k-scheduler-header {
+  background: #3b82f6 !important;
+  color: white !important;
+  border: none !important;
+  padding: 12px !important;
+}
+
+.k-scheduler-content {
+  border: none !important;
+}
+
+.k-event {
+  background: #3b82f6 !important;
+  border: none !important;
+  border-radius: 4px !important;
+  color: white !important;
+  box-shadow: 0 1px 4px rgba(59, 130, 246, 0.2) !important;
+}
+
+/* Chat Styling - Simplified */
+.k-chat {
+  border: none !important;
+  border-radius: 8px !important;
+  background: white !important;
+  overflow: hidden !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+}
+
+.k-message-box {
+  background: #f8f9fa !important;
+  border-top: 1px solid #e5e7eb !important;
+  padding: 12px !important;
+}
+
+.k-message-list {
+  background: transparent !important;
+  padding: 12px !important;
+}
+
+.k-bubble {
+  background: #3b82f6 !important;
+  color: white !important;
+  border-radius: 12px !important;
+  box-shadow: 0 1px 4px rgba(59, 130, 246, 0.2) !important;
+}
+
+/* TreeView Styling - Simplified */
+.k-treeview {
+  background: transparent !important;
+  border: none !important;
+}
+
+.k-treeview .k-in {
+  border-radius: 6px !important;
+  transition: all 0.2s ease !important;
+  padding: 8px 12px !important;
+  font-weight: 500 !important;
+}
+
+.k-treeview .k-in:hover {
+  background: #f1f5f9 !important;
+  color: #3b82f6 !important;
+  transform: translateX(2px) !important;
+}
+
+.k-treeview .k-selected {
+  background: #3b82f6 !important;
+  color: white !important;
+}
+
+/* Dropdown Styling - Simplified */
+.k-dropdownlist {
+  border-radius: 6px !important;
+  transition: all 0.2s ease !important;
+  border: 1px solid #d1d5db !important;
+  font-weight: 500 !important;
+}
+
+.k-dropdownlist:hover {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1) !important;
+}
+
+.k-dropdownlist.k-focus {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
+}
+
+/* Input Styling - Simplified */
+.k-textbox {
+  border-radius: 6px !important;
+  transition: all 0.2s ease !important;
+  border: 1px solid #d1d5db !important;
+  padding: 8px 12px !important;
+  font-weight: 500 !important;
+}
+
+.k-textbox:hover {
+  border-color: #3b82f6 !important;
+}
+
+.k-textbox:focus {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
+}
+
+/* Switch Styling - Simplified */
+.k-switch {
+  border-radius: 12px !important;
+  transition: all 0.2s ease !important;
+}
+
+.k-switch.k-checked {
+  background: #3b82f6 !important;
+  border-color: #3b82f6 !important;
+}
+
+.k-switch-thumb {
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2) !important;
+  transition: all 0.2s ease !important;
+}
+
+/* Notification Styling */
+.k-notification {
+  border-radius: 12px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15) !important;
+  border: none !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+.k-notification.k-notification-success {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%) !important;
+  color: white !important;
+}
+
+.k-notification.k-notification-info {
+  background: linear-gradient(135deg, #007bff 0%, #6610f2 100%) !important;
+  color: white !important;
+}
+
+.k-notification.k-notification-warning {
+  background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%) !important;
+  color: white !important;
+}
+
+.k-notification.k-notification-error {
+  background: linear-gradient(135deg, #dc3545 0%, #e83e8c 100%) !important;
+  color: white !important;
+}
+
+/* Scrollbar Styling - Simplified */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3b82f6;
+  border-radius: 3px;
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2563eb;
+}
+
+/* Loading States */
+.loading-shimmer {
+  background: linear-gradient(90deg, #f0f2f5 25%, #e4e6ea 50%, #f0f2f5 75%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+  border-radius: 8px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Enhanced Focus States - Simplified */
+.k-button:focus,
+.k-dropdownlist:focus,
+.k-textbox:focus,
+.k-switch:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3) !important;
+}
+
+/* Responsive Design */
+@media (max-width: 1400px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+}
+
+@media (max-width: 1200px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .k-grid-header .k-header {
+    padding: 12px 8px !important;
+    font-size: 0.75rem !important;
+  }
+
+  .k-grid td {
+    padding: 12px 8px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    font-size: 14px;
+  }
+
+  .k-button {
+    padding: 8px 12px !important;
+    font-size: 0.8rem !important;
+  }
+
+  .k-textbox {
+    padding: 10px 12px !important;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    color: #e9ecef;
+  }
+
+  #root {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  }
+
+  .dashboard-sidebar,
+  .dashboard-right-panel,
+  .dashboard-card,
+  .widget-card {
+    background: #2d3748 !important;
+    border-color: #4a5568 !important;
+  }
+
+  .dashboard-main-content {
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%) !important;
+  }
+}
+
+/* Print styles */
+@media print {
+  .dashboard-sidebar,
+  .dashboard-header {
+    display: none !important;
+  }
+
+  .dashboard-main-content {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .dashboard-card,
+  .widget-card {
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+    margin-bottom: 20px !important;
+    break-inside: avoid !important;
+  }
 }

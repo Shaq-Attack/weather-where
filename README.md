@@ -1,61 +1,90 @@
-# Weather & Wonders
+# Weather Where
 
-A modern, accessible weather application built with React, TypeScript, and KendoReact components. Get current weather, detailed forecasts, and discover fun facts about cities around the world.
+A professional, dashboard-style weather application built with React, TypeScript, and KendoReact components. Experience comprehensive weather data through a modern, intuitive interface with real-time updates and advanced analytics.
 
-![Weather & Wonders App](./screenshots/app-preview.png)
+![Weather Where App](./screenshots/app-preview.png)
 
 ## 🌟 Features
 
-- **Current Weather**: Real-time weather data with beautiful gradient backgrounds that match weather conditions
-- **7-Day Forecast**: Daily weather predictions with expandable hourly breakdowns
-- **Hourly Data Grid**: Detailed hourly weather data with pagination and sorting
-- **Fun Facts**: Interesting Wikipedia-sourced facts about your current city
-- **Temperature Units**: Toggle between Celsius and Fahrenheit
-- **City Selection**: Choose from major cities worldwide or use your current location
-- **Responsive Design**: Works seamlessly on desktop and mobile devices
-- **Accessibility**: WCAG AA compliant with keyboard navigation and screen reader support
-- **Offline Caching**: Smart caching with TTL for improved performance
+### 🏠 **Dashboard Overview**
+- **Unified Weather Dashboard**: Single-card interface displaying current conditions, forecasts, and key metrics
+- **Interactive Weather Map**: Visual weather patterns and conditions
+- **Quick Stats Grid**: Temperature, humidity, pressure, and wind speed at a glance
+- **Weather Insights**: AI-powered weather tips and recommendations
+
+### 📊 **Multi-View Navigation**
+- **Overview**: Complete weather dashboard with all essential information
+- **Forecast**: 7-day detailed weather predictions with daily breakdowns
+- **Hourly**: Comprehensive hourly data with advanced filtering and sorting
+- **Details**: In-depth weather analytics and extended meteorological data
+
+### 🎛️ **Advanced Features**
+- **Professional Header**: Search locations, city selection, and temperature unit toggle
+- **Smart Sidebar Navigation**: Seamless switching between different weather views
+- **Widget Panel**: Air quality index, UV index, and weather insights widgets
+- **Real-time Updates**: Live weather data with intelligent caching
+- **Responsive Design**: Optimized for desktop, tablet, and mobile devices
+- **Accessibility**: WCAG AA compliant with full keyboard navigation and screen reader support
 
 ## 🛠️ Tech Stack
 
+### 🎯 **Core Technologies**
 - **Frontend**: React 18 + TypeScript + Vite
-- **UI Components**: KendoReact (13+ free components used)
-- **Icons**: Lucide React
-- **Charts**: Recharts
-- **Styling**: KendoReact Default + Ocean Blue theme
-- **Testing**: Vitest + React Testing Library + Playwright
-- **APIs**: OpenWeatherMap + Wikipedia REST API
+- **UI Framework**: KendoReact 11+ (15+ professional components)
+- **Icons**: Lucide React (modern icon system)
+- **Charts**: Recharts + KendoReact Charts
+- **Styling**: KendoReact Material Theme + Custom Gradients
+
+### 🧪 **Development & Testing**
+- **Testing**: Vitest (unit) + React Testing Library + Playwright (E2E)
+- **Code Quality**: TypeScript strict mode + Prettier formatting
+- **Build Tool**: Vite with optimized bundling and HMR
+- **Package Manager**: pnpm for efficient dependency management
+
+### 🌐 **APIs & Data**
+- **Weather Data**: OpenWeatherMap API (current + forecast + air quality)
+- **Geolocation**: Browser Geolocation API with fallback
+- **Caching**: localStorage with TTL for performance optimization
 
 ## 🎨 KendoReact Components Used
 
-This project showcases 13+ free KendoReact components:
+This professional weather dashboard showcases 15+ KendoReact components across multiple packages:
 
-1. **AppBar** - Navigation header with app branding
-2. **Card/CardHeader/CardBody/CardTitle** - Weather cards and containers
-3. **DropDownList** - City selection dropdown
-4. **Switch** - Temperature unit toggle (°C/°F)
-5. **TabStrip/TabStripTab** - Daily/Hourly forecast tabs
-6. **Dialog** - Weather detail popups
-7. **Button** - Action buttons throughout the app
-8. **Loader** - Loading indicators
-9. **Notification** - Error and success messages
-10. **TileLayout** - Responsive component layout
-11. **Tooltip** - Hover hints and additional information
-12. **Label** - Form labels and typography
-13. **Grid/GridColumn** - Data table for hourly weather (replaced with custom table for compatibility)
+### 🧩 **Core Components**
+1. **AppBar/AppBarSection/AppBarSpacer** - Professional dashboard header with navigation controls
+2. **Card/CardHeader/CardBody/CardTitle/CardSubtitle** - Weather information containers and data cards
+3. **DropDownList** - City and location selection with search functionality
+4. **Switch** - Temperature unit toggle (°C/°F) with smooth animations
+5. **TextBox** - Location search with real-time filtering
+6. **Button** - Interactive action buttons throughout the interface
+
+### 📊 **Data & Navigation Components**
+7. **TabStrip/TabStripTab** - Multi-view navigation (Overview, Forecast, Hourly, Details)
+8. **Dialog** - Weather detail modals and information popups
+9. **Loader** - Loading states for data fetching and transitions
+10. **Notification** - Error handling and success messages
+11. **Tooltip** - Contextual help and additional information overlays
+
+### 📈 **Advanced Widgets**
+12. **Charts** - Weather data visualization and trend analysis
+13. **Gauges** - Air quality and UV index indicators
+14. **Progressbars** - Sun position and daily progress tracking
+15. **Indicators** - Real-time weather status and alerts
+16. **Grid** - Comprehensive hourly weather data tables (optional enhanced view)
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- Node.js 18+ and pnpm
-- OpenWeatherMap API key (free tier available)
+- **Node.js 18+** and **pnpm** (recommended package manager)
+- **OpenWeatherMap API key** (free tier available at openweathermap.org)
+- **Modern browser** with JavaScript enabled
 
 ### Installation
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/Shaq-Attack/weather-where.git
    cd weather-where
    ```
 
@@ -76,7 +105,19 @@ This project showcases 13+ free KendoReact components:
    ```
 
 5. **Open your browser**
-   Navigate to `http://localhost:5173`
+   Navigate to `http://localhost:5173` to view the dashboard
+
+### Quick Start Options
+
+**Using npm:**
+```bash
+npm install && npm run dev
+```
+
+**Using yarn:**
+```bash
+yarn install && yarn dev
+```
 
 ### Building for Production
 
@@ -88,26 +129,39 @@ The built files will be in the `dist` directory.
 
 ## 🧪 Testing
 
-### Unit Tests
+### Unit Tests (Vitest + React Testing Library)
 ```bash
-pnpm test
+pnpm test              # Run tests once
+pnpm test:watch        # Run tests in watch mode
+pnpm test:ui           # Run tests with UI interface
 ```
 
-### E2E Tests
+### Integration Tests (Playwright)
 ```bash
-pnpm e2e
+pnpm e2e               # Run E2E tests headless
+pnpm e2e:headed        # Run E2E tests with browser
+pnpm e2e:ui            # Run E2E tests with Playwright UI
 ```
 
-### Test Coverage
+### Code Quality & Coverage
 ```bash
-pnpm test:coverage
+pnpm test:coverage     # Generate test coverage report
+pnpm lint              # Run TypeScript and Prettier checks
+pnpm lint:fix          # Auto-fix formatting issues
+pnpm type-check        # Validate TypeScript compilation
 ```
+
+### Test Structure
+- **Unit Tests**: `src/test/*.test.ts` - Component and utility function tests
+- **E2E Tests**: `e2e/*.spec.ts` - Full application workflow tests
+- **Setup**: `src/test/setup.ts` - Test environment configuration
 
 ## 🌐 Environment Variables
 
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `VITE_OPENWEATHER_API_KEY` | OpenWeatherMap API key | Yes |
+| Variable | Description | Required | Default |
+|----------|-------------|----------|---------|
+| `VITE_OPENWEATHER_API_KEY` | OpenWeatherMap API key for weather data | Yes | - |
+| `NODE_ENV` | Application environment | No | `development` |
 
 ## 📱 API Integration
 
@@ -117,52 +171,71 @@ pnpm test:coverage
 - **Rate Limiting**: Respects API limits with caching
 - **Error Handling**: Graceful fallbacks and user-friendly error messages
 
-### Wikipedia API
-- **Fun Facts**: `/api/rest_v1/page/summary/{city}`
-- **Fallback Data**: Local curated facts when API is unavailable
-- **Privacy**: Only sends city names, no user data
+### Additional APIs
+- **Air Quality**: Real-time air pollution data integration
+- **UV Index**: Sun exposure and safety recommendations
+- **Weather Insights**: Intelligent weather analysis and tips
 
 ## ♿ Accessibility Features
 
-- **Keyboard Navigation**: Full keyboard support for all interactive elements
-- **Screen Reader Support**: Proper ARIA labels and semantic HTML
-- **Focus Management**: Visible focus indicators and logical tab order
-- **Color Contrast**: WCAG AA compliant color schemes
-- **Responsive Text**: Scalable fonts and layouts
-- **Alternative Text**: Descriptive alt text for all images
+- **Keyboard Navigation**: Complete keyboard support for dashboard navigation and all interactive elements  
+- **Screen Reader Support**: Comprehensive ARIA labels, semantic HTML, and descriptive content
+- **Focus Management**: Enhanced focus indicators with smooth transitions and logical tab sequences
+- **Color Contrast**: WCAG AA compliant color schemes with gradient backgrounds
+- **Responsive Design**: Scalable fonts, adaptive layouts, and mobile-optimized interfaces
+- **Alternative Content**: Descriptive labels for weather icons, charts, and visual elements
+- **Navigation Aids**: Clear section headings, landmark regions, and skip navigation links
 
 ## 🎯 Performance Features
 
-- **Smart Caching**: 10-minute TTL for weather data
-- **Lazy Loading**: Components loaded on demand
-- **Error Boundaries**: Graceful error handling
-- **Retry Logic**: Automatic retry with exponential backoff
-- **Optimized Bundles**: Code splitting and tree shaking
+- **Smart Caching**: Intelligent 10-minute TTL for weather data with localStorage persistence
+- **Component Optimization**: Lazy loading and code splitting for faster initial page loads
+- **Error Boundaries**: Comprehensive error handling with graceful fallbacks
+- **API Management**: Rate limiting, retry logic with exponential backoff, and request queuing
+- **Bundle Optimization**: Advanced tree shaking, code splitting, and asset optimization
+- **Dashboard Efficiency**: Virtualized scrolling for large data sets and optimized re-renders
+- **Memory Management**: Proper cleanup of subscriptions and event listeners
 
 ## 🏗️ Architecture
 
 ```
 src/
-├── api/                    # API integration layer
-│   ├── openWeather.ts     # Weather API client
-│   └── wiki.ts            # Wikipedia API client
-├── components/            # React components
-│   ├── WeatherCard.tsx    # Current weather display
-│   ├── WeatherAppBar.tsx  # Navigation header
-│   ├── ForecastCard.tsx   # Daily/hourly forecasts
-│   ├── FunFactCard.tsx    # Wikipedia fun facts
-│   └── HourlyGrid.tsx     # Detailed data table
-├── hooks/                 # Custom React hooks
-│   ├── useGeolocation.ts  # Location detection
-│   ├── useWeather.ts      # Weather data management
-│   └── useLocalStorage.ts # Persistent storage
-├── utils/                 # Utility functions
-│   ├── convertTemp.ts     # Temperature conversions
-│   └── time.ts            # Date/time formatting
-└── test/                  # Test files
-    ├── setup.ts           # Test configuration
-    ├── *.test.ts          # Unit tests
-    └── *.spec.ts          # Integration tests
+├── api/                           # API integration layer
+│   └── openWeather.ts            # Weather API client with caching
+├── components/                    # React components
+│   ├── DashboardHeader.tsx       # Professional app header with search & controls
+│   ├── DashboardLayout.tsx       # Main layout container with responsive design
+│   ├── DashboardSidebar.tsx      # Navigation sidebar with view switching
+│   ├── DashboardWidgets.tsx      # Widget panel container for additional insights
+│   └── weather/                  # Weather-specific components
+│       ├── AirQualityCard.tsx    # Air pollution data widget
+│       ├── Background.tsx        # Dynamic weather backgrounds
+│       ├── ForecastCard.tsx      # Daily weather forecasts
+│       ├── ForecastScreen.tsx    # Full forecast view
+│       ├── HourlyGrid.tsx        # Detailed hourly data table
+│       ├── HourlyScreen.tsx      # Hourly weather view
+│       ├── SunProgressBar.tsx    # Sunrise/sunset visualization
+│       ├── UVIndexCard.tsx       # UV index monitoring widget
+│       ├── WeatherAppBar.tsx     # Weather-specific navigation
+│       ├── WeatherCard.tsx       # Current weather display card
+│       ├── WeatherDashboardCards.tsx # Unified dashboard interface
+│       ├── WeatherDetailsScreen.tsx  # Comprehensive weather details
+│       └── WeatherInsights.tsx   # AI-powered weather recommendations
+├── hooks/                        # Custom React hooks
+│   ├── useGeolocation.ts        # GPS location detection
+│   ├── useWeather.ts            # Weather data management & caching
+│   └── useLocalStorage.ts       # Persistent client-side storage
+├── utils/                        # Utility functions
+│   ├── components.tsx           # Reusable UI components
+│   ├── convertTemp.ts           # Temperature unit conversions
+│   ├── styleComponents.tsx      # Styled component utilities
+│   ├── styles.ts               # Theme and styling constants
+│   ├── time.ts                 # Date/time formatting utilities
+│   └── weather.ts              # Weather data processing
+└── test/                        # Test suites
+    ├── setup.ts                # Test environment configuration
+    ├── *.test.ts              # Unit tests
+    └── *.spec.ts              # End-to-end integration tests
 ```
 
 ## 🚀 Deployment
@@ -189,6 +262,29 @@ The project includes a basic CI/CD workflow in `.github/workflows/` that:
 - Runs tests on pull requests
 - Builds and deploys on merge to main
 - Includes environment variable setup
+- Validates TypeScript compilation and code formatting
+
+## 🎨 Dashboard Interface
+
+### Layout System
+The application uses a sophisticated three-panel layout:
+
+- **Header Panel**: Global navigation, search, and controls
+- **Left Sidebar**: Main navigation with weather view switching  
+- **Main Content**: Dynamic content area based on selected view
+- **Right Panel**: Contextual widgets and additional insights (shown on Overview)
+
+### View Navigation
+- **Overview** (`/overview`): Unified weather dashboard with complete weather information
+- **Forecast** (`/forecast`): 7-day detailed weather predictions
+- **Hourly** (`/hourly`): Comprehensive hourly weather data grid
+- **Details** (`/details`): In-depth meteorological analytics
+
+### Widget System
+The right panel features modular widgets:
+- **Air Quality Card**: Real-time air pollution monitoring
+- **UV Index Card**: Sun exposure recommendations
+- **Weather Insights**: AI-powered tips and weather guidance
 
 ## 🔧 Configuration
 
@@ -199,11 +295,17 @@ The project includes a basic CI/CD workflow in `.github/workflows/` that:
 - Build optimizations
 
 ### Theme Customization
-The app uses KendoReact's Default theme with Ocean Blue accents. To customize:
+The app uses KendoReact's Material theme with custom gradient accents. To customize:
 
-1. **Modify theme imports** in `src/main.tsx`
-2. **Override CSS variables** in component styles
-3. **Adjust gradient backgrounds** in weather cards
+1. **Modify theme imports** in `src/main.tsx` and component files
+2. **Override CSS variables** in component styles using the `dangerouslySetInnerHTML` pattern
+3. **Adjust gradient backgrounds** in dashboard cards and header components
+4. **Customize color schemes** through the centralized gradient system (`#667eea` to `#764ba2`)
+
+### Dashboard Customization
+- **Widget Layout**: Modify `DashboardWidgets.tsx` to add or remove right-panel widgets
+- **Navigation**: Update `DashboardSidebar.tsx` to add new views or sections
+- **Header Controls**: Customize `DashboardHeader.tsx` for additional functionality
 
 ## 🤝 Contributing
 
@@ -215,11 +317,12 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 
 ## 🙏 Acknowledgments
 
-- **KendoReact** for the excellent UI component library
-- **OpenWeatherMap** for reliable weather data
-- **Wikipedia** for educational content
-- **Lucide** for beautiful icons
-- **Recharts** for data visualization
+- **KendoReact** for the comprehensive professional UI component library
+- **OpenWeatherMap** for reliable, real-time weather data and forecasting
+- **Lucide React** for the modern, scalable icon system
+- **Recharts** for beautiful data visualization and charting capabilities
+- **Vite** for the blazing-fast development and build tooling
+- **TypeScript** for type safety and enhanced developer experience
 
 ## 📞 Support
 
