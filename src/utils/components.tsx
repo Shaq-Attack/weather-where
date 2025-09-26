@@ -2,11 +2,11 @@
  * Common component utilities for loading states, error handling, and animations
  */
 
-import React from 'react';
+import React from "react";
 import { Loader } from "@progress/kendo-react-indicators";
 import { Notification } from "@progress/kendo-react-notification";
 import { Card, CardBody } from "@progress/kendo-react-layout";
-import { cardStyles } from './styles';
+import { cardStyles } from "./styles";
 
 export interface LoadingProps {
   message?: string;
@@ -16,7 +16,7 @@ export interface LoadingProps {
 export interface ErrorProps {
   message: string;
   onClose?: () => void;
-  type?: 'error' | 'warning' | 'info';
+  type?: "error" | "warning" | "info";
 }
 
 export interface FadeState {
@@ -27,7 +27,10 @@ export interface FadeState {
 /**
  * Standardized loading component
  */
-export function LoadingCard({ message = "Loading...", minHeight = "250px" }: LoadingProps) {
+export function LoadingCard({
+  message = "Loading...",
+  minHeight = "250px",
+}: LoadingProps) {
   return (
     <Card style={{ ...cardStyles.base, minHeight }}>
       <CardBody style={cardStyles.loading}>
@@ -54,15 +57,15 @@ export function ErrorCard({ message }: { message: string }) {
 /**
  * Standardized error notification component
  */
-export function ErrorNotification({ message, onClose, type = 'error' }: ErrorProps) {
+export function ErrorNotification({
+  message,
+  onClose,
+  type = "error",
+}: ErrorProps) {
   if (!message) return null;
-  
+
   return (
-    <Notification 
-      type={{ style: type, icon: true }}
-      closable
-      onClose={onClose}
-    >
+    <Notification type={{ style: type, icon: true }} closable onClose={onClose}>
       {message}
     </Notification>
   );
@@ -73,11 +76,11 @@ export function ErrorNotification({ message, onClose, type = 'error' }: ErrorPro
  */
 export function useFadeAnimation(initialClass = "") {
   const [fadeClass, setFadeClass] = React.useState(initialClass);
-  
+
   const fadeOut = React.useCallback(() => setFadeClass("fade-out"), []);
   const fadeIn = React.useCallback(() => setFadeClass("fade-in"), []);
   const clearFade = React.useCallback(() => setFadeClass(""), []);
-  
+
   return { fadeClass, fadeOut, fadeIn, clearFade, setFadeClass };
 }
 
@@ -87,30 +90,36 @@ export function useFadeAnimation(initialClass = "") {
 export function useLoadingWithFade() {
   const [loading, setLoading] = React.useState(false);
   const { fadeClass, fadeOut, fadeIn, setFadeClass } = useFadeAnimation();
-  
+
   const startLoading = React.useCallback(() => {
     setLoading(true);
     fadeOut();
   }, [fadeOut]);
-  
-  const finishLoading = React.useCallback((delay = 300) => {
-    setTimeout(() => {
-      setLoading(false);
-      fadeIn();
-    }, delay);
-  }, [fadeIn]);
-  
+
+  const finishLoading = React.useCallback(
+    (delay = 300) => {
+      setTimeout(() => {
+        setLoading(false);
+        fadeIn();
+      }, delay);
+    },
+    [fadeIn],
+  );
+
   return { loading, fadeClass, startLoading, finishLoading, setFadeClass };
 }
 
 /**
  * Format time from Unix timestamp
  */
-export function formatUnixTime(timestamp: number, options?: Intl.DateTimeFormatOptions): string {
+export function formatUnixTime(
+  timestamp: number,
+  options?: Intl.DateTimeFormatOptions,
+): string {
   const date = new Date(timestamp * 1000);
-  const defaultOptions: Intl.DateTimeFormatOptions = { 
-    hour: '2-digit', 
-    minute: '2-digit' 
+  const defaultOptions: Intl.DateTimeFormatOptions = {
+    hour: "2-digit",
+    minute: "2-digit",
   };
   return date.toLocaleTimeString([], { ...defaultOptions, ...options });
 }
@@ -119,11 +128,11 @@ export function formatUnixTime(timestamp: number, options?: Intl.DateTimeFormatO
  * Format current date
  */
 export function formatCurrentDate(): string {
-  return new Date().toLocaleDateString('en-US', { 
-    weekday: 'long', 
-    year: 'numeric', 
-    month: 'long', 
-    day: 'numeric' 
+  return new Date().toLocaleDateString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   });
 }
 

@@ -1,6 +1,6 @@
-import React from 'react';
-import { Card } from '@progress/kendo-react-layout';
-import { WeatherData } from '../../hooks/useWeather';
+import React from "react";
+import { Card } from "@progress/kendo-react-layout";
+import { WeatherData } from "../../hooks/useWeather";
 
 interface HourlyScreenProps {
   weatherData: WeatherData | null;
@@ -9,7 +9,7 @@ interface HourlyScreenProps {
 
 export const HourlyScreen: React.FC<HourlyScreenProps> = ({
   weatherData,
-  isCelsius
+  isCelsius,
 }) => {
   if (!weatherData) {
     return (
@@ -24,9 +24,9 @@ export const HourlyScreen: React.FC<HourlyScreenProps> = ({
 
   const getHourFormat = (timestamp: number) => {
     const date = new Date(timestamp * 1000);
-    return date.toLocaleTimeString('en-US', { 
-      hour: 'numeric', 
-      hour12: true 
+    return date.toLocaleTimeString("en-US", {
+      hour: "numeric",
+      hour12: true,
     });
   };
 
@@ -35,28 +35,29 @@ export const HourlyScreen: React.FC<HourlyScreenProps> = ({
     const today = new Date();
     const tomorrow = new Date(today);
     tomorrow.setDate(today.getDate() + 1);
-    
+
     if (date.toDateString() === today.toDateString()) {
-      return 'Today';
+      return "Today";
     } else if (date.toDateString() === tomorrow.toDateString()) {
-      return 'Tomorrow';
+      return "Tomorrow";
     } else {
-      return date.toLocaleDateString('en-US', { weekday: 'short' });
+      return date.toLocaleDateString("en-US", { weekday: "short" });
     }
   };
 
   // Group hourly data by day
   const groupByDay = () => {
     const groups: { [key: string]: typeof weatherData.hourly } = {};
-    
-    weatherData.hourly.slice(0, 24).forEach(hour => { // Show next 24 hours
+
+    weatherData.hourly.slice(0, 24).forEach((hour) => {
+      // Show next 24 hours
       const dayKey = getDayFormat(hour.dt);
       if (!groups[dayKey]) {
         groups[dayKey] = [];
       }
       groups[dayKey].push(hour);
     });
-    
+
     return groups;
   };
 
@@ -64,7 +65,9 @@ export const HourlyScreen: React.FC<HourlyScreenProps> = ({
 
   return (
     <>
-      <style dangerouslySetInnerHTML={{__html: `
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
         .hourly-container {
           padding: 24px;
           height: 100%;
@@ -204,69 +207,79 @@ export const HourlyScreen: React.FC<HourlyScreenProps> = ({
             padding: 16px;
           }
         }
-      `}} />
+      `,
+        }}
+      />
 
-        <div className="hourly-header">
-          <h1 className="hourly-title">⏰ Hourly Forecast</h1>
-          <p className="hourly-subtitle">
-            Hour-by-hour weather conditions for the next 24 hours
-          </p>
-        </div>
+      <div className="hourly-header">
+        <h1 className="hourly-title">⏰ Hourly Forecast</h1>
+        <p className="hourly-subtitle">
+          Hour-by-hour weather conditions for the next 24 hours
+        </p>
+      </div>
 
-        {Object.entries(hourlyGroups).map(([dayName, hours]) => (
-          <div key={dayName} className="hourly-day-section">
-            <h2 className="hourly-day-title">{dayName}</h2>
-            <div className="hourly-grid">
-              {hours.map((hour) => (
-                <Card key={hour.dt} className="hourly-card">
-                  <div className="hourly-time">
-                    {getHourFormat(hour.dt)}
-                  </div>
-                  
-                  <div className="hourly-weather-icon">
-                    {hour.weather.main === 'Clear' && '☀️'}
-                    {hour.weather.main === 'Clouds' && '☁️'}
-                    {hour.weather.main === 'Rain' && '🌧️'}
-                    {hour.weather.main === 'Snow' && '❄️'}
-                    {hour.weather.main === 'Thunderstorm' && '⛈️'}
-                    {hour.weather.main === 'Drizzle' && '🌦️'}
-                    {hour.weather.main === 'Mist' && '🌫️'}
-                    {!['Clear', 'Clouds', 'Rain', 'Snow', 'Thunderstorm', 'Drizzle', 'Mist'].includes(hour.weather.main) && '🌤️'}
-                  </div>
+      {Object.entries(hourlyGroups).map(([dayName, hours]) => (
+        <div key={dayName} className="hourly-day-section">
+          <h2 className="hourly-day-title">{dayName}</h2>
+          <div className="hourly-grid">
+            {hours.map((hour) => (
+              <Card key={hour.dt} className="hourly-card">
+                <div className="hourly-time">{getHourFormat(hour.dt)}</div>
 
-                  <div className="hourly-temp">
-                    {Math.round(hour.temp)}°{isCelsius ? 'C' : 'F'}
-                  </div>
+                <div className="hourly-weather-icon">
+                  {hour.weather.main === "Clear" && "☀️"}
+                  {hour.weather.main === "Clouds" && "☁️"}
+                  {hour.weather.main === "Rain" && "🌧️"}
+                  {hour.weather.main === "Snow" && "❄️"}
+                  {hour.weather.main === "Thunderstorm" && "⛈️"}
+                  {hour.weather.main === "Drizzle" && "🌦️"}
+                  {hour.weather.main === "Mist" && "🌫️"}
+                  {![
+                    "Clear",
+                    "Clouds",
+                    "Rain",
+                    "Snow",
+                    "Thunderstorm",
+                    "Drizzle",
+                    "Mist",
+                  ].includes(hour.weather.main) && "🌤️"}
+                </div>
 
-                  <div className="hourly-feels">
-                    Feels {Math.round(hour.feels_like)}°
-                  </div>
+                <div className="hourly-temp">
+                  {Math.round(hour.temp)}°{isCelsius ? "C" : "F"}
+                </div>
 
-                  <div className="hourly-details">
-                    <div className="hourly-detail">
-                      <span>
-                        <span className="hourly-detail-icon">💧</span> Humidity
-                      </span>
-                      <span>{hour.humidity}%</span>
-                    </div>
-                    <div className="hourly-detail">
-                      <span>
-                        <span className="hourly-detail-icon">💨</span> Wind
-                      </span>
-                      <span>{Math.round(hour.wind.speed)} {isCelsius ? 'm/s' : 'mph'}</span>
-                    </div>
-                    <div className="hourly-detail">
-                      <span>
-                        <span className="hourly-detail-icon">🌧️</span> Rain
-                      </span>
-                      <span>{Math.round(hour.pop * 100)}%</span>
-                    </div>
+                <div className="hourly-feels">
+                  Feels {Math.round(hour.feels_like)}°
+                </div>
+
+                <div className="hourly-details">
+                  <div className="hourly-detail">
+                    <span>
+                      <span className="hourly-detail-icon">💧</span> Humidity
+                    </span>
+                    <span>{hour.humidity}%</span>
                   </div>
-                </Card>
-              ))}
-            </div>
+                  <div className="hourly-detail">
+                    <span>
+                      <span className="hourly-detail-icon">💨</span> Wind
+                    </span>
+                    <span>
+                      {Math.round(hour.wind.speed)} {isCelsius ? "m/s" : "mph"}
+                    </span>
+                  </div>
+                  <div className="hourly-detail">
+                    <span>
+                      <span className="hourly-detail-icon">🌧️</span> Rain
+                    </span>
+                    <span>{Math.round(hour.pop * 100)}%</span>
+                  </div>
+                </div>
+              </Card>
+            ))}
           </div>
-        ))}
+        </div>
+      ))}
     </>
   );
 };

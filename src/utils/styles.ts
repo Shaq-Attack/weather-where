@@ -10,7 +10,7 @@ export const cardStyles = {
     maxWidth: "600px",
     boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
   },
-  
+
   hover: {
     transform: "translateY(-2px)",
     boxShadow: "0 12px 40px rgba(0,0,0,0.15)",

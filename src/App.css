@@ -4,7 +4,9 @@
   height: 100vh;
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+    "Cantarell", sans-serif;
   background: #f8f9fa;
   overflow: hidden;
 }
@@ -14,7 +16,9 @@ body {
   margin: 0;
   padding: 0;
   background: #f8f9fa;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+    "Cantarell", sans-serif;
   line-height: 1.6;
   color: #2c3e50;
   -webkit-font-smoothing: antialiased;
@@ -27,7 +31,9 @@ body {
   --kendo-color-primary-hover: #2563eb;
   --kendo-color-primary-active: #1d4ed8;
   --kendo-color-secondary: #64748b;
-  --kendo-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  --kendo-font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+    "Cantarell", sans-serif;
   --kendo-border-radius: 8px;
   --kendo-elevation-1: 0 2px 8px rgba(0, 0, 0, 0.12);
   --kendo-elevation-2: 0 4px 16px rgba(0, 0, 0, 0.15);
@@ -35,12 +41,19 @@ body {
 }
 
 /* Universal box-sizing */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
 /* Typography improvements */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin: 0;
   font-weight: 700;
   line-height: 1.2;
@@ -52,12 +65,14 @@ p {
 }
 
 /* Dashboard Card Animations */
-.dashboard-card, .widget-card {
+.dashboard-card,
+.widget-card {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform, box-shadow;
 }
 
-.dashboard-card:hover, .widget-card:hover {
+.dashboard-card:hover,
+.widget-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
 }
@@ -146,7 +161,8 @@ p {
 }
 
 /* Gauge Styling */
-.k-arcgauge, .k-lineargauge {
+.k-arcgauge,
+.k-lineargauge {
   background: transparent !important;
 }
 
@@ -431,12 +447,12 @@ p {
     grid-template-columns: 1fr;
     gap: 16px;
   }
-  
+
   .k-grid-header .k-header {
     padding: 12px 8px !important;
     font-size: 0.75rem !important;
   }
-  
+
   .k-grid td {
     padding: 12px 8px !important;
   }
@@ -446,12 +462,12 @@ p {
   :root {
     font-size: 14px;
   }
-  
+
   .k-button {
     padding: 8px 12px !important;
     font-size: 0.8rem !important;
   }
-  
+
   .k-textbox {
     padding: 10px 12px !important;
   }
@@ -463,16 +479,19 @@ p {
     background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
     color: #e9ecef;
   }
-  
+
   #root {
     background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
   }
-  
-  .dashboard-sidebar, .dashboard-right-panel, .dashboard-card, .widget-card {
+
+  .dashboard-sidebar,
+  .dashboard-right-panel,
+  .dashboard-card,
+  .widget-card {
     background: #2d3748 !important;
     border-color: #4a5568 !important;
   }
-  
+
   .dashboard-main-content {
     background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%) !important;
   }
@@ -484,12 +503,12 @@ p {
   .dashboard-header {
     display: none !important;
   }
-  
+
   .dashboard-main-content {
     padding: 0 !important;
     margin: 0 !important;
   }
-  
+
   .dashboard-card,
   .widget-card {
     box-shadow: none !important;

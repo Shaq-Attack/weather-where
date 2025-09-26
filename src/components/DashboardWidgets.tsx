@@ -1,18 +1,22 @@
-import { AirQualityCard } from './weather/AirQualityCard';
-import { WeatherInsights } from './weather/WeatherInsights';
-import { UVIndexCard } from './weather/UVIndexCard';
-import '@progress/kendo-theme-material/dist/all.css';
+import { AirQualityCard } from "./weather/AirQualityCard";
+import { WeatherInsights } from "./weather/WeatherInsights";
+import { UVIndexCard } from "./weather/UVIndexCard";
+import "@progress/kendo-theme-material/dist/all.css";
 
 interface DashboardWidgetsProps {
   lat?: number | null;
   lon?: number | null;
 }
 
-export const DashboardWidgets: React.FC<DashboardWidgetsProps> = ({ lat, lon }) => {
-
+export const DashboardWidgets: React.FC<DashboardWidgetsProps> = ({
+  lat,
+  lon,
+}) => {
   return (
     <>
-      <style dangerouslySetInnerHTML={{__html: `
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
         .widgets-container {
           display: flex;
           flex-direction: column;
@@ -371,7 +375,9 @@ export const DashboardWidgets: React.FC<DashboardWidgetsProps> = ({ lat, lon }) 
             padding: 14px;
           }
         }
-      `}} />
+      `,
+        }}
+      />
 
       <div className="widgets-container">
         {/* Air Quality Index Widget */}

@@ -1,6 +1,6 @@
-import React from 'react';
-import { Card } from '@progress/kendo-react-layout';
-import { WeatherData } from '../../hooks/useWeather';
+import React from "react";
+import { Card } from "@progress/kendo-react-layout";
+import { WeatherData } from "../../hooks/useWeather";
 
 interface ForecastScreenProps {
   weatherData: WeatherData | null;
@@ -9,7 +9,7 @@ interface ForecastScreenProps {
 
 export const ForecastScreen: React.FC<ForecastScreenProps> = ({
   weatherData,
-  isCelsius
+  isCelsius,
 }) => {
   if (!weatherData) {
     return (
@@ -24,17 +24,19 @@ export const ForecastScreen: React.FC<ForecastScreenProps> = ({
 
   const getDayName = (timestamp: number) => {
     const date = new Date(timestamp * 1000);
-    return date.toLocaleDateString('en-US', { weekday: 'long' });
+    return date.toLocaleDateString("en-US", { weekday: "long" });
   };
 
   const getFormattedDate = (timestamp: number) => {
     const date = new Date(timestamp * 1000);
-    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
   };
 
   return (
     <>
-      <style dangerouslySetInnerHTML={{__html: `
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
         .forecast-container {
           padding: 24px;
           height: 100%;
@@ -215,74 +217,90 @@ export const ForecastScreen: React.FC<ForecastScreenProps> = ({
             padding: 20px;
           }
         }
-      `}} />
+      `,
+        }}
+      />
 
-        <div className="forecast-header">
-          <h1 className="forecast-title">🌤️ 7-Day Forecast</h1>
-          <p className="forecast-subtitle">
-            Detailed weather forecast for the next week
-          </p>
-        </div>
+      <div className="forecast-header">
+        <h1 className="forecast-title">🌤️ 7-Day Forecast</h1>
+        <p className="forecast-subtitle">
+          Detailed weather forecast for the next week
+        </p>
+      </div>
 
-        <div className="forecast-grid">
-          {weatherData.daily.map((day, index) => {
-            const isToday = index === 0;
-            const dayName = isToday ? 'Today' : getDayName(day.dt);
-            
-            return (
-              <Card key={day.dt} className="forecast-card">
-                <div className="forecast-day-header">
-                  <div className="forecast-day-name">{dayName}</div>
-                  <div className="forecast-date">{getFormattedDate(day.dt)}</div>
-                </div>
+      <div className="forecast-grid">
+        {weatherData.daily.map((day, index) => {
+          const isToday = index === 0;
+          const dayName = isToday ? "Today" : getDayName(day.dt);
 
-                <div className="forecast-main-info">
-                  <div className="forecast-temps">
-                    <div className="forecast-high">
-                      {Math.round(day.temp.max)}°{isCelsius ? 'C' : 'F'}
-                    </div>
-                    <div className="forecast-low">
-                      Low: {Math.round(day.temp.min)}°{isCelsius ? 'C' : 'F'}
-                    </div>
+          return (
+            <Card key={day.dt} className="forecast-card">
+              <div className="forecast-day-header">
+                <div className="forecast-day-name">{dayName}</div>
+                <div className="forecast-date">{getFormattedDate(day.dt)}</div>
+              </div>
+
+              <div className="forecast-main-info">
+                <div className="forecast-temps">
+                  <div className="forecast-high">
+                    {Math.round(day.temp.max)}°{isCelsius ? "C" : "F"}
                   </div>
-                  <div className="forecast-weather-icon">
-                    {day.weather[0].main === 'Clear' && '☀️'}
-                    {day.weather[0].main === 'Clouds' && '☁️'}
-                    {day.weather[0].main === 'Rain' && '🌧️'}
-                    {day.weather[0].main === 'Snow' && '❄️'}
-                    {day.weather[0].main === 'Thunderstorm' && '⛈️'}
-                    {day.weather[0].main === 'Drizzle' && '🌦️'}
-                    {day.weather[0].main === 'Mist' && '🌫️'}
-                    {!['Clear', 'Clouds', 'Rain', 'Snow', 'Thunderstorm', 'Drizzle', 'Mist'].includes(day.weather[0].main) && '🌤️'}
+                  <div className="forecast-low">
+                    Low: {Math.round(day.temp.min)}°{isCelsius ? "C" : "F"}
                   </div>
                 </div>
-
-                <div className="forecast-description">
-                  {day.weather[0].description}
+                <div className="forecast-weather-icon">
+                  {day.weather[0].main === "Clear" && "☀️"}
+                  {day.weather[0].main === "Clouds" && "☁️"}
+                  {day.weather[0].main === "Rain" && "🌧️"}
+                  {day.weather[0].main === "Snow" && "❄️"}
+                  {day.weather[0].main === "Thunderstorm" && "⛈️"}
+                  {day.weather[0].main === "Drizzle" && "🌦️"}
+                  {day.weather[0].main === "Mist" && "🌫️"}
+                  {![
+                    "Clear",
+                    "Clouds",
+                    "Rain",
+                    "Snow",
+                    "Thunderstorm",
+                    "Drizzle",
+                    "Mist",
+                  ].includes(day.weather[0].main) && "🌤️"}
                 </div>
+              </div>
 
-                <div className="forecast-details">
-                  <div className="forecast-detail-item">
-                    <span className="forecast-detail-icon">💧</span>
-                    <span>Humidity: {day.humidity}%</span>
-                  </div>
-                  <div className="forecast-detail-item">
-                    <span className="forecast-detail-icon">💨</span>
-                    <span>Wind: {Math.round(day.wind.speed)} {isCelsius ? 'm/s' : 'mph'}</span>
-                  </div>
-                  <div className="forecast-detail-item">
-                    <span className="forecast-detail-icon">🌧️</span>
-                    <span>Rain Chance: {Math.round(day.pop * 100)}%</span>
-                  </div>
-                  <div className="forecast-detail-item">
-                    <span className="forecast-detail-icon">🌡️</span>
-                    <span>Feels Like: {Math.round(day.temp.day)}°{isCelsius ? 'C' : 'F'}</span>
-                  </div>
+              <div className="forecast-description">
+                {day.weather[0].description}
+              </div>
+
+              <div className="forecast-details">
+                <div className="forecast-detail-item">
+                  <span className="forecast-detail-icon">💧</span>
+                  <span>Humidity: {day.humidity}%</span>
                 </div>
-              </Card>
-            );
-          })}
-        </div>
+                <div className="forecast-detail-item">
+                  <span className="forecast-detail-icon">💨</span>
+                  <span>
+                    Wind: {Math.round(day.wind.speed)}{" "}
+                    {isCelsius ? "m/s" : "mph"}
+                  </span>
+                </div>
+                <div className="forecast-detail-item">
+                  <span className="forecast-detail-icon">🌧️</span>
+                  <span>Rain Chance: {Math.round(day.pop * 100)}%</span>
+                </div>
+                <div className="forecast-detail-item">
+                  <span className="forecast-detail-icon">🌡️</span>
+                  <span>
+                    Feels Like: {Math.round(day.temp.day)}°
+                    {isCelsius ? "C" : "F"}
+                  </span>
+                </div>
+              </div>
+            </Card>
+          );
+        })}
+      </div>
     </>
   );
 };

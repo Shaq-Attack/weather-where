@@ -1,8 +1,12 @@
-import React from 'react';
-import { AppBar, AppBarSection, AppBarSpacer } from '@progress/kendo-react-layout';
-import { DropDownList } from '@progress/kendo-react-dropdowns';
-import { Switch } from '@progress/kendo-react-inputs';
-import '@progress/kendo-theme-material/dist/all.css';
+import React from "react";
+import {
+  AppBar,
+  AppBarSection,
+  AppBarSpacer,
+} from "@progress/kendo-react-layout";
+import { DropDownList } from "@progress/kendo-react-dropdowns";
+import { Switch } from "@progress/kendo-react-inputs";
+import "@progress/kendo-theme-material/dist/all.css";
 
 interface DashboardHeaderProps {
   cities: string[];
@@ -17,12 +21,13 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   selectedCityValue,
   onCityChange,
   isCelsius,
-  onUnitToggle
+  onUnitToggle,
 }) => {
-
   return (
     <>
-      <style dangerouslySetInnerHTML={{__html: `
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
 
         .dashboard-header-container {
           height: 100%;
@@ -177,14 +182,14 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           
 
         }
-      `}} />
+      `,
+        }}
+      />
 
       <div className="dashboard-header-container">
         <AppBar className="dashboard-appbar">
           <AppBarSection>
-            <div className="header-logo">
-              ⛅ Weather Dashboard
-            </div>
+            <div className="header-logo">⛅ Weather Dashboard</div>
           </AppBarSection>
 
           <AppBarSpacer />
@@ -202,18 +207,12 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
               {/* Temperature Unit Toggle */}
               <div className="header-switch">
                 °F
-                <Switch
-                  checked={isCelsius}
-                  onChange={onUnitToggle}
-                />
+                <Switch checked={isCelsius} onChange={onUnitToggle} />
                 °C
               </div>
-
             </div>
           </AppBarSection>
         </AppBar>
-
-
       </div>
     </>
   );

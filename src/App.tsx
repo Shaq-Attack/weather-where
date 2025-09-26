@@ -19,25 +19,28 @@ import { WeatherDetailsScreen } from "./components/weather/WeatherDetailsScreen"
 
 // Styles and Data
 import "./App.css";
-import cityList from '../city.list.json';
+import cityList from "../city.list.json";
 import "@progress/kendo-theme-material/dist/all.css";
 
 export default function App() {
   const { coords, error: geoError, permissionDenied } = useGeolocation();
   const { data: weatherData, fetchWeatherData } = useWeather();
-  const [selectedCity, setSelectedCity] = useLocalStorage<string | null>('selectedCity', null);
-  const [isCelsius, setIsCelsius] = useLocalStorage<boolean>('isCelsius', true);
+  const [selectedCity, setSelectedCity] = useLocalStorage<string | null>(
+    "selectedCity",
+    null,
+  );
+  const [isCelsius, setIsCelsius] = useLocalStorage<boolean>("isCelsius", true);
   const [userSelectedCity, setUserSelectedCity] = useState(false);
   const [lat, setLat] = useState<number | null>(null);
   const [lon, setLon] = useState<number | null>(null);
-  const [currentView, setCurrentView] = useState<string>('overview');
+  const [currentView, setCurrentView] = useState<string>("overview");
 
   const handleUnitToggle = async () => {
     const newIsCelsius = !isCelsius;
     setIsCelsius(newIsCelsius);
-    
+
     if (lat && lon) {
-      const units = newIsCelsius ? 'metric' : 'imperial';
+      const units = newIsCelsius ? "metric" : "imperial";
       await fetchWeatherData(lat, lon, units);
     }
   };
@@ -60,12 +63,12 @@ export default function App() {
 
   // Ensure we always start on the overview page
   useEffect(() => {
-    setCurrentView('overview');
+    setCurrentView("overview");
   }, []); // Empty dependency array means this runs only once on mount
 
   // Filter cities from the imported list
   const topCities = cityList.filter((city: any) => {
-    const selectedCountries = ['GB', 'US', 'JP', 'ZA', 'AU'];
+    const selectedCountries = ["GB", "US", "JP", "ZA", "AU"];
     return selectedCountries.includes(city.country);
   });
 
@@ -74,23 +77,23 @@ export default function App() {
     const cityList = topCities.map((city: any) => ({
       label: `${city.name}`,
       value: city.id,
-      coordinates: { lat: city.coord.lat, lon: city.coord.lon }
+      coordinates: { lat: city.coord.lat, lon: city.coord.lon },
     }));
-    
+
     return cityList;
   };
 
   const cityOptions = createCityOptions();
-  
+
   // Create dropdown list with "Your Location" option
   const getDropdownCities = () => {
     const cities = cityOptions.map((c: any) => c.label);
-    
+
     // Only add "Your Location" if geolocation is available or already being used
     if (!geoError && !permissionDenied) {
       return ["Your Location", ...cities];
     }
-    
+
     return cities;
   };
 
@@ -99,13 +102,20 @@ export default function App() {
       let targetLat: number;
       let targetLon: number;
 
-      if (userSelectedCity && selectedCity && selectedCity !== "Your Location") {
+      if (
+        userSelectedCity &&
+        selectedCity &&
+        selectedCity !== "Your Location"
+      ) {
         // User selected a specific city
         const city = cityOptions.find((c: any) => c.label === selectedCity);
         if (!city) return;
         targetLat = city.coordinates.lat;
         targetLon = city.coordinates.lon;
-      } else if (coords && (!userSelectedCity || selectedCity === "Your Location")) {
+      } else if (
+        coords &&
+        (!userSelectedCity || selectedCity === "Your Location")
+      ) {
         // Use geolocation (either auto or user selected "Your Location")
         targetLat = coords.lat;
         targetLon = coords.lon;
@@ -120,13 +130,21 @@ export default function App() {
 
       setLat(targetLat);
       setLon(targetLon);
-      
-      const units = isCelsius ? 'metric' : 'imperial';
+
+      const units = isCelsius ? "metric" : "imperial";
       await fetchWeatherData(targetLat, targetLon, units);
     };
 
     loadWeatherData();
-  }, [coords, selectedCity, userSelectedCity, geoError, permissionDenied, isCelsius, fetchWeatherData]);
+  }, [
+    coords,
+    selectedCity,
+    userSelectedCity,
+    geoError,
+    permissionDenied,
+    isCelsius,
+    fetchWeatherData,
+  ]);
 
   // Get the value to show in the dropdown
   const getDropdownValue = () => {
@@ -139,26 +157,16 @@ export default function App() {
     return null;
   };
 
-
-
   // Render main content based on current view
   const renderMainContent = () => {
     switch (currentView) {
-      case 'forecast':
+      case "forecast":
         return (
-          <ForecastScreen
-            weatherData={weatherData}
-            isCelsius={isCelsius}
-          />
+          <ForecastScreen weatherData={weatherData} isCelsius={isCelsius} />
         );
-      case 'hourly':
-        return (
-          <HourlyScreen
-            weatherData={weatherData}
-            isCelsius={isCelsius}
-          />
-        );
-      case 'details':
+      case "hourly":
+        return <HourlyScreen weatherData={weatherData} isCelsius={isCelsius} />;
+      case "details":
         return (
           <WeatherDetailsScreen
             weatherData={weatherData}
@@ -167,7 +175,7 @@ export default function App() {
             lon={lon || undefined}
           />
         );
-      case 'overview':
+      case "overview":
       default:
         return (
           <WeatherDashboardCards
@@ -192,11 +200,14 @@ export default function App() {
         />
       }
       sidebar={
-        <DashboardSidebar onNavigate={handleNavigation} currentView={currentView} />
+        <DashboardSidebar
+          onNavigate={handleNavigation}
+          currentView={currentView}
+        />
       }
       mainContent={renderMainContent()}
       rightPanel={
-        currentView === 'overview' ? (
+        currentView === "overview" ? (
           <DashboardWidgets lat={lat} lon={lon} />
         ) : null
       }

@@ -1,5 +1,12 @@
-import { useState, useCallback } from 'react';
-import { fetchWeather, fetchForecast, ForecastDay, ForecastHour, convertToDaily, convertToHourly } from '../api/openWeather';
+import { useState, useCallback } from "react";
+import {
+  fetchWeather,
+  fetchForecast,
+  ForecastDay,
+  ForecastHour,
+  convertToDaily,
+  convertToHourly,
+} from "../api/openWeather";
 
 export interface WeatherData {
   current: any;
@@ -56,73 +63,79 @@ export function useWeather() {
     });
   };
 
-  const fetchWeatherData = useCallback(async (
-    lat: number,
-    lon: number,
-    units: 'metric' | 'imperial' = 'metric',
-    forceRefresh = false
-  ) => {
-    const cacheKey = getCacheKey(lat, lon, units);
-    
-    // Check cache first
-    if (!forceRefresh) {
-      const cachedData = getFromCache(cacheKey);
-      if (cachedData) {
-        setState({ data: cachedData, loading: false, error: null });
-        return;
+  const fetchWeatherData = useCallback(
+    async (
+      lat: number,
+      lon: number,
+      units: "metric" | "imperial" = "metric",
+      forceRefresh = false,
+    ) => {
+      const cacheKey = getCacheKey(lat, lon, units);
+
+      // Check cache first
+      if (!forceRefresh) {
+        const cachedData = getFromCache(cacheKey);
+        if (cachedData) {
+          setState({ data: cachedData, loading: false, error: null });
+          return;
+        }
       }
-    }
 
-    setState(prev => ({ ...prev, loading: true, error: null }));
+      setState((prev) => ({ ...prev, loading: true, error: null }));
 
-    try {
-      // Fetch current weather and forecast concurrently
-      const [currentWeather, forecastData] = await Promise.all([
-        fetchWeather(lat, lon, units),
-        fetchForecast(lat, lon, units),
-      ]);
+      try {
+        // Fetch current weather and forecast concurrently
+        const [currentWeather, forecastData] = await Promise.all([
+          fetchWeather(lat, lon, units),
+          fetchForecast(lat, lon, units),
+        ]);
 
-      // Always using 5-day/3-hour forecast response now (free tier)
-      const daily = convertToDaily(forecastData).slice(0, 7);
-      const hourly = convertToHourly(forecastData);
-      const timezone_offset = forecastData.city.timezone;
+        // Always using 5-day/3-hour forecast response now (free tier)
+        const daily = convertToDaily(forecastData).slice(0, 7);
+        const hourly = convertToHourly(forecastData);
+        const timezone_offset = forecastData.city.timezone;
 
-      const weatherData: WeatherData = {
-        current: currentWeather,
-        daily,
-        hourly,
-        timezone: undefined, // Not available in free tier 2.5 API
-        timezone_offset,
-      };
+        const weatherData: WeatherData = {
+          current: currentWeather,
+          daily,
+          hourly,
+          timezone: undefined, // Not available in free tier 2.5 API
+          timezone_offset,
+        };
 
-      // Cache the data
-      setToCache(cacheKey, weatherData);
+        // Cache the data
+        setToCache(cacheKey, weatherData);
 
-      setState({ data: weatherData, loading: false, error: null });
-    } catch (error: any) {
-      console.error('Weather fetch error:', error);
-      
-      // Try to use cached data even if expired
-      const cachedData = weatherCache.get(cacheKey)?.data;
-      if (cachedData) {
-        setState({ 
-          data: cachedData, 
-          loading: false, 
-          error: `Using cached data: ${error.message}` 
-        });
-      } else {
-        setState({ data: null, loading: false, error: error.message });
+        setState({ data: weatherData, loading: false, error: null });
+      } catch (error: any) {
+        console.error("Weather fetch error:", error);
+
+        // Try to use cached data even if expired
+        const cachedData = weatherCache.get(cacheKey)?.data;
+        if (cachedData) {
+          setState({
+            data: cachedData,
+            loading: false,
+            error: `Using cached data: ${error.message}`,
+          });
+        } else {
+          setState({ data: null, loading: false, error: error.message });
+        }
       }
-    }
-  }, []);
+    },
+    [],
+  );
 
   const clearCache = useCallback(() => {
     weatherCache.clear();
   }, []);
 
-  const refreshWeather = useCallback((lat: number, lon: number, units: 'metric' | 'imperial' = 'metric') => {
-    return fetchWeatherData(lat, lon, units, true);
-  }, [fetchWeatherData]);
+  const refreshWeather = useCallback(
+    (lat: number, lon: number, units: "metric" | "imperial" = "metric") => {
+      return fetchWeatherData(lat, lon, units, true);
+    },
+    [fetchWeatherData],
+  );
 
   return {
     ...state,

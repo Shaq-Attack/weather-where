@@ -1,11 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import { Card, CardHeader, CardBody, CardTitle, CardSubtitle } from '@progress/kendo-react-layout';
-import { ArcGauge } from '@progress/kendo-react-gauges';
-import { Chart, ChartSeries, ChartSeriesItem, ChartLegend, ChartCategoryAxis, ChartCategoryAxisItem, ChartValueAxis, ChartValueAxisItem, ChartTooltip } from '@progress/kendo-react-charts';
-import { ProgressBar } from '@progress/kendo-react-progressbars';
-import { Loader } from '@progress/kendo-react-indicators';
-import { fetchUVIndex, getCurrentUVIndex } from '../../api/openWeather';
-import '@progress/kendo-theme-material/dist/all.css';
+import React, { useState, useEffect } from "react";
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  CardTitle,
+  CardSubtitle,
+} from "@progress/kendo-react-layout";
+import { ArcGauge } from "@progress/kendo-react-gauges";
+import {
+  Chart,
+  ChartSeries,
+  ChartSeriesItem,
+  ChartLegend,
+  ChartCategoryAxis,
+  ChartCategoryAxisItem,
+  ChartValueAxis,
+  ChartValueAxisItem,
+  ChartTooltip,
+} from "@progress/kendo-react-charts";
+import { ProgressBar } from "@progress/kendo-react-progressbars";
+import { Loader } from "@progress/kendo-react-indicators";
+import { fetchUVIndex, getCurrentUVIndex } from "../../api/openWeather";
+import "@progress/kendo-theme-material/dist/all.css";
 
 interface WeatherDashboardCardsProps {
   weatherData: any;
@@ -18,7 +34,7 @@ export const WeatherDashboardCards: React.FC<WeatherDashboardCardsProps> = ({
   weatherData,
   isCelsius,
   lat,
-  lon
+  lon,
 }) => {
   // UV Index state management
   const [uvIndex, setUvIndex] = useState<number>(0);
@@ -28,7 +44,7 @@ export const WeatherDashboardCards: React.FC<WeatherDashboardCardsProps> = ({
   // Load UV Index data
   useEffect(() => {
     let cancelled = false; // Prevent race conditions
-    
+
     const loadUVData = async () => {
       if (!lat || !lon) {
         setUvLoading(false);
@@ -38,25 +54,25 @@ export const WeatherDashboardCards: React.FC<WeatherDashboardCardsProps> = ({
       try {
         setUvLoading(true);
         setUvError(null);
-        
-        console.log('Loading UV data for coordinates:', { lat, lon });
-        
+
+        console.log("Loading UV data for coordinates:", { lat, lon });
+
         const uvData = await fetchUVIndex(lat, lon);
-        
+
         // Check if this request was cancelled
         if (cancelled) {
-          console.log('UV request cancelled for:', { lat, lon });
+          console.log("UV request cancelled for:", { lat, lon });
           return;
         }
-        
+
         const currentUV = getCurrentUVIndex(uvData);
-        console.log('UV data loaded successfully:', { lat, lon, currentUV });
-        
+        console.log("UV data loaded successfully:", { lat, lon, currentUV });
+
         setUvIndex(currentUV);
       } catch (error) {
         if (!cancelled) {
-          console.error('Error fetching UV data for:', { lat, lon }, error);
-          setUvError('Failed to load UV data');
+          console.error("Error fetching UV data for:", { lat, lon }, error);
+          setUvError("Failed to load UV data");
           setUvIndex(0);
         }
       } finally {
@@ -67,7 +83,7 @@ export const WeatherDashboardCards: React.FC<WeatherDashboardCardsProps> = ({
     };
 
     loadUVData();
-    
+
     // Cleanup function to cancel the request
     return () => {
       cancelled = true;
@@ -76,7 +92,7 @@ export const WeatherDashboardCards: React.FC<WeatherDashboardCardsProps> = ({
   if (!weatherData) {
     return (
       <div className="dashboard-grid">
-        <Card style={{ padding: 20, textAlign: 'center' }}>
+        <Card style={{ padding: 20, textAlign: "center" }}>
           <CardBody>
             <p>Loading weather data...</p>
           </CardBody>
@@ -92,11 +108,14 @@ export const WeatherDashboardCards: React.FC<WeatherDashboardCardsProps> = ({
   // Format hour labels for x-axis
   const temperatureChartData = hourly.map((hour: any) => {
     const date = new Date((hour.dt || 0) * 1000);
-    const hourLabel = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const hourLabel = date.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
     return {
       time: hourLabel,
       temperature: Math.round(hour.temp),
-      humidity: hour.humidity
+      humidity: hour.humidity,
     };
   });
 
@@ -105,7 +124,9 @@ export const WeatherDashboardCards: React.FC<WeatherDashboardCardsProps> = ({
 
   return (
     <>
-      <style dangerouslySetInnerHTML={{__html: `
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
         .dashboard-grid {
           display: grid;
           grid-template-columns: 1fr;
@@ -558,301 +579,399 @@ export const WeatherDashboardCards: React.FC<WeatherDashboardCardsProps> = ({
             gap: 10px;
           }
         }
-      `}} />
+      `,
+        }}
+      />
 
       <div className="dashboard-grid">
         {/* Single Unified Weather Dashboard Card */}
-        <div style={{ borderRadius: '16px', overflow: 'hidden' }}>
-          <Card className="dashboard-card main-dashboard-card" style={{ borderRadius: 0 }}>
+        <div style={{ borderRadius: "16px", overflow: "hidden" }}>
+          <Card
+            className="dashboard-card main-dashboard-card"
+            style={{ borderRadius: 0 }}
+          >
             <CardHeader className="card-header">
               <CardTitle className="card-title">Weather Dashboard</CardTitle>
               <CardSubtitle className="card-subtitle">
                 Complete weather overview and analytics
               </CardSubtitle>
-          </CardHeader>
-          <CardBody className="card-body" style={{ padding: 0, height: '100%' }}>
-            <div className="dashboard-content">
-              
-              {/* Current Weather Overview */}
-              <div 
-                className="current-weather-section"
-                style={{ 
-                  background: 'white',
-                  borderRadius: '16px',
-                  padding: '24px',
-                  border: '1px solid rgba(230, 236, 245, 0.8)',
-                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)'
-                }}
-              >
-                <h3 style={{ 
-                  fontSize: '1.2rem', 
-                  fontWeight: '700', 
-                  marginBottom: '16px'
-                }}>
-                  Current Weather Overview
-                </h3>
-                
-                <div className="current-weather-display">
-                  <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>
-                    {current?.weather?.[0]?.main === 'Clear' ? '☀️' : 
-                     current?.weather?.[0]?.main?.includes('Cloud') ? '☁️' : 
-                     current?.weather?.[0]?.main?.includes('Rain') ? '🌧️' : 
-                     '🌤️'}
-                  </div>
-                  <h1 className="temperature-main">
-                    {Math.round(current?.main?.temp || 0)}°{isCelsius ? 'C' : 'F'}
-                  </h1>
-                  <p className="weather-condition">
-                    {current?.weather?.[0]?.description || 'No data'}
-                  </p>
-                  <div className="weather-details" style={{ gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px' }}>
-                    <div className="detail-item">
-                      <div className="detail-label">Feels like</div>
-                      <div className="detail-value">
-                        {Math.round(current?.main?.feels_like || 0)}°
-                      </div>
-                    </div>
-                    <div className="detail-item">
-                      <div className="detail-label">Humidity</div>
-                      <div className="detail-value">{current?.main?.humidity || 0}%</div>
-                    </div>
-                    <div className="detail-item">
-                      <div className="detail-label">Pressure</div>
-                      <div className="detail-value">{current?.main?.pressure || 0} hPa</div>
-                    </div>
-                    <div className="detail-item">
-                      <div className="detail-label">Wind Speed</div>
-                      <div className="detail-value">
-                        {Math.round(windSpeed)} {isCelsius ? 'm/s' : 'mph'}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Environmental Metrics */}
-              <div 
-                className="environmental-metrics-section"
-                style={{ 
-                  background: 'white', 
-                  borderRadius: '16px', 
-                  padding: '24px',
-                  border: '1px solid rgba(230, 236, 245, 0.8)',
-                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)'
-                }}
-              >
-                <h3 style={{ margin: '0 0 16px 0', fontSize: '1.2rem', fontWeight: '700' }}>Environmental Metrics</h3>
-                <div className="progress-section">
-                  <div className="progress-label">
-                    <span>Visibility</span>
-                    <span>{Math.round((visibility || 10000) / 1000)} km</span>
-                  </div>
-                  <ProgressBar 
-                    value={(visibility || 10000) / 100} 
-                    max={100}
-                  />
-                </div>
-                
-                <div className="progress-section">
-                  <div className="progress-label">
-                    <span>Humidity</span>
-                    <span>{current?.main?.humidity || 0}%</span>
-                  </div>
-                  <ProgressBar 
-                    value={current?.main?.humidity || 0} 
-                    max={100}
-                  />
-                </div>
-
-                <div className="progress-section">
-                  <div className="progress-label">
-                    <span>Cloud Cover</span>
-                    <span>{current?.clouds?.all || 0}%</span>
-                  </div>
-                  <ProgressBar 
-                    value={current?.clouds?.all || 0} 
-                    max={100}
-                  />
-                </div>
-              </div>
-
-              {/* UV Index Gauge */}
-              <div 
-                className="uv-index-section"
-                style={{ 
-                  background: 'white', 
-                  borderRadius: '16px', 
-                  padding: '24px',
-                  border: '1px solid rgba(230, 236, 245, 0.8)',
-                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)'
-                }}
-              >
-                <h3 style={{ margin: '0 0 16px 0', fontSize: '1.2rem', fontWeight: '700' }}>UV Index</h3>
-                {uvLoading ? (
-                  <div style={{ 
-                    display: 'flex', 
-                    justifyContent: 'center', 
-                    alignItems: 'center', 
-                    minHeight: '150px',
-                    flexDirection: 'column'
-                  }}>
-                    <Loader type="infinite-spinner" />
-                    <span style={{ marginTop: '8px', fontSize: '0.9rem', color: '#6c757d' }}>
-                      Loading UV data...
-                    </span>
-                  </div>
-                ) : uvError ? (
-                  <div style={{ 
-                    textAlign: 'center', 
-                    minHeight: '150px', 
-                    display: 'flex', 
-                    flexDirection: 'column', 
-                    justifyContent: 'center',
-                    color: '#6c757d'
-                  }}>
-                    <div style={{ fontSize: '2rem', marginBottom: '8px' }}>⚠️</div>
-                    <div style={{ fontSize: '0.9rem' }}>{uvError}</div>
-                  </div>
-                ) : uvIndex === 0 ? (
-                  <div style={{ 
-                    textAlign: 'center', 
-                    minHeight: '150px', 
-                    display: 'flex', 
-                    flexDirection: 'column', 
-                    justifyContent: 'center',
-                    color: '#6c757d'
-                  }}>
-                    <div style={{ fontSize: '2rem', marginBottom: '8px' }}>🌙</div>
-                    <div style={{ fontSize: '1rem', fontWeight: 'bold', marginBottom: '4px' }}>No UV Risk</div>
-                    <div style={{ fontSize: '0.85rem' }}>UV Index not available<br/>during nighttime hours</div>
-                  </div>
-                ) : (
-                  <>
-                    <div className="gauge-container" style={{ minHeight: '150px' }}>
-                      <ArcGauge
-                        value={uvIndex}
-                        scale={{
-                          min: 0,
-                          max: 11,
-                          majorTicks: {
-                            visible: true
-                          },
-                          labels: {
-                            visible: true
-                          }
-                        }}
-                        colors={[
-                          { from: 0, to: 2, color: '#289500' },
-                          { from: 3, to: 5, color: '#f7e400' },
-                          { from: 6, to: 7, color: '#f85900' },
-                          { from: 8, to: 10, color: '#d8001d' },
-                          { from: 11, to: 11, color: '#6b49c8' }
-                        ]}
-                      />
-                    </div>
-                    <div style={{ textAlign: 'center', marginTop: 10 }}>
-                      <strong style={{ fontSize: '1.2rem' }}>{uvIndex}</strong>
-                      <div style={{ fontSize: '0.8rem', color: '#6c757d', marginTop: '4px' }}>
-                        {uvIndex === 0 ? 'No Risk' :
-                         uvIndex <= 2 ? 'Low Risk' :
-                         uvIndex <= 5 ? 'Moderate Risk' :
-                         uvIndex <= 7 ? 'High Risk' :
-                         uvIndex <= 10 ? 'Very High Risk' : 'Extreme Risk'}
-                      </div>
-                    </div>
-                  </>
-                )}
-              </div>
-
-              {/* Temperature Trend Chart */}
-              <div 
-                className="temperature-chart-section"
-                style={{ 
-                  background: 'white', 
-                  borderRadius: '16px', 
-                  padding: '24px',
-                  border: '1px solid rgba(230, 236, 245, 0.8)',
-                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  overflow: 'hidden'
-                }}
-              >
-                <h3 style={{ 
-                  margin: '0 0 20px 0', 
-                  fontSize: '1.2rem', 
-                  fontWeight: '700',
-                  flexShrink: 0
-                }}>
-                  24-Hour Temperature & Humidity Trend
-                </h3>
-                <div 
-                  className="chart-container" 
-                  style={{ 
-                    height: 'calc(100% - 60px)',
-                    minHeight: '300px',
-                    overflow: 'hidden',
-                    flex: 1
+            </CardHeader>
+            <CardBody
+              className="card-body"
+              style={{ padding: 0, height: "100%" }}
+            >
+              <div className="dashboard-content">
+                {/* Current Weather Overview */}
+                <div
+                  className="current-weather-section"
+                  style={{
+                    background: "white",
+                    borderRadius: "16px",
+                    padding: "24px",
+                    border: "1px solid rgba(230, 236, 245, 0.8)",
+                    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
                   }}
                 >
-                  <Chart style={{ height: '100%', width: '100%' }}>
-                    <ChartCategoryAxis>
-                      <ChartCategoryAxisItem
-                        labels={{ rotation: 'auto', step: 2 }}
-                        majorGridLines={{ visible: false }}
-                        title={{ text: 'Hour' }}
-                        categories={temperatureChartData.map((d: { time: string }) => d.time)}
-                      />
-                    </ChartCategoryAxis>
-                    <ChartValueAxis>
-                      <ChartValueAxisItem
-                        name="temperature"
-                        title={{ text: `Temperature (°${isCelsius ? 'C' : 'F'})` }}
-                        min={Math.min(...temperatureChartData.map((d: { temperature: number }) => d.temperature)) - 2}
-                        max={Math.max(...temperatureChartData.map((d: { temperature: number }) => d.temperature)) + 2}
-                      />
-                      <ChartValueAxisItem
-                        name="humidity"
-                        title={{ text: 'Humidity (%)' }}
-                        min={0}
-                        max={100}
-                        visible={false}
-                      />
-                    </ChartValueAxis>
-                    <ChartSeries>
-                      <ChartSeriesItem
-                        type="line"
-                        data={temperatureChartData}
-                        field="temperature"
-                        categoryField="time"
-                        name="Temperature"
-                        color="#3b82f6"
-                        axis="temperature"
-                        markers={{ visible: true, size: 6 }}
-                      />
-                      <ChartSeriesItem
-                        type="line"
-                        data={temperatureChartData}
-                        field="humidity"
-                        categoryField="time"
-                        name="Humidity"
-                        color="#00bcd4"
-                        axis="humidity"
-                        markers={{ visible: true, size: 6 }}
-                        dashType="dot"
-                      />
-                    </ChartSeries>
-                    <ChartLegend visible={true} position="bottom" />
-                    <ChartTooltip shared={true} />
-                  </Chart>
+                  <h3
+                    style={{
+                      fontSize: "1.2rem",
+                      fontWeight: "700",
+                      marginBottom: "16px",
+                    }}
+                  >
+                    Current Weather Overview
+                  </h3>
+
+                  <div className="current-weather-display">
+                    <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>
+                      {current?.weather?.[0]?.main === "Clear"
+                        ? "☀️"
+                        : current?.weather?.[0]?.main?.includes("Cloud")
+                          ? "☁️"
+                          : current?.weather?.[0]?.main?.includes("Rain")
+                            ? "🌧️"
+                            : "🌤️"}
+                    </div>
+                    <h1 className="temperature-main">
+                      {Math.round(current?.main?.temp || 0)}°
+                      {isCelsius ? "C" : "F"}
+                    </h1>
+                    <p className="weather-condition">
+                      {current?.weather?.[0]?.description || "No data"}
+                    </p>
+                    <div
+                      className="weather-details"
+                      style={{
+                        gridTemplateColumns: "repeat(2, 1fr)",
+                        gap: "12px",
+                      }}
+                    >
+                      <div className="detail-item">
+                        <div className="detail-label">Feels like</div>
+                        <div className="detail-value">
+                          {Math.round(current?.main?.feels_like || 0)}°
+                        </div>
+                      </div>
+                      <div className="detail-item">
+                        <div className="detail-label">Humidity</div>
+                        <div className="detail-value">
+                          {current?.main?.humidity || 0}%
+                        </div>
+                      </div>
+                      <div className="detail-item">
+                        <div className="detail-label">Pressure</div>
+                        <div className="detail-value">
+                          {current?.main?.pressure || 0} hPa
+                        </div>
+                      </div>
+                      <div className="detail-item">
+                        <div className="detail-label">Wind Speed</div>
+                        <div className="detail-value">
+                          {Math.round(windSpeed)} {isCelsius ? "m/s" : "mph"}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Environmental Metrics */}
+                <div
+                  className="environmental-metrics-section"
+                  style={{
+                    background: "white",
+                    borderRadius: "16px",
+                    padding: "24px",
+                    border: "1px solid rgba(230, 236, 245, 0.8)",
+                    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
+                  }}
+                >
+                  <h3
+                    style={{
+                      margin: "0 0 16px 0",
+                      fontSize: "1.2rem",
+                      fontWeight: "700",
+                    }}
+                  >
+                    Environmental Metrics
+                  </h3>
+                  <div className="progress-section">
+                    <div className="progress-label">
+                      <span>Visibility</span>
+                      <span>{Math.round((visibility || 10000) / 1000)} km</span>
+                    </div>
+                    <ProgressBar
+                      value={(visibility || 10000) / 100}
+                      max={100}
+                    />
+                  </div>
+
+                  <div className="progress-section">
+                    <div className="progress-label">
+                      <span>Humidity</span>
+                      <span>{current?.main?.humidity || 0}%</span>
+                    </div>
+                    <ProgressBar
+                      value={current?.main?.humidity || 0}
+                      max={100}
+                    />
+                  </div>
+
+                  <div className="progress-section">
+                    <div className="progress-label">
+                      <span>Cloud Cover</span>
+                      <span>{current?.clouds?.all || 0}%</span>
+                    </div>
+                    <ProgressBar value={current?.clouds?.all || 0} max={100} />
+                  </div>
+                </div>
+
+                {/* UV Index Gauge */}
+                <div
+                  className="uv-index-section"
+                  style={{
+                    background: "white",
+                    borderRadius: "16px",
+                    padding: "24px",
+                    border: "1px solid rgba(230, 236, 245, 0.8)",
+                    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
+                  }}
+                >
+                  <h3
+                    style={{
+                      margin: "0 0 16px 0",
+                      fontSize: "1.2rem",
+                      fontWeight: "700",
+                    }}
+                  >
+                    UV Index
+                  </h3>
+                  {uvLoading ? (
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        minHeight: "150px",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <Loader type="infinite-spinner" />
+                      <span
+                        style={{
+                          marginTop: "8px",
+                          fontSize: "0.9rem",
+                          color: "#6c757d",
+                        }}
+                      >
+                        Loading UV data...
+                      </span>
+                    </div>
+                  ) : uvError ? (
+                    <div
+                      style={{
+                        textAlign: "center",
+                        minHeight: "150px",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        color: "#6c757d",
+                      }}
+                    >
+                      <div style={{ fontSize: "2rem", marginBottom: "8px" }}>
+                        ⚠️
+                      </div>
+                      <div style={{ fontSize: "0.9rem" }}>{uvError}</div>
+                    </div>
+                  ) : uvIndex === 0 ? (
+                    <div
+                      style={{
+                        textAlign: "center",
+                        minHeight: "150px",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        color: "#6c757d",
+                      }}
+                    >
+                      <div style={{ fontSize: "2rem", marginBottom: "8px" }}>
+                        🌙
+                      </div>
+                      <div
+                        style={{
+                          fontSize: "1rem",
+                          fontWeight: "bold",
+                          marginBottom: "4px",
+                        }}
+                      >
+                        No UV Risk
+                      </div>
+                      <div style={{ fontSize: "0.85rem" }}>
+                        UV Index not available
+                        <br />
+                        during nighttime hours
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <div
+                        className="gauge-container"
+                        style={{ minHeight: "150px" }}
+                      >
+                        <ArcGauge
+                          value={uvIndex}
+                          scale={{
+                            min: 0,
+                            max: 11,
+                            majorTicks: {
+                              visible: true,
+                            },
+                            labels: {
+                              visible: true,
+                            },
+                          }}
+                          colors={[
+                            { from: 0, to: 2, color: "#289500" },
+                            { from: 3, to: 5, color: "#f7e400" },
+                            { from: 6, to: 7, color: "#f85900" },
+                            { from: 8, to: 10, color: "#d8001d" },
+                            { from: 11, to: 11, color: "#6b49c8" },
+                          ]}
+                        />
+                      </div>
+                      <div style={{ textAlign: "center", marginTop: 10 }}>
+                        <strong style={{ fontSize: "1.2rem" }}>
+                          {uvIndex}
+                        </strong>
+                        <div
+                          style={{
+                            fontSize: "0.8rem",
+                            color: "#6c757d",
+                            marginTop: "4px",
+                          }}
+                        >
+                          {uvIndex === 0
+                            ? "No Risk"
+                            : uvIndex <= 2
+                              ? "Low Risk"
+                              : uvIndex <= 5
+                                ? "Moderate Risk"
+                                : uvIndex <= 7
+                                  ? "High Risk"
+                                  : uvIndex <= 10
+                                    ? "Very High Risk"
+                                    : "Extreme Risk"}
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+
+                {/* Temperature Trend Chart */}
+                <div
+                  className="temperature-chart-section"
+                  style={{
+                    background: "white",
+                    borderRadius: "16px",
+                    padding: "24px",
+                    border: "1px solid rgba(230, 236, 245, 0.8)",
+                    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
+                    display: "flex",
+                    flexDirection: "column",
+                    overflow: "hidden",
+                  }}
+                >
+                  <h3
+                    style={{
+                      margin: "0 0 20px 0",
+                      fontSize: "1.2rem",
+                      fontWeight: "700",
+                      flexShrink: 0,
+                    }}
+                  >
+                    24-Hour Temperature & Humidity Trend
+                  </h3>
+                  <div
+                    className="chart-container"
+                    style={{
+                      height: "calc(100% - 60px)",
+                      minHeight: "300px",
+                      overflow: "hidden",
+                      flex: 1,
+                    }}
+                  >
+                    <Chart style={{ height: "100%", width: "100%" }}>
+                      <ChartCategoryAxis>
+                        <ChartCategoryAxisItem
+                          labels={{ rotation: "auto", step: 2 }}
+                          majorGridLines={{ visible: false }}
+                          title={{ text: "Hour" }}
+                          categories={temperatureChartData.map(
+                            (d: { time: string }) => d.time,
+                          )}
+                        />
+                      </ChartCategoryAxis>
+                      <ChartValueAxis>
+                        <ChartValueAxisItem
+                          name="temperature"
+                          title={{
+                            text: `Temperature (°${isCelsius ? "C" : "F"})`,
+                          }}
+                          min={
+                            Math.min(
+                              ...temperatureChartData.map(
+                                (d: { temperature: number }) => d.temperature,
+                              ),
+                            ) - 2
+                          }
+                          max={
+                            Math.max(
+                              ...temperatureChartData.map(
+                                (d: { temperature: number }) => d.temperature,
+                              ),
+                            ) + 2
+                          }
+                        />
+                        <ChartValueAxisItem
+                          name="humidity"
+                          title={{ text: "Humidity (%)" }}
+                          min={0}
+                          max={100}
+                          visible={false}
+                        />
+                      </ChartValueAxis>
+                      <ChartSeries>
+                        <ChartSeriesItem
+                          type="line"
+                          data={temperatureChartData}
+                          field="temperature"
+                          categoryField="time"
+                          name="Temperature"
+                          color="#3b82f6"
+                          axis="temperature"
+                          markers={{ visible: true, size: 6 }}
+                        />
+                        <ChartSeriesItem
+                          type="line"
+                          data={temperatureChartData}
+                          field="humidity"
+                          categoryField="time"
+                          name="Humidity"
+                          color="#00bcd4"
+                          axis="humidity"
+                          markers={{ visible: true, size: 6 }}
+                          dashType="dot"
+                        />
+                      </ChartSeries>
+                      <ChartLegend visible={true} position="bottom" />
+                      <ChartTooltip shared={true} />
+                    </Chart>
+                  </div>
                 </div>
               </div>
-
-            </div>
-          </CardBody>
+            </CardBody>
           </Card>
         </div>
       </div>
     </>
   );
-}
+};

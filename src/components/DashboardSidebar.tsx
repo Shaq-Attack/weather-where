@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import '@progress/kendo-theme-material/dist/all.css';
+import React, { useState, useEffect } from "react";
+import "@progress/kendo-theme-material/dist/all.css";
 
 interface DashboardSidebarProps {
   collapsed?: boolean;
@@ -10,7 +10,7 @@ interface DashboardSidebarProps {
 export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
   collapsed = false,
   onNavigate,
-  currentView = 'overview'
+  currentView = "overview",
 }) => {
   const [activeItem, setActiveItem] = useState(currentView);
 
@@ -21,29 +21,29 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
 
   const navigationItems = [
     {
-      id: 'overview',
-      title: 'Overview',
-      icon: 'k-i-dashboard',
-      route: 'overview'
+      id: "overview",
+      title: "Overview",
+      icon: "k-i-dashboard",
+      route: "overview",
     },
     {
-      id: 'forecast',
-      title: 'Forecast',
-      icon: 'k-i-calendar',
-      route: 'forecast'
+      id: "forecast",
+      title: "Forecast",
+      icon: "k-i-calendar",
+      route: "forecast",
     },
     {
-      id: 'hourly',
-      title: 'Hourly',
-      icon: 'k-i-clock',
-      route: 'hourly'
+      id: "hourly",
+      title: "Hourly",
+      icon: "k-i-clock",
+      route: "hourly",
     },
     {
-      id: 'details',
-      title: 'Details',
-      icon: 'k-i-info',
-      route: 'details'
-    }
+      id: "details",
+      title: "Details",
+      icon: "k-i-info",
+      route: "details",
+    },
   ];
 
   const handleItemClick = (item: any) => {
@@ -55,7 +55,9 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
 
   return (
     <>
-      <style dangerouslySetInnerHTML={{__html: `
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
         .dashboard-sidebar-container {
           height: 100%;
           background: #ffffff;
@@ -248,17 +250,18 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
         .dashboard-sidebar-container::-webkit-scrollbar-thumb:hover {
           background: #2563eb;
         }
-      `}} />
+      `,
+        }}
+      />
 
       <div className="dashboard-sidebar-container">
-
         {/* Main Navigation */}
         <div className="sidebar-navigation">
           {navigationItems.map((item) => (
             <div key={item.id} className="nav-item">
               <button
-                className={`nav-button ${collapsed ? 'collapsed' : ''} ${
-                  activeItem === item.id ? 'active' : ''
+                className={`nav-button ${collapsed ? "collapsed" : ""} ${
+                  activeItem === item.id ? "active" : ""
                 }`}
                 onClick={() => handleItemClick(item)}
               >
@@ -268,10 +271,6 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
             </div>
           ))}
         </div>
-
-
-
-
       </div>
     </>
   );

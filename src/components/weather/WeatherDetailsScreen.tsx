@@ -1,6 +1,6 @@
-import React, { useState, useMemo } from 'react';
-import { Grid, GridColumn } from '@progress/kendo-react-grid';
-import { formatTime } from '../../utils/time';
+import React, { useState, useMemo } from "react";
+import { Grid, GridColumn } from "@progress/kendo-react-grid";
+import { formatTime } from "../../utils/time";
 
 interface HourlyWeatherRow {
   id: number;
@@ -27,149 +27,193 @@ interface WeatherDetailPopupProps {
   onClose: () => void;
 }
 
-const WeatherDetailPopup: React.FC<WeatherDetailPopupProps> = ({ hourData, isCelsius, onClose }) => {
+const WeatherDetailPopup: React.FC<WeatherDetailPopupProps> = ({
+  hourData,
+  isCelsius,
+  onClose,
+}) => {
   if (!hourData) return null;
 
   return (
-    <div 
+    <div
       style={{
-        position: 'fixed',
+        position: "fixed",
         top: 0,
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundColor: 'rgba(0,0,0,0.5)',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        zIndex: 1000
-      }} 
+        backgroundColor: "rgba(0,0,0,0.5)",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        zIndex: 1000,
+      }}
       onClick={onClose}
     >
-      <div 
+      <div
         style={{
-          backgroundColor: 'white',
-          borderRadius: '20px',
-          padding: '32px',
-          maxWidth: '500px',
-          width: '90%',
-          maxHeight: '80vh',
-          overflowY: 'auto',
-          boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
-          position: 'relative'
-        }} 
+          backgroundColor: "white",
+          borderRadius: "20px",
+          padding: "32px",
+          maxWidth: "500px",
+          width: "90%",
+          maxHeight: "80vh",
+          overflowY: "auto",
+          boxShadow: "0 20px 60px rgba(0,0,0,0.3)",
+          position: "relative",
+        }}
         onClick={(e) => e.stopPropagation()}
       >
-        <button 
+        <button
           onClick={onClose}
           style={{
-            position: 'absolute',
-            top: '16px',
-            right: '16px',
-            background: 'none',
-            border: 'none',
-            fontSize: '24px',
-            cursor: 'pointer',
-            color: '#666'
+            position: "absolute",
+            top: "16px",
+            right: "16px",
+            background: "none",
+            border: "none",
+            fontSize: "24px",
+            cursor: "pointer",
+            color: "#666",
           }}
         >
           ×
         </button>
-        
-        <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-          <h2 style={{ 
-            margin: '0 0 8px 0', 
-            color: '#2c3e50',
-            fontSize: '1.8rem' 
-          }}>
+
+        <div style={{ textAlign: "center", marginBottom: "24px" }}>
+          <h2
+            style={{
+              margin: "0 0 8px 0",
+              color: "#2c3e50",
+              fontSize: "1.8rem",
+            }}
+          >
             {formatTime(hourData.dt)}
           </h2>
-          <div style={{
-            fontSize: '3rem',
-            fontWeight: 'bold',
-            color: '#e74c3c',
-            margin: '16px 0'
-          }}>
-            {Math.round(hourData.temp)}°{isCelsius ? 'C' : 'F'}
+          <div
+            style={{
+              fontSize: "3rem",
+              fontWeight: "bold",
+              color: "#e74c3c",
+              margin: "16px 0",
+            }}
+          >
+            {Math.round(hourData.temp)}°{isCelsius ? "C" : "F"}
           </div>
-          <div style={{
-            fontSize: '1.2rem',
-            color: '#7f8c8d',
-            textTransform: 'capitalize',
-            marginBottom: '8px'
-          }}>
+          <div
+            style={{
+              fontSize: "1.2rem",
+              color: "#7f8c8d",
+              textTransform: "capitalize",
+              marginBottom: "8px",
+            }}
+          >
             {hourData.weather.description}
           </div>
-          <div style={{
-            fontSize: '1rem',
-            color: '#95a5a6'
-          }}>
-            Feels like {Math.round(hourData.feels_like)}°{isCelsius ? 'C' : 'F'}
+          <div
+            style={{
+              fontSize: "1rem",
+              color: "#95a5a6",
+            }}
+          >
+            Feels like {Math.round(hourData.feels_like)}°{isCelsius ? "C" : "F"}
           </div>
         </div>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: '16px',
-          marginTop: '24px'
-        }}>
-          <div style={{
-            background: '#f8f9fa',
-            borderRadius: '12px',
-            padding: '16px',
-            textAlign: 'center'
-          }}>
-            <div style={{ fontSize: '2rem', marginBottom: '8px' }}>💧</div>
-            <div style={{ fontSize: '1.4rem', fontWeight: 'bold', color: '#3498db' }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "16px",
+            marginTop: "24px",
+          }}
+        >
+          <div
+            style={{
+              background: "#f8f9fa",
+              borderRadius: "12px",
+              padding: "16px",
+              textAlign: "center",
+            }}
+          >
+            <div style={{ fontSize: "2rem", marginBottom: "8px" }}>💧</div>
+            <div
+              style={{
+                fontSize: "1.4rem",
+                fontWeight: "bold",
+                color: "#3498db",
+              }}
+            >
               {hourData.humidity}%
             </div>
-            <div style={{ fontSize: '0.9rem', color: '#7f8c8d' }}>
-              Humidity
-            </div>
+            <div style={{ fontSize: "0.9rem", color: "#7f8c8d" }}>Humidity</div>
           </div>
 
-          <div style={{
-            background: '#f8f9fa',
-            borderRadius: '12px',
-            padding: '16px',
-            textAlign: 'center'
-          }}>
-            <div style={{ fontSize: '2rem', marginBottom: '8px' }}>💨</div>
-            <div style={{ fontSize: '1.4rem', fontWeight: 'bold', color: '#2ecc71' }}>
-              {Math.round(hourData.wind.speed)} {isCelsius ? 'm/s' : 'mph'}
+          <div
+            style={{
+              background: "#f8f9fa",
+              borderRadius: "12px",
+              padding: "16px",
+              textAlign: "center",
+            }}
+          >
+            <div style={{ fontSize: "2rem", marginBottom: "8px" }}>💨</div>
+            <div
+              style={{
+                fontSize: "1.4rem",
+                fontWeight: "bold",
+                color: "#2ecc71",
+              }}
+            >
+              {Math.round(hourData.wind.speed)} {isCelsius ? "m/s" : "mph"}
             </div>
-            <div style={{ fontSize: '0.9rem', color: '#7f8c8d' }}>
+            <div style={{ fontSize: "0.9rem", color: "#7f8c8d" }}>
               Wind Speed
             </div>
           </div>
 
-          <div style={{
-            background: '#f8f9fa',
-            borderRadius: '12px',
-            padding: '16px',
-            textAlign: 'center'
-          }}>
-            <div style={{ fontSize: '2rem', marginBottom: '8px' }}>🌧️</div>
-            <div style={{ fontSize: '1.4rem', fontWeight: 'bold', color: '#9b59b6' }}>
+          <div
+            style={{
+              background: "#f8f9fa",
+              borderRadius: "12px",
+              padding: "16px",
+              textAlign: "center",
+            }}
+          >
+            <div style={{ fontSize: "2rem", marginBottom: "8px" }}>🌧️</div>
+            <div
+              style={{
+                fontSize: "1.4rem",
+                fontWeight: "bold",
+                color: "#9b59b6",
+              }}
+            >
               {Math.round(hourData.pop * 100)}%
             </div>
-            <div style={{ fontSize: '0.9rem', color: '#7f8c8d' }}>
+            <div style={{ fontSize: "0.9rem", color: "#7f8c8d" }}>
               Precipitation
             </div>
           </div>
 
-          <div style={{
-            background: '#f8f9fa',
-            borderRadius: '12px',
-            padding: '16px',
-            textAlign: 'center'
-          }}>
-            <div style={{ fontSize: '2rem', marginBottom: '8px' }}>🌡️</div>
-            <div style={{ fontSize: '1.4rem', fontWeight: 'bold', color: '#e67e22' }}>
+          <div
+            style={{
+              background: "#f8f9fa",
+              borderRadius: "12px",
+              padding: "16px",
+              textAlign: "center",
+            }}
+          >
+            <div style={{ fontSize: "2rem", marginBottom: "8px" }}>🌡️</div>
+            <div
+              style={{
+                fontSize: "1.4rem",
+                fontWeight: "bold",
+                color: "#e67e22",
+              }}
+            >
               {hourData.weather.main}
             </div>
-            <div style={{ fontSize: '0.9rem', color: '#7f8c8d' }}>
+            <div style={{ fontSize: "0.9rem", color: "#7f8c8d" }}>
               Condition
             </div>
           </div>
@@ -190,7 +234,7 @@ export const WeatherDetailsScreen: React.FC<WeatherDetailsScreenProps> = ({
   weatherData,
   isCelsius,
   lat,
-  lon
+  lon,
 }) => {
   // Always call hooks first - before any conditional returns
   const [selectedHour, setSelectedHour] = useState<any>(null);
@@ -205,36 +249,41 @@ export const WeatherDetailsScreen: React.FC<WeatherDetailsScreenProps> = ({
     const { hourly } = weatherData;
     // Sort by timestamp to ensure chronological order
     const sortedHourly = [...hourly].sort((a, b) => a.dt - b.dt);
-    
+
     return sortedHourly.map((hour: any, index: number) => {
       const hourDate = new Date(hour.dt * 1000);
-      const dateTimeString = hourDate.toLocaleDateString('en-US', { 
-        weekday: 'short', 
-        month: 'short', 
-        day: 'numeric'
-      }) + ' ' + hourDate.toLocaleTimeString('en-US', { 
-        hour: 'numeric', 
-        minute: '2-digit',
-        hour12: true 
-      });
-      
+      const dateTimeString =
+        hourDate.toLocaleDateString("en-US", {
+          weekday: "short",
+          month: "short",
+          day: "numeric",
+        }) +
+        " " +
+        hourDate.toLocaleTimeString("en-US", {
+          hour: "numeric",
+          minute: "2-digit",
+          hour12: true,
+        });
+
       return {
         id: index,
         time: formatTime(hour.dt),
         dateTime: dateTimeString,
-        hour: new Date(hour.dt * 1000).getHours().toString().padStart(2, '0') + ':00',
+        hour:
+          new Date(hour.dt * 1000).getHours().toString().padStart(2, "0") +
+          ":00",
         temperature: Math.round(hour.temp || 0),
-        temperatureDisplay: `${Math.round(hour.temp || 0)}°${isCelsius ? 'C' : 'F'}`,
+        temperatureDisplay: `${Math.round(hour.temp || 0)}°${isCelsius ? "C" : "F"}`,
         feelsLike: Math.round(hour.feels_like || 0),
-        feelsLikeDisplay: `${Math.round(hour.feels_like || 0)}°${isCelsius ? 'C' : 'F'}`,
-        condition: hour.weather?.description || 'N/A',
-        conditionIcon: hour.weather?.icon || '',
+        feelsLikeDisplay: `${Math.round(hour.feels_like || 0)}°${isCelsius ? "C" : "F"}`,
+        condition: hour.weather?.description || "N/A",
+        conditionIcon: hour.weather?.icon || "",
         humidity: hour.humidity || 0,
         windSpeed: Math.round(hour.wind?.speed || 0),
-        windDisplay: `${Math.round(hour.wind?.speed || 0)} ${isCelsius ? 'm/s' : 'mph'}`,
+        windDisplay: `${Math.round(hour.wind?.speed || 0)} ${isCelsius ? "m/s" : "mph"}`,
         precipitationChance: Math.round((hour.pop || 0) * 100),
         precipitationDisplay: `${Math.round((hour.pop || 0) * 100)}%`,
-        rawData: hour
+        rawData: hour,
       };
     });
   }, [weatherData?.hourly, isCelsius]);
@@ -242,14 +291,16 @@ export const WeatherDetailsScreen: React.FC<WeatherDetailsScreenProps> = ({
   // Early returns after all hooks are called
   if (!weatherData) {
     return (
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
-        fontSize: '1.2rem',
-        color: '#666'
-      }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          fontSize: "1.2rem",
+          color: "#666",
+        }}
+      >
         No weather data available. Please select a location.
       </div>
     );
@@ -257,14 +308,16 @@ export const WeatherDetailsScreen: React.FC<WeatherDetailsScreenProps> = ({
 
   if (!weatherData.hourly || weatherData.hourly.length === 0) {
     return (
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
-        fontSize: '1.2rem',
-        color: '#666'
-      }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          fontSize: "1.2rem",
+          color: "#666",
+        }}
+      >
         No hourly weather data available.
       </div>
     );
@@ -288,11 +341,13 @@ export const WeatherDetailsScreen: React.FC<WeatherDetailsScreenProps> = ({
 
   const handleRowClick = (dataItem: HourlyWeatherRow) => {
     setSelectedHour(dataItem.rawData);
-  } 
+  };
 
   return (
     <>
-  <style dangerouslySetInnerHTML={{__html: `
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
         /* Make items per page dropdown bigger for double digit numbers */
         .k-pager-sizes .k-dropdownlist,
         .k-pager-sizes .k-picker,
@@ -491,92 +546,100 @@ export const WeatherDetailsScreen: React.FC<WeatherDetailsScreenProps> = ({
             font-size: 0.75rem !important;
           }
         }
-      `}} />
+      `,
+        }}
+      />
 
-        <div className="details-header">
-          <h1 className="details-title">Hourly Weather Forecast</h1>
-          <p className="details-subtitle">
-            📍 {lat?.toFixed(4) || '0.0000'}°, {lon?.toFixed(4) || '0.0000'}°
-          </p>
-          <p className="details-subtitle">
-            48-hour detailed weather outlook. Click any row for more details
-          </p>
-        </div>
+      <div className="details-header">
+        <h1 className="details-title">Hourly Weather Forecast</h1>
+        <p className="details-subtitle">
+          📍 {lat?.toFixed(4) || "0.0000"}°, {lon?.toFixed(4) || "0.0000"}°
+        </p>
+        <p className="details-subtitle">
+          48-hour detailed weather outlook. Click any row for more details
+        </p>
+      </div>
 
-        <div style={{
-          backgroundColor: 'white',
-          borderRadius: '12px',
-          padding: '16px',
-          boxShadow: '0 4px 16px rgba(0,0,0,0.06)',
-          width: '100%',
-          overflow: 'hidden'
-        }}>
-          <Grid
-            data={pagedData}
-            style={{
-              height: 'auto',
-              maxHeight: '500px',
-              background: 'white',
-              border: 'none',
-              width: '100%',
-              minWidth: 0,
-              maxWidth: '100%'
-            }}
-            rowHeight={55}
-            onRowClick={(e) => handleRowClick(e.dataItem)}
-            pageable={allHourlyData.length > 7 ? {
-              buttonCount: 5,
-              info: true,
-              type: "numeric",
-              pageSizes: [7, 14, 21],
-              previousNext: true,
-            } : false}
-            pageSize={pageSize}
-            skip={page * pageSize}
-            total={allHourlyData.length}
-            onPageChange={handlePageChange}
-            resizable={false}
-          >
-            <GridColumn 
-              field="dateTime" 
-              title="Date & Time" 
-              className="time-column"
-            />
-            <GridColumn 
-              field="temperatureDisplay" 
-              title="Temp"
-              className="temp-column"
-            />
-            <GridColumn 
-              field="feelsLikeDisplay" 
-              title="Feels Like"
-              className="temp-column"
-            />
-            <GridColumn 
-              field="condition" 
-              title="Condition"
-              className="condition-column"
-            />
-            <GridColumn 
-              field="humidity" 
-              title="Humidity"
-              className="humidity-column"
-            />
-            <GridColumn 
-              field="windDisplay" 
-              title="Wind"
-              className="wind-column"
-            />
-            <GridColumn 
-              field="precipitationDisplay" 
-              title="Rain"
-              className="precip-column"
-            />
-          </Grid>
-        </div>
+      <div
+        style={{
+          backgroundColor: "white",
+          borderRadius: "12px",
+          padding: "16px",
+          boxShadow: "0 4px 16px rgba(0,0,0,0.06)",
+          width: "100%",
+          overflow: "hidden",
+        }}
+      >
+        <Grid
+          data={pagedData}
+          style={{
+            height: "auto",
+            maxHeight: "500px",
+            background: "white",
+            border: "none",
+            width: "100%",
+            minWidth: 0,
+            maxWidth: "100%",
+          }}
+          rowHeight={55}
+          onRowClick={(e) => handleRowClick(e.dataItem)}
+          pageable={
+            allHourlyData.length > 7
+              ? {
+                  buttonCount: 5,
+                  info: true,
+                  type: "numeric",
+                  pageSizes: [7, 14, 21],
+                  previousNext: true,
+                }
+              : false
+          }
+          pageSize={pageSize}
+          skip={page * pageSize}
+          total={allHourlyData.length}
+          onPageChange={handlePageChange}
+          resizable={false}
+        >
+          <GridColumn
+            field="dateTime"
+            title="Date & Time"
+            className="time-column"
+          />
+          <GridColumn
+            field="temperatureDisplay"
+            title="Temp"
+            className="temp-column"
+          />
+          <GridColumn
+            field="feelsLikeDisplay"
+            title="Feels Like"
+            className="temp-column"
+          />
+          <GridColumn
+            field="condition"
+            title="Condition"
+            className="condition-column"
+          />
+          <GridColumn
+            field="humidity"
+            title="Humidity"
+            className="humidity-column"
+          />
+          <GridColumn
+            field="windDisplay"
+            title="Wind"
+            className="wind-column"
+          />
+          <GridColumn
+            field="precipitationDisplay"
+            title="Rain"
+            className="precip-column"
+          />
+        </Grid>
+      </div>
 
       {selectedHour && (
-        <WeatherDetailPopup 
+        <WeatherDetailPopup
           hourData={selectedHour}
           isCelsius={isCelsius}
           onClose={() => setSelectedHour(null)}

@@ -1,5 +1,5 @@
-import React from 'react';
-import '@progress/kendo-theme-material/dist/all.css';
+import React from "react";
+import "@progress/kendo-theme-material/dist/all.css";
 
 interface DashboardLayoutProps {
   header: React.ReactNode;
@@ -12,12 +12,13 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   header,
   sidebar,
   mainContent,
-  rightPanel
+  rightPanel,
 }) => {
-
   return (
     <div className="dashboard-container">
-      <style dangerouslySetInnerHTML={{__html: `
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
         .dashboard-container {
           height: 100vh;
           display: flex;
@@ -139,30 +140,24 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
             padding: 12px;
           }
         }
-      `}} />
-      
+      `,
+        }}
+      />
+
       {/* Dashboard Header */}
-      <div className="dashboard-header">
-        {header}
-      </div>
+      <div className="dashboard-header">{header}</div>
 
       {/* Main Dashboard Content */}
       <div className="dashboard-body">
         {/* Sidebar */}
-        <div className="dashboard-sidebar">
-          {sidebar}
-        </div>
+        <div className="dashboard-sidebar">{sidebar}</div>
 
         {/* Main Content Area */}
-        <div className="dashboard-main-content">
-          {mainContent}
-        </div>
-        
+        <div className="dashboard-main-content">{mainContent}</div>
+
         {/* Right Panel (Optional) */}
         {rightPanel && (
-          <div className="dashboard-right-panel">
-            {rightPanel}
-          </div>
+          <div className="dashboard-right-panel">{rightPanel}</div>
         )}
       </div>
     </div>

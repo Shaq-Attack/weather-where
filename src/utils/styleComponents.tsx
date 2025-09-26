@@ -2,8 +2,8 @@
  * Shared style components and CSS-in-JS utilities
  */
 
-import React from 'react';
-import { animationStyles } from './styles';
+import React from "react";
+import { animationStyles } from "./styles";
 
 /**
  * Global animation styles component
@@ -174,11 +174,16 @@ interface CircularIndicatorProps {
   size?: number;
 }
 
-export function CircularIndicator({ value, label, color, size = 100 }: CircularIndicatorProps) {
+export function CircularIndicator({
+  value,
+  label,
+  color,
+  size = 100,
+}: CircularIndicatorProps) {
   return (
-    <div 
+    <div
       className="circular-indicator"
-      style={{ 
+      style={{
         backgroundColor: color,
         width: size,
         height: size,
@@ -204,7 +209,10 @@ export function ProtectionTip({ title, content }: ProtectionTipProps) {
   return (
     <div className="protection-tip">
       <div className="protection-tip-title">{title}</div>
-      <div className="protection-tip-content" dangerouslySetInnerHTML={{ __html: content }} />
+      <div
+        className="protection-tip-content"
+        dangerouslySetInnerHTML={{ __html: content }}
+      />
     </div>
   );
 }

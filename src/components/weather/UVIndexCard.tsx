@@ -1,30 +1,34 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from "react";
 import {
   Card,
   CardHeader,
   CardBody,
   CardTitle,
 } from "@progress/kendo-react-layout";
-import { getCurrentUVIndex, fetchUVIndex, fetchWeather } from '../../api/openWeather';
-import { getUVIndexInfo, getUVProtectionAdvice } from '../../utils/weather';
-import { cardStyles, headerStyles, bodyStyles } from '../../utils/styles';
-import { 
-  LoadingCard, 
-  ErrorCard, 
-  ErrorNotification, 
+import {
+  getCurrentUVIndex,
+  fetchUVIndex,
+  fetchWeather,
+} from "../../api/openWeather";
+import { getUVIndexInfo, getUVProtectionAdvice } from "../../utils/weather";
+import { cardStyles, headerStyles, bodyStyles } from "../../utils/styles";
+import {
+  LoadingCard,
+  ErrorCard,
+  ErrorNotification,
   useLoadingWithFade,
   formatUnixTime,
   createCancelToken,
   isCancelled,
-  cancelToken
-} from '../../utils/components';
-import { 
-  GlobalAnimationStyles, 
-  SunTime, 
-  CircularIndicator, 
-  ProtectionTip, 
-  InfoBadge 
-} from '../../utils/styleComponents';
+  cancelToken,
+} from "../../utils/components";
+import {
+  GlobalAnimationStyles,
+  SunTime,
+  CircularIndicator,
+  ProtectionTip,
+  InfoBadge,
+} from "../../utils/styleComponents";
 
 interface UVData {
   uvIndex: number;
@@ -45,13 +49,14 @@ interface UVIndexCardProps {
 export function UVIndexCard({ lat, lon }: UVIndexCardProps) {
   const [uvData, setUvData] = useState<UVData | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const { loading, fadeClass, startLoading, finishLoading } = useLoadingWithFade();
+  const { loading, fadeClass, startLoading, finishLoading } =
+    useLoadingWithFade();
   const cancelTokenRef = useRef<{ cancelled: boolean }>({ cancelled: false });
 
   const loadUVData = async () => {
     // Cancel any previous request
     cancelToken(cancelTokenRef.current);
-    
+
     // Create new cancel token for this request
     const currentToken = createCancelToken();
     cancelTokenRef.current = currentToken;
@@ -66,15 +71,15 @@ export function UVIndexCard({ lat, lon }: UVIndexCardProps) {
     try {
       const [uvData, weatherData] = await Promise.all([
         fetchUVIndex(lat, lon),
-        fetchWeather(lat, lon)
+        fetchWeather(lat, lon),
       ]);
       const uvIndex = getCurrentUVIndex(uvData);
-      
+
       // Check if this request was cancelled before setting state
       if (isCancelled(currentToken)) {
         return;
       }
-      
+
       // Use utility functions for UV index info and protection advice
       const riskInfo = getUVIndexInfo(uvIndex);
       const protectionInfo = getUVProtectionAdvice(uvIndex);
@@ -87,9 +92,9 @@ export function UVIndexCard({ lat, lon }: UVIndexCardProps) {
         sunset: formatUnixTime(weatherData.sys.sunset),
         peakUVTime: "12:00 PM - 2:00 PM",
         recommendation: protectionInfo.advice,
-        spfRecommendation: protectionInfo.spf
+        spfRecommendation: protectionInfo.spf,
       };
-      
+
       // Final check before setting state
       if (!isCancelled(currentToken)) {
         setTimeout(() => {
@@ -124,34 +129,38 @@ export function UVIndexCard({ lat, lon }: UVIndexCardProps) {
   return (
     <>
       <GlobalAnimationStyles />
-      
-      <Card 
+
+      <Card
         className={`card-hover ${fadeClass}`}
         style={cardStyles.base}
         role="article"
         aria-label="UV index and sun safety information"
       >
-        <CardHeader style={{
-          ...headerStyles.base,
-          background: "#3b82f6",
-        }}>
+        <CardHeader
+          style={{
+            ...headerStyles.base,
+            background: "#3b82f6",
+          }}
+        >
           <CardTitle style={headerStyles.title}>
             ☀️ UV Index & Sun Safety
           </CardTitle>
         </CardHeader>
-        
+
         <CardBody style={bodyStyles.base}>
-          <CircularIndicator 
+          <CircularIndicator
             value={uvData.uvIndex}
             label="UV INDEX"
             color={uvData.color}
           />
-          
-          <h3 style={{ 
-            margin: "0 0 1rem 0", 
-            color: uvData.color,
-            fontSize: "1.2rem"
-          }}>
+
+          <h3
+            style={{
+              margin: "0 0 1rem 0",
+              color: uvData.color,
+              fontSize: "1.2rem",
+            }}
+          >
             {uvData.riskLevel} Risk
           </h3>
 
@@ -160,9 +169,7 @@ export function UVIndexCard({ lat, lon }: UVIndexCardProps) {
             <SunTime icon="🌇" label="Sunset" time={uvData.sunset} />
           </div>
 
-          <InfoBadge icon="⚠️">
-            Peak UV: {uvData.peakUVTime}
-          </InfoBadge>
+          <InfoBadge icon="⚠️">Peak UV: {uvData.peakUVTime}</InfoBadge>
 
           <ProtectionTip
             title="🧴 Recommended Protection"
@@ -172,7 +179,7 @@ export function UVIndexCard({ lat, lon }: UVIndexCardProps) {
       </Card>
 
       {error && (
-        <ErrorNotification 
+        <ErrorNotification
           message={error}
           onClose={() => setError(null)}
           type="warning"
