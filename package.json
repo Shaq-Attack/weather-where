@@ -45,7 +45,7 @@
         "type-check": "tsc --noEmit",
         "analyze": "npx vite-bundle-analyzer dist",
         "clean": "rm -rf dist coverage playwright-report",
-        "postinstall": "npx kendo-ui-license activate"
+        "postinstall": "node scripts/activate-license.js"
     },
     "dependencies": {
         "@progress/kendo-data-query": "^1.7.1",
