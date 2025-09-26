@@ -1,7 +1,6 @@
-import { Card, CardHeader, CardBody, CardTitle } from '@progress/kendo-react-layout';
-import { Button } from '@progress/kendo-react-buttons';
 import { AirQualityCard } from './AirQualityCard';
-import { WeatherAlertsRadarCard } from './WeatherAlertsRadarCard';
+import { WeatherInsights } from './WeatherInsights';
+import { UVIndexCard } from './UVIndexCard';
 import '@progress/kendo-theme-material/dist/all.css';
 
 interface DashboardWidgetsProps {
@@ -378,46 +377,11 @@ export const DashboardWidgets: React.FC<DashboardWidgetsProps> = ({ lat, lon }) 
         {/* Air Quality Index Widget */}
         <AirQualityCard lat={lat ?? undefined} lon={lon ?? undefined} />
 
-        {/* Weather Alerts & Radar Widget */}
-        <WeatherAlertsRadarCard />
+        {/* UV Index Widget */}
+        <UVIndexCard lat={lat ?? undefined} lon={lon ?? undefined} />
 
         {/* Weather Insights */}
-        <Card className="widget-card">
-          <CardHeader className="widget-header">
-            <CardTitle className="widget-title">Weather Insights</CardTitle>
-          </CardHeader>
-          <CardBody className="widget-body">
-            <div className="weather-tip">
-              <div className="tip-title">🌡️ Temperature Trend</div>
-              <div className="tip-content">
-                Temperatures have been 2°C above average this week. Expect gradual cooling.
-              </div>
-            </div>
-
-            <div className="weather-tip">
-              <div className="tip-title">🌧️ Precipitation Forecast</div>
-              <div className="tip-content">
-                15% chance of rain today. No significant precipitation expected this week.
-              </div>
-            </div>
-
-            <div className="weather-tip">
-              <div className="tip-title">💨 Wind Advisory</div>
-              <div className="tip-content">
-                Moderate winds expected. Good conditions for outdoor activities.
-              </div>
-            </div>
-
-            <div className="action-buttons">
-              <Button className="action-btn" icon="refresh">
-                Refresh
-              </Button>
-              <Button className="action-btn" icon="download">
-                Export
-              </Button>
-            </div>
-          </CardBody>
-        </Card>
+        <WeatherInsights lat={lat} lon={lon} />
       </div>
     </>
   );
