@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardHeader, CardBody, CardTitle, CardSubtitle } from '@progress/kendo-react-layout';
 import { ArcGauge } from '@progress/kendo-react-gauges';
-import { Chart, ChartSeries, ChartSeriesItem, ChartLegend } from '@progress/kendo-react-charts';
+import { Chart, ChartSeries, ChartSeriesItem, ChartLegend, ChartCategoryAxis, ChartCategoryAxisItem, ChartValueAxis, ChartValueAxisItem, ChartTooltip } from '@progress/kendo-react-charts';
 import { ProgressBar } from '@progress/kendo-react-progressbars';
 import { Loader } from '@progress/kendo-react-indicators';
 import { fetchUVIndex, getCurrentUVIndex } from '../api/openWeather';
@@ -89,11 +89,16 @@ export const WeatherDashboardCards: React.FC<WeatherDashboardCardsProps> = ({
   const hourly = weatherData.hourly?.slice(0, 24) || [];
 
   // Prepare chart data
-  const temperatureChartData = hourly.map((hour: any, index: number) => ({
-    time: index,
-    temperature: Math.round(hour.temp),
-    humidity: hour.humidity
-  }));
+  // Format hour labels for x-axis
+  const temperatureChartData = hourly.map((hour: any) => {
+    const date = new Date((hour.dt || 0) * 1000);
+    const hourLabel = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    return {
+      time: hourLabel,
+      temperature: Math.round(hour.temp),
+      humidity: hour.humidity
+    };
+  });
 
   const visibility = current?.visibility || 0;
   const windSpeed = current?.wind_speed || 0;
@@ -779,7 +784,7 @@ export const WeatherDashboardCards: React.FC<WeatherDashboardCardsProps> = ({
                   fontWeight: '700',
                   flexShrink: 0
                 }}>
-                  24-Hour Temperature Trend
+                  24-Hour Temperature & Humidity Trend
                 </h3>
                 <div 
                   className="chart-container" 
@@ -791,6 +796,29 @@ export const WeatherDashboardCards: React.FC<WeatherDashboardCardsProps> = ({
                   }}
                 >
                   <Chart style={{ height: '100%', width: '100%' }}>
+                    <ChartCategoryAxis>
+                      <ChartCategoryAxisItem
+                        labels={{ rotation: 'auto', step: 2 }}
+                        majorGridLines={{ visible: false }}
+                        title={{ text: 'Hour' }}
+                        categories={temperatureChartData.map((d: { time: string }) => d.time)}
+                      />
+                    </ChartCategoryAxis>
+                    <ChartValueAxis>
+                      <ChartValueAxisItem
+                        name="temperature"
+                        title={{ text: `Temperature (°${isCelsius ? 'C' : 'F'})` }}
+                        min={Math.min(...temperatureChartData.map((d: { temperature: number }) => d.temperature)) - 2}
+                        max={Math.max(...temperatureChartData.map((d: { temperature: number }) => d.temperature)) + 2}
+                      />
+                      <ChartValueAxisItem
+                        name="humidity"
+                        title={{ text: 'Humidity (%)' }}
+                        min={0}
+                        max={100}
+                        visible={false}
+                      />
+                    </ChartValueAxis>
                     <ChartSeries>
                       <ChartSeriesItem
                         type="line"
@@ -799,9 +827,23 @@ export const WeatherDashboardCards: React.FC<WeatherDashboardCardsProps> = ({
                         categoryField="time"
                         name="Temperature"
                         color="#667eea"
+                        axis="temperature"
+                        markers={{ visible: true, size: 6 }}
+                      />
+                      <ChartSeriesItem
+                        type="line"
+                        data={temperatureChartData}
+                        field="humidity"
+                        categoryField="time"
+                        name="Humidity"
+                        color="#00bcd4"
+                        axis="humidity"
+                        markers={{ visible: true, size: 6 }}
+                        dashType="dot"
                       />
                     </ChartSeries>
-                    <ChartLegend visible={false} />
+                    <ChartLegend visible={true} position="bottom" />
+                    <ChartTooltip shared={true} />
                   </Chart>
                 </div>
               </div>
