@@ -267,17 +267,6 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
       `}} />
 
       <div className="dashboard-sidebar-container">
-        {/* Sidebar Header */}
-        <div className={`sidebar-header ${collapsed ? 'collapsed' : ''}`}>
-          {!collapsed && (
-            <div className="sidebar-logo">
-              ⛅ Weather
-            </div>
-          )}
-          {collapsed && (
-            <div className="sidebar-logo">⛅</div>
-          )}
-        </div>
 
         {/* Main Navigation */}
         <div className="sidebar-navigation">

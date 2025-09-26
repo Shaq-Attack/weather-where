@@ -1,8 +1,8 @@
-# Weather & Wonders
+# Weather Where
 
 A modern, accessible weather application built with React, TypeScript, and KendoReact components. Get current weather, detailed forecasts, and discover fun facts about cities around the world.
 
-![Weather & Wonders App](./screenshots/app-preview.png)
+![Weather Where App](./screenshots/app-preview.png)
 
 ## 🌟 Features
 

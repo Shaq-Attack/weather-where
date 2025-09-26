@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Weather & Wonders App', () => {
+test.describe('Weather Where App', () => {
   test.beforeEach(async ({ page, context }) => {
     // Mock geolocation to a known location (London)
     await context.grantPermissions(['geolocation']);
@@ -85,7 +85,7 @@ test.describe('Weather & Wonders App', () => {
     await page.goto('/');
     
     // Wait for the app to load
-    await expect(page.getByText('Weather & Wonders')).toBeVisible();
+    await expect(page.getByText('Weather Where')).toBeVisible();
     
     // Check that weather card loads
     await expect(page.getByText('London')).toBeVisible({ timeout: 10000 });
@@ -152,7 +152,7 @@ test.describe('Weather & Wonders App', () => {
     await page.goto('/');
     
     // Wait for initial load
-    await expect(page.getByText('Weather & Wonders')).toBeVisible();
+    await expect(page.getByText('Weather Where')).toBeVisible();
     
     // Open city dropdown and select different city
     await page.locator('.k-dropdownlist').click();

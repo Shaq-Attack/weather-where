@@ -143,7 +143,7 @@ export function WeatherAppBar({ cities, city, onCityChange, isCelsius, onUnitTog
           WebkitBackgroundClip: "text",
           WebkitTextFillColor: "transparent"
         }}>
-          Weather & Wonders
+          Weather Where
         </div>
 
         {/* Center: Navigation */}

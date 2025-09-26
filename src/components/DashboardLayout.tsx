@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '@progress/kendo-theme-material/dist/all.css';
 
 interface DashboardLayoutProps {
@@ -14,10 +14,6 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   mainContent,
   rightPanel
 }) => {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [rightPanelVisible] = useState(true);
-
-  const toggleSidebar = () => setSidebarCollapsed(!sidebarCollapsed);
 
   return (
     <div className="dashboard-container">
@@ -46,7 +42,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
         }
 
         .dashboard-sidebar {
-          width: ${sidebarCollapsed ? '60px' : '280px'};
+          width: 280px;
           height: 100%;
           background: #ffffff;
           border-right: 1px solid rgba(230, 236, 245, 0.8);
@@ -79,37 +75,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
           position: relative;
         }
 
-        .sidebar-toggle-btn {
-          position: absolute;
-          top: 20px;
-          left: ${sidebarCollapsed ? '20px' : '240px'};
-          z-index: 1001;
-          background: rgba(255, 255, 255, 0.95);
-          border: none;
-          border-radius: 50%;
-          width: 36px;
-          height: 36px;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-          font-size: 14px;
-          font-weight: 600;
-          color: #495057;
-          backdrop-filter: blur(10px);
-        }
 
-        .sidebar-toggle-btn:hover {
-          background: white;
-          transform: translateY(-2px);
-          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .sidebar-toggle-btn:active {
-          transform: translateY(0);
-        }
 
         /* Custom scrollbar for main content */
         .dashboard-main-content::-webkit-scrollbar,
@@ -148,15 +114,11 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
           }
           
           .dashboard-sidebar {
-            width: ${sidebarCollapsed ? '0px' : '260px'};
+            width: 260px;
             position: absolute;
             height: 100%;
             z-index: 200;
-            box-shadow: ${sidebarCollapsed ? 'none' : '4px 0 20px rgba(0, 0, 0, 0.15)'};
-          }
-          
-          .sidebar-toggle-btn {
-            left: ${sidebarCollapsed ? '20px' : '220px'};
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
           }
           
           .dashboard-main-content {
@@ -176,12 +138,6 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
           .dashboard-main-content {
             padding: 12px;
           }
-          
-          .sidebar-toggle-btn {
-            width: 32px;
-            height: 32px;
-            top: 15px;
-          }
         }
       `}} />
       
@@ -189,11 +145,6 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       <div className="dashboard-header">
         {header}
       </div>
-
-      {/* Sidebar Toggle Button */}
-      <button className="sidebar-toggle-btn" onClick={toggleSidebar}>
-        {sidebarCollapsed ? '→' : '←'}
-      </button>
 
       {/* Main Dashboard Content */}
       <div className="dashboard-body">
@@ -208,7 +159,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
         </div>
         
         {/* Right Panel (Optional) */}
-        {rightPanelVisible && rightPanel && (
+        {rightPanel && (
           <div className="dashboard-right-panel">
             {rightPanel}
           </div>

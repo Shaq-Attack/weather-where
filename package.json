@@ -1,8 +1,8 @@
 {
-    "name": "weather-wonders",
+    "name": "weather-where",
     "version": "1.0.0",
     "description": "A modern weather application showcasing KendoReact components with real-time data and accessibility features",
-    "homepage": "https://weather-wonders.vercel.app",
+    "homepage": "https://weather-where.vercel.app",
     "repository": {
         "type": "git",
         "url": "https://github.com/username/weather-where.git"

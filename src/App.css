@@ -483,8 +483,7 @@ p {
 /* Print styles */
 @media print {
   .dashboard-sidebar,
-  .dashboard-header,
-  .sidebar-toggle-btn {
+  .dashboard-header {
     display: none !important;
   }
   
