@@ -115,17 +115,6 @@ export default function App() {
     loadWeatherData();
   }, [coords, selectedCity, userSelectedCity, geoError, permissionDenied, isCelsius, fetchWeatherData]);
 
-  // Determine the display name for the current location
-  const getDisplayLocationName = () => {
-    if (userSelectedCity && selectedCity) {
-      return selectedCity;
-    }
-    if (coords && !userSelectedCity) {
-      return "Your Location";
-    }
-    return "";
-  };
-
   // Get the value to show in the dropdown
   const getDropdownValue = () => {
     if (userSelectedCity && selectedCity) {
@@ -183,7 +172,6 @@ export default function App() {
       header={
         <DashboardHeader
           cities={getDropdownCities()}
-          city={getDisplayLocationName()}
           selectedCityValue={getDropdownValue()}
           onCityChange={handleCityChange}
           isCelsius={isCelsius}

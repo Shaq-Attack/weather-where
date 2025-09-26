@@ -3,12 +3,10 @@ import { AppBar, AppBarSection, AppBarSpacer } from '@progress/kendo-react-layou
 import { DropDownList } from '@progress/kendo-react-dropdowns';
 import { Switch } from '@progress/kendo-react-inputs';
 import { TextBox } from '@progress/kendo-react-inputs';
-import { Breadcrumb } from '@progress/kendo-react-layout';
 import '@progress/kendo-theme-material/dist/all.css';
 
 interface DashboardHeaderProps {
   cities: string[];
-  city: string;
   selectedCityValue: string | null;
   onCityChange: (city: string) => void;
   isCelsius: boolean;
@@ -17,7 +15,6 @@ interface DashboardHeaderProps {
 
 export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   cities,
-  city,
   selectedCityValue,
   onCityChange,
   isCelsius,
@@ -25,11 +22,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
 }) => {
   const [searchValue, setSearchValue] = useState('');
 
-  const breadcrumbItems = [
-    { text: 'Dashboard', url: '#' },
-    { text: 'Weather Analytics', url: '#' },
-    { text: city || 'Your Location' }
-  ];
+
 
   return (
     <>
@@ -171,30 +164,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           position: relative;
         }
 
-        .breadcrumb-container {
-          background: rgba(255,255,255,0.08);
-          padding: 10px 24px;
-          backdrop-filter: blur(10px);
-          border-top: 1px solid rgba(255,255,255,0.1);
-          height: 20px;
-          display: flex;
-          align-items: center;
-        }
 
-        .custom-breadcrumb {
-          color: white !important;
-          font-size: 0.85rem;
-        }
-
-        .custom-breadcrumb a {
-          color: rgba(255,255,255,0.8) !important;
-          text-decoration: none;
-          transition: color 0.3s ease;
-        }
-
-        .custom-breadcrumb a:hover {
-          color: white !important;
-        }
 
         /* Responsive design */
         @media (max-width: 1200px) {
@@ -249,9 +219,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
             font-size: 0.8rem;
           }
           
-          .breadcrumb-container {
-            padding: 8px 16px;
-          }
+
         }
       `}} />
 
@@ -298,13 +266,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           </AppBarSection>
         </AppBar>
 
-        {/* Breadcrumb Navigation */}
-        <div className="breadcrumb-container">
-          <Breadcrumb
-            className="custom-breadcrumb"
-            data={breadcrumbItems}
-          />
-        </div>
+
       </div>
     </>
   );
