@@ -1,5 +1,16 @@
 import { test, expect } from '@playwright/test';
 
+/**
+ * E2E Tests for Weather Where App
+ * 
+ * Note: These E2E tests are currently disabled in the CI/CD pipeline but are
+ * kept for potential future use. The tests verify end-to-end functionality
+ * including weather data loading, user interactions, and API integration.
+ * 
+ * To run locally: pnpm e2e
+ * To run with UI: pnpm e2e:ui
+ */
+
 test.describe('Weather Where App', () => {
   test.beforeEach(async ({ page, context }) => {
     // Mock geolocation to a known location (London)

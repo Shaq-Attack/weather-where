@@ -1,7 +1,7 @@
 {
     "name": "weather-where",
     "version": "1.0.0",
-    "description": "A modern weather application showcasing KendoReact components with real-time data and accessibility features",
+    "description": "A modern weather application showcasing KendoReact components with real-time data and accessibility features. E2E tests with Playwright are configured but disabled in CI.",
     "homepage": "https://weather-where.vercel.app",
     "repository": {
         "type": "git",
@@ -37,7 +37,7 @@
         "test:watch": "vitest --watch",
         "test:coverage": "vitest --coverage",
         "e2e": "playwright test",
-        "e2e:ui": "playwright test --ui",
+        "e2e:ui": "playwright test --ui", 
         "e2e:headed": "playwright test --headed",
         "lint": "tsc --noEmit && prettier --check src",
         "lint:fix": "prettier --write src",
