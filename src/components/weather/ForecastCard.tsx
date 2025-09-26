@@ -246,7 +246,7 @@ export function ForecastCard({ daily, hourly, isCelsius, timezoneOffset }: Forec
                   paddingBottom: "1rem" 
                 }}
                 role="list"
-                aria-label="Hourly weather forecast"
+                aria-label="Detailed Hourly Forecast"
               >
                 {hourly.slice(0, 24).map((hour) => (
                   <Card
