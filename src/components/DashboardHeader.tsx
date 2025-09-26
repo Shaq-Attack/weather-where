@@ -26,11 +26,15 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   return (
     <>
       <style dangerouslySetInnerHTML={{__html: `
+
         .dashboard-header-container {
           height: 100%;
           background: #3b82f6;
           color: white;
           position: relative;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
         }
 
         .dashboard-appbar {
@@ -49,33 +53,14 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           display: flex;
           align-items: center;
           gap: 8px;
-        }
-
-        .header-search {
-          min-width: 260px;
-          background: rgba(255,255,255,0.2) !important;
-          border: 1px solid rgba(255,255,255,0.3) !important;
-          border-radius: 6px !important;
-          color: white !important;
-          padding: 8px 12px !important;
-          font-size: 0.875rem !important;
-          transition: all 0.2s ease !important;
-        }
-
-        .header-search:focus {
-          background: rgba(255,255,255,0.25) !important;
-          border-color: rgba(255,255,255,0.5) !important;
-          box-shadow: 0 0 0 2px rgba(255,255,255,0.2) !important;
-        }
-
-        .header-search::placeholder {
-          color: rgba(255,255,255,0.7) !important;
+          height: 60px;
         }
 
         .header-controls {
           display: flex;
           align-items: center;
           gap: 20px;
+          height: 60px;
         }
 
         .header-dropdown {
@@ -86,6 +71,9 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           color: white !important;
           padding: 8px 12px !important;
           transition: all 0.2s ease !important;
+          display: flex;
+          align-items: center;
+          height: 40px;
         }
 
         .header-dropdown:hover {
@@ -104,6 +92,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           font-weight: 500;
           border: 1px solid rgba(255,255,255,0.3);
           transition: all 0.2s ease;
+          height: 40px;
         }
 
         .header-switch:hover {
@@ -199,15 +188,6 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
             <div className="header-logo">
               ⛅ Weather Dashboard
             </div>
-          </AppBarSection>
-
-          <AppBarSection>
-            <TextBox
-              className="header-search"
-              placeholder="Search locations..."
-              value={searchValue}
-              onChange={(e) => setSearchValue(String(e.target.value || ''))}
-            />
           </AppBarSection>
 
           <AppBarSpacer />
