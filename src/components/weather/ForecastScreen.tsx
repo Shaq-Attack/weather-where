@@ -46,10 +46,10 @@ export const ForecastScreen: React.FC<ForecastScreenProps> = ({
           text-align: center;
           margin-bottom: 32px;
           padding: 32px 24px;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          border-radius: 20px;
+          background: #3b82f6;
+          border-radius: 12px;
           color: white;
-          box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+          box-shadow: 0 4px 16px rgba(59, 130, 246, 0.2);
         }
 
         .forecast-title {
@@ -96,7 +96,7 @@ export const ForecastScreen: React.FC<ForecastScreenProps> = ({
           left: 0;
           right: 0;
           height: 4px;
-          background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #f5576c);
+          background: linear-gradient(90deg, #3b82f6, #2563eb, #1d4ed8, #1e40af);
           background-size: 300% 100%;
           animation: gradientShift 3s ease infinite;
         }
@@ -180,7 +180,7 @@ export const ForecastScreen: React.FC<ForecastScreenProps> = ({
 
         .forecast-detail-icon {
           font-size: 1rem;
-          color: #667eea;
+          color: #3b82f6;
           width: 20px;
           text-align: center;
         }

@@ -133,7 +133,7 @@ export function UVIndexCard({ lat, lon }: UVIndexCardProps) {
       >
         <CardHeader style={{
           ...headerStyles.base,
-          background: "linear-gradient(135deg, #ffa726 0%, #ff7043 100%)",
+          background: "#3b82f6",
         }}>
           <CardTitle style={headerStyles.title}>
             ☀️ UV Index & Sun Safety

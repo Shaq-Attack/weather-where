@@ -65,21 +65,20 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
         }
 
         .sidebar-header {
-          padding: 24px 20px;
-          border-bottom: 1px solid rgba(230, 236, 245, 0.8);
+          padding: 20px 16px;
+          border-bottom: 1px solid #e5e7eb;
           text-align: center;
-          background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+          background: #f8f9fa;
         }
 
         .sidebar-header.collapsed {
-          padding: 20px 10px;
+          padding: 16px 8px;
         }
 
         .sidebar-logo {
-          font-size: 1.3rem;
-          font-weight: 700;
-          color: #2c3e50;
-          letter-spacing: -0.5px;
+          font-size: 1.25rem;
+          font-weight: 600;
+          color: #1f2937;
         }
 
         .sidebar-navigation {
@@ -87,63 +86,42 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
         }
 
         .nav-item {
-          margin-bottom: 6px;
-          border-radius: 10px;
-          overflow: hidden;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          margin-bottom: 4px;
         }
 
         .nav-button {
           width: 100%;
-          padding: 14px 18px;
+          padding: 12px 16px;
           background: transparent;
           border: none;
-          border-radius: 10px;
-          color: #495057;
-          font-size: 0.9rem;
+          border-radius: 6px;
+          color: #64748b;
+          font-size: 0.875rem;
           font-weight: 500;
           cursor: pointer;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: all 0.2s ease;
           display: flex;
           align-items: center;
-          gap: 14px;
+          gap: 12px;
           text-align: left;
           position: relative;
-          overflow: hidden;
-        }
-
-        .nav-button::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
-          transition: left 0.5s ease;
-        }
-
-        .nav-button:hover::before {
-          left: 100%;
         }
 
         .nav-button:hover {
-          background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-          color: #667eea;
-          transform: translateX(6px);
-          box-shadow: 0 4px 15px rgba(102, 126, 234, 0.15);
+          background: #f1f5f9;
+          color: #3b82f6;
+          transform: translateX(2px);
         }
 
         .nav-button.active {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: #3b82f6;
           color: white;
-          box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-          transform: translateX(6px);
+          transform: translateX(2px);
         }
 
         .nav-button.active:hover {
-          transform: translateX(8px);
-          box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+          background: #2563eb;
+          transform: translateX(4px);
         }
 
         .nav-button.collapsed {
@@ -172,12 +150,12 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
 
         .section-title {
           font-size: 0.75rem;
-          font-weight: 700;
-          color: #6c757d;
-          margin-bottom: 12px;
-          padding: 0 18px;
+          font-weight: 600;
+          color: #64748b;
+          margin-bottom: 10px;
+          padding: 0 16px;
           text-transform: uppercase;
-          letter-spacing: 1px;
+          letter-spacing: 0.5px;
         }
 
         .section-title.collapsed {
@@ -198,17 +176,17 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
         }
 
         .k-treeview .k-in {
-          padding: 10px 18px;
-          border-radius: 8px;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          font-size: 0.85rem;
+          padding: 8px 16px;
+          border-radius: 6px;
+          transition: all 0.2s ease;
+          font-size: 0.875rem;
           font-weight: 500;
         }
 
         .k-treeview .k-in:hover {
-          background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-          color: #667eea;
-          transform: translateX(4px);
+          background: #f1f5f9;
+          color: #3b82f6;
+          transform: translateX(2px);
         }
 
         .quick-actions {
@@ -220,27 +198,26 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
 
         .quick-action-btn {
           width: 100%;
-          margin-bottom: 10px;
-          background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-          border: 1px solid rgba(230, 236, 245, 0.8);
-          border-radius: 8px;
-          padding: 12px 16px;
-          font-size: 0.85rem;
+          margin-bottom: 8px;
+          background: #f8f9fa;
+          border: 1px solid #e5e7eb;
+          border-radius: 6px;
+          padding: 10px 14px;
+          font-size: 0.875rem;
           font-weight: 500;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: all 0.2s ease;
           cursor: pointer;
-          color: #495057;
+          color: #64748b;
           display: flex;
           align-items: center;
-          gap: 10px;
+          gap: 8px;
         }
 
         .quick-action-btn:hover {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          border-color: #667eea;
+          background: #3b82f6;
+          border-color: #3b82f6;
           color: white;
-          transform: translateY(-2px);
-          box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+          transform: translateY(-1px);
         }
 
         .quick-action-btn.collapsed {
@@ -255,21 +232,21 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
 
         /* Custom scrollbar for sidebar */
         .dashboard-sidebar-container::-webkit-scrollbar {
-          width: 6px;
+          width: 4px;
         }
 
         .dashboard-sidebar-container::-webkit-scrollbar-track {
-          background: rgba(241, 243, 246, 0.5);
-          border-radius: 3px;
+          background: #f1f5f9;
+          border-radius: 2px;
         }
 
         .dashboard-sidebar-container::-webkit-scrollbar-thumb {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          border-radius: 3px;
+          background: #3b82f6;
+          border-radius: 2px;
         }
 
         .dashboard-sidebar-container::-webkit-scrollbar-thumb:hover {
-          background: linear-gradient(135deg, #5a6fd8 0%, #6b4190 100%);
+          background: #2563eb;
         }
       `}} />
 

@@ -54,10 +54,9 @@ export function SunProgressBar({ sunrise, sunset, timezoneOffset }: SunProgressB
       bottom: 0,
       left: 0,
       right: 0,
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      backdropFilter: 'blur(10px)',
+      background: '#3b82f6',
       padding: '0.5rem 0.5rem',
-      borderTop: '1px solid rgba(255,255,255,0.1)',
+      borderTop: '1px solid rgba(255,255,255,0.2)',
       zIndex: 1000,
       boxShadow: '0 -2px 10px rgba(0, 0, 0, 0.1)',
       overflowX: 'hidden'

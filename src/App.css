@@ -5,7 +5,7 @@
   margin: 0;
   padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: #f8f9fa;
   overflow: hidden;
 }
 
@@ -13,7 +13,7 @@
 body {
   margin: 0;
   padding: 0;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: #f8f9fa;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
   line-height: 1.6;
   color: #2c3e50;
@@ -21,12 +21,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* KendoReact Material Theme Customizations */
+/* KendoReact Material Theme Customizations - Simplified color palette */
 :root {
-  --kendo-color-primary: #667eea;
-  --kendo-color-primary-hover: #5a6fd8;
-  --kendo-color-primary-active: #4e63d2;
-  --kendo-color-secondary: #764ba2;
+  --kendo-color-primary: #3b82f6;
+  --kendo-color-primary-hover: #2563eb;
+  --kendo-color-primary-active: #1d4ed8;
+  --kendo-color-secondary: #64748b;
   --kendo-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
   --kendo-border-radius: 8px;
   --kendo-elevation-1: 0 2px 8px rgba(0, 0, 0, 0.12);
@@ -62,29 +62,29 @@ p {
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
 }
 
-/* Enhanced button styling */
+/* Enhanced button styling - Simplified */
 .k-button {
-  border-radius: 10px !important;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.025em !important;
+  border-radius: 8px !important;
+  transition: all 0.2s ease !important;
+  font-weight: 500 !important;
 }
 
 .k-button.k-primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-  border-color: #667eea !important;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4) !important;
+  background: #3b82f6 !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2) !important;
 }
 
 .k-button.k-primary:hover {
-  background: linear-gradient(135deg, #5a6fd8 0%, #6b4190 100%) !important;
-  transform: translateY(-2px) !important;
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5) !important;
+  background: #2563eb !important;
+  border-color: #2563eb !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3) !important;
 }
 
 .k-button.k-primary:active {
   transform: translateY(0) !important;
-  box-shadow: 0 2px 10px rgba(102, 126, 234, 0.3) !important;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2) !important;
 }
 
 /* Chart Styling */
@@ -102,17 +102,17 @@ p {
   background: transparent !important;
 }
 
-/* Grid Styling */
+/* Grid Styling - Simplified */
 .k-grid {
   border: none !important;
-  border-radius: 12px !important;
+  border-radius: 8px !important;
   background: white !important;
   overflow: hidden !important;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
 }
 
 .k-grid-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  background: #3b82f6 !important;
   color: white !important;
   border: none !important;
 }
@@ -121,11 +121,9 @@ p {
   background: transparent !important;
   color: white !important;
   border: none !important;
-  font-weight: 700 !important;
-  padding: 16px !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.5px !important;
-  font-size: 0.8rem !important;
+  font-weight: 600 !important;
+  padding: 12px !important;
+  font-size: 0.875rem !important;
 }
 
 .k-grid-content {
@@ -138,7 +136,7 @@ p {
 }
 
 .k-grid tr:hover {
-  background-color: rgba(102, 126, 234, 0.05) !important;
+  background-color: rgba(59, 130, 246, 0.05) !important;
 }
 
 .k-grid td {
@@ -156,72 +154,72 @@ p {
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2)) !important;
 }
 
-/* Progress Bar Styling */
+/* Progress Bar Styling - Simplified */
 .k-progressbar {
-  background: rgba(230, 236, 245, 0.8) !important;
-  border-radius: 12px !important;
+  background: #e5e7eb !important;
+  border-radius: 8px !important;
   overflow: hidden !important;
-  height: 10px !important;
+  height: 8px !important;
   border: none !important;
 }
 
 .k-progressbar .k-progress {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-  border-radius: 12px !important;
+  background: #3b82f6 !important;
+  border-radius: 8px !important;
   transition: width 0.3s ease !important;
 }
 
-/* Calendar Styling */
+/* Calendar Styling - Simplified */
 .k-calendar {
   border: none !important;
   background: transparent !important;
-  border-radius: 12px !important;
+  border-radius: 8px !important;
   overflow: hidden !important;
 }
 
 .k-calendar .k-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  background: #3b82f6 !important;
   color: white !important;
   border: none !important;
-  padding: 16px !important;
-  font-weight: 700 !important;
+  padding: 12px !important;
+  font-weight: 600 !important;
 }
 
 .k-calendar .k-content {
   border: none !important;
-  padding: 16px !important;
+  padding: 12px !important;
 }
 
 .k-calendar td {
-  border-radius: 8px !important;
-  transition: all 0.3s ease !important;
-  margin: 2px !important;
+  border-radius: 6px !important;
+  transition: all 0.2s ease !important;
+  margin: 1px !important;
 }
 
 .k-calendar .k-selected {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  background: #3b82f6 !important;
   color: white !important;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4) !important;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3) !important;
 }
 
 .k-calendar .k-today {
-  border: 2px solid #667eea !important;
-  font-weight: 700 !important;
+  border: 2px solid #3b82f6 !important;
+  font-weight: 600 !important;
 }
 
-/* Scheduler Styling */
+/* Scheduler Styling - Simplified */
 .k-scheduler {
   border: none !important;
-  border-radius: 12px !important;
+  border-radius: 8px !important;
   overflow: hidden !important;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
 }
 
 .k-scheduler-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  background: #3b82f6 !important;
   color: white !important;
   border: none !important;
-  padding: 16px !important;
+  padding: 12px !important;
 }
 
 .k-scheduler-content {
@@ -229,114 +227,114 @@ p {
 }
 
 .k-event {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  background: #3b82f6 !important;
   border: none !important;
-  border-radius: 6px !important;
+  border-radius: 4px !important;
   color: white !important;
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3) !important;
+  box-shadow: 0 1px 4px rgba(59, 130, 246, 0.2) !important;
 }
 
-/* Chat Styling */
+/* Chat Styling - Simplified */
 .k-chat {
   border: none !important;
-  border-radius: 12px !important;
+  border-radius: 8px !important;
   background: white !important;
   overflow: hidden !important;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
 }
 
 .k-message-box {
-  background: rgba(248, 249, 250, 0.8) !important;
-  border-top: 1px solid rgba(230, 236, 245, 0.8) !important;
-  padding: 16px !important;
+  background: #f8f9fa !important;
+  border-top: 1px solid #e5e7eb !important;
+  padding: 12px !important;
 }
 
 .k-message-list {
   background: transparent !important;
-  padding: 16px !important;
+  padding: 12px !important;
 }
 
 .k-bubble {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  background: #3b82f6 !important;
   color: white !important;
-  border-radius: 18px !important;
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 1px 4px rgba(59, 130, 246, 0.2) !important;
 }
 
-/* TreeView Styling */
+/* TreeView Styling - Simplified */
 .k-treeview {
   background: transparent !important;
   border: none !important;
 }
 
 .k-treeview .k-in {
-  border-radius: 8px !important;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  padding: 12px 16px !important;
+  border-radius: 6px !important;
+  transition: all 0.2s ease !important;
+  padding: 8px 12px !important;
   font-weight: 500 !important;
 }
 
 .k-treeview .k-in:hover {
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
-  color: #667eea !important;
-  transform: translateX(4px) !important;
+  background: #f1f5f9 !important;
+  color: #3b82f6 !important;
+  transform: translateX(2px) !important;
 }
 
 .k-treeview .k-selected {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  background: #3b82f6 !important;
   color: white !important;
 }
 
-/* Dropdown Styling */
+/* Dropdown Styling - Simplified */
 .k-dropdownlist {
-  border-radius: 10px !important;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  border: 1px solid rgba(230, 236, 245, 0.8) !important;
+  border-radius: 6px !important;
+  transition: all 0.2s ease !important;
+  border: 1px solid #d1d5db !important;
   font-weight: 500 !important;
 }
 
 .k-dropdownlist:hover {
-  border-color: #667eea !important;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1) !important;
 }
 
 .k-dropdownlist.k-focus {
-  border-color: #667eea !important;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2) !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
 }
 
-/* Input Styling */
+/* Input Styling - Simplified */
 .k-textbox {
-  border-radius: 10px !important;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  border: 1px solid rgba(230, 236, 245, 0.8) !important;
-  padding: 12px 16px !important;
+  border-radius: 6px !important;
+  transition: all 0.2s ease !important;
+  border: 1px solid #d1d5db !important;
+  padding: 8px 12px !important;
   font-weight: 500 !important;
 }
 
 .k-textbox:hover {
-  border-color: #667eea !important;
+  border-color: #3b82f6 !important;
 }
 
 .k-textbox:focus {
-  border-color: #667eea !important;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2) !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
 }
 
-/* Switch Styling */
+/* Switch Styling - Simplified */
 .k-switch {
-  border-radius: 15px !important;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  border-radius: 12px !important;
+  transition: all 0.2s ease !important;
 }
 
 .k-switch.k-checked {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-  border-color: #667eea !important;
+  background: #3b82f6 !important;
+  border-color: #3b82f6 !important;
 }
 
 .k-switch-thumb {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2) !important;
+  transition: all 0.2s ease !important;
 }
 
 /* Notification Styling */
@@ -367,25 +365,25 @@ p {
   color: white !important;
 }
 
-/* Scrollbar Styling */
+/* Scrollbar Styling - Simplified */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(241, 243, 246, 0.8);
-  border-radius: 4px;
+  background: #f1f5f9;
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 4px;
-  transition: background 0.3s ease;
+  background: #3b82f6;
+  border-radius: 3px;
+  transition: background 0.2s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #5a6fd8 0%, #6b4190 100%);
+  background: #2563eb;
 }
 
 /* Loading States */
@@ -405,13 +403,13 @@ p {
   }
 }
 
-/* Enhanced Focus States */
+/* Enhanced Focus States - Simplified */
 .k-button:focus,
 .k-dropdownlist:focus,
 .k-textbox:focus,
 .k-switch:focus {
   outline: none !important;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3) !important;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3) !important;
 }
 
 /* Responsive Design */

@@ -76,10 +76,10 @@ export const HourlyScreen: React.FC<HourlyScreenProps> = ({
           text-align: center;
           margin-bottom: 32px;
           padding: 32px 24px;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          border-radius: 20px;
+          background: #3b82f6;
+          border-radius: 12px;
           color: white;
-          box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+          box-shadow: 0 4px 16px rgba(59, 130, 246, 0.2);
         }
 
         .hourly-title {
@@ -132,7 +132,7 @@ export const HourlyScreen: React.FC<HourlyScreenProps> = ({
         .hourly-time {
           font-size: 1.1rem;
           font-weight: 600;
-          color: #667eea;
+          color: #3b82f6;
           margin-bottom: 12px;
         }
 

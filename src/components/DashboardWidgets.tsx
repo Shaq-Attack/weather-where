@@ -42,7 +42,7 @@ export const DashboardWidgets: React.FC<DashboardWidgetsProps> = ({ lat, lon }) 
           left: 0;
           right: 0;
           height: 3px;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: #3b82f6;
           transition: height 0.3s ease;
         }
 
@@ -56,7 +56,7 @@ export const DashboardWidgets: React.FC<DashboardWidgetsProps> = ({ lat, lon }) 
         }
 
         .widget-header {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: #3b82f6;
           color: white;
           padding: 18px 24px;
           position: relative;
@@ -180,7 +180,7 @@ export const DashboardWidgets: React.FC<DashboardWidgetsProps> = ({ lat, lon }) 
           border-radius: 12px;
           padding: 18px;
           margin-bottom: 18px;
-          border-left: 4px solid #667eea;
+          border-left: 4px solid #3b82f6;
           border: 1px solid rgba(102, 126, 234, 0.2);
           transition: all 0.3s ease;
         }
@@ -211,13 +211,13 @@ export const DashboardWidgets: React.FC<DashboardWidgetsProps> = ({ lat, lon }) 
         }
 
         .action-btn {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: #3b82f6;
           color: white;
           border: none;
-          border-radius: 8px;
-          padding: 10px 20px;
-          font-size: 0.85rem;
-          font-weight: 600;
+          border-radius: 6px;
+          padding: 8px 16px;
+          font-size: 0.875rem;
+          font-weight: 500;
           cursor: pointer;
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           display: flex;
@@ -247,10 +247,10 @@ export const DashboardWidgets: React.FC<DashboardWidgetsProps> = ({ lat, lon }) 
         }
 
         .k-calendar .k-header {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+          background: #3b82f6 !important;
           color: white !important;
           border: none !important;
-          border-radius: 12px 12px 0 0 !important;
+          border-radius: 8px 8px 0 0 !important;
           padding: 12px !important;
         }
 
@@ -264,7 +264,7 @@ export const DashboardWidgets: React.FC<DashboardWidgetsProps> = ({ lat, lon }) 
         }
 
         .k-calendar .k-selected {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+          background: #3b82f6 !important;
           color: white !important;
         }
 
@@ -276,7 +276,7 @@ export const DashboardWidgets: React.FC<DashboardWidgetsProps> = ({ lat, lon }) 
         }
 
         .k-scheduler-header {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+          background: #3b82f6 !important;
           color: white !important;
           border: none !important;
         }
@@ -309,12 +309,12 @@ export const DashboardWidgets: React.FC<DashboardWidgetsProps> = ({ lat, lon }) 
         }
 
         .widgets-container::-webkit-scrollbar-thumb {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          border-radius: 4px;
+          background: #3b82f6;
+          border-radius: 3px;
         }
 
         .widgets-container::-webkit-scrollbar-thumb:hover {
-          background: linear-gradient(135deg, #5a6fd8 0%, #6b4190 100%);
+          background: #2563eb;
         }
 
         @media (max-width: 768px) {

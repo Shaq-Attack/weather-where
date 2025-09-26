@@ -22,14 +22,14 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
           height: 100vh;
           display: flex;
           flex-direction: column;
-          background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+          background: #f8f9fa;
           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
         }
 
         .dashboard-header {
           height: 80px;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          box-shadow: 0 4px 20px rgba(102, 126, 234, 0.25);
+          background: #3b82f6;
+          box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15);
           z-index: 1000;
           position: relative;
         }
@@ -91,13 +91,13 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
 
         .dashboard-main-content::-webkit-scrollbar-thumb,
         .dashboard-right-panel::-webkit-scrollbar-thumb {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          border-radius: 4px;
+          background: #3b82f6;
+          border-radius: 3px;
         }
 
         .dashboard-main-content::-webkit-scrollbar-thumb:hover,
         .dashboard-right-panel::-webkit-scrollbar-thumb:hover {
-          background: linear-gradient(135deg, #5a6fd8 0%, #6b4190 100%);
+          background: #2563eb;
         }
 
         /* Responsive adjustments */

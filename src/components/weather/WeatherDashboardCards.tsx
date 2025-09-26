@@ -144,11 +144,10 @@ export const WeatherDashboardCards: React.FC<WeatherDashboardCardsProps> = ({
           display: flex;
           flex-direction: column;
           justify-content: center;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: #3b82f6;
           color: white;
           position: relative;
-          overflow: hidden;
-          border-radius: 16px 16px 0 0;
+          border-radius: 8px 8px 0 0;
         }
 
         .card-title {
@@ -214,7 +213,7 @@ export const WeatherDashboardCards: React.FC<WeatherDashboardCardsProps> = ({
           left: 0;
           right: 0;
           height: 3px;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: #3b82f6;
           transition: height 0.3s ease;
         }
 
@@ -440,8 +439,8 @@ export const WeatherDashboardCards: React.FC<WeatherDashboardCardsProps> = ({
         }
 
         .k-progressbar .k-progress {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-          border-radius: 12px !important;
+          background: #3b82f6 !important;
+          border-radius: 8px !important;
         }
 
         .k-grid {
@@ -452,7 +451,7 @@ export const WeatherDashboardCards: React.FC<WeatherDashboardCardsProps> = ({
         }
 
         .k-grid-header {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+          background: #3b82f6 !important;
           color: white !important;
           border: none !important;
         }
@@ -827,7 +826,7 @@ export const WeatherDashboardCards: React.FC<WeatherDashboardCardsProps> = ({
                         field="temperature"
                         categoryField="time"
                         name="Temperature"
-                        color="#667eea"
+                        color="#3b82f6"
                         axis="temperature"
                         markers={{ visible: true, size: 6 }}
                       />

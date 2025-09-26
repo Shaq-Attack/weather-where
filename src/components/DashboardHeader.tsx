@@ -28,61 +28,44 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
       <style dangerouslySetInnerHTML={{__html: `
         .dashboard-header-container {
           height: 100%;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: #3b82f6;
           color: white;
           position: relative;
-          overflow: hidden;
-        }
-
-        .dashboard-header-container::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
-          opacity: 0.4;
         }
 
         .dashboard-appbar {
           background: transparent !important;
           border: none !important;
-          position: relative;
-          z-index: 1;
-          padding: 0 24px;
+          padding: 0 20px;
           height: 60px;
           display: flex;
           align-items: center;
         }
 
         .header-logo {
-          font-size: 1.6rem;
-          font-weight: 700;
+          font-size: 1.5rem;
+          font-weight: 600;
           color: white;
-          text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-          letter-spacing: -0.5px;
           display: flex;
           align-items: center;
           gap: 8px;
         }
 
         .header-search {
-          min-width: 280px;
-          background: rgba(255,255,255,0.15) !important;
-          border: 1px solid rgba(255,255,255,0.25) !important;
-          border-radius: 25px !important;
+          min-width: 260px;
+          background: rgba(255,255,255,0.2) !important;
+          border: 1px solid rgba(255,255,255,0.3) !important;
+          border-radius: 6px !important;
           color: white !important;
-          backdrop-filter: blur(10px);
-          padding: 8px 16px !important;
-          font-size: 0.9rem !important;
-          transition: all 0.3s ease !important;
+          padding: 8px 12px !important;
+          font-size: 0.875rem !important;
+          transition: all 0.2s ease !important;
         }
 
         .header-search:focus {
-          background: rgba(255,255,255,0.2) !important;
-          border-color: rgba(255,255,255,0.4) !important;
-          box-shadow: 0 0 0 3px rgba(255,255,255,0.1) !important;
+          background: rgba(255,255,255,0.25) !important;
+          border-color: rgba(255,255,255,0.5) !important;
+          box-shadow: 0 0 0 2px rgba(255,255,255,0.2) !important;
         }
 
         .header-search::placeholder {
@@ -96,67 +79,55 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
         }
 
         .header-dropdown {
-          min-width: 200px;
-          background: rgba(255,255,255,0.15) !important;
-          border: 1px solid rgba(255,255,255,0.25) !important;
-          border-radius: 10px !important;
+          min-width: 180px;
+          background: rgba(255,255,255,0.2) !important;
+          border: 1px solid rgba(255,255,255,0.3) !important;
+          border-radius: 6px !important;
           color: white !important;
-          backdrop-filter: blur(10px);
           padding: 8px 12px !important;
-          transition: all 0.3s ease !important;
+          transition: all 0.2s ease !important;
         }
 
         .header-dropdown:hover {
-          background: rgba(255,255,255,0.2) !important;
-          border-color: rgba(255,255,255,0.4) !important;
-          transform: translateY(-1px);
+          background: rgba(255,255,255,0.25) !important;
+          border-color: rgba(255,255,255,0.5) !important;
         }
 
         .header-switch {
-          background: rgba(255,255,255,0.15);
-          border-radius: 25px;
-          padding: 8px 16px;
+          background: rgba(255,255,255,0.2);
+          border-radius: 6px;
+          padding: 8px 12px;
           display: flex;
           align-items: center;
-          gap: 12px;
-          font-size: 0.9rem;
+          gap: 8px;
+          font-size: 0.875rem;
           font-weight: 500;
-          backdrop-filter: blur(10px);
-          border: 1px solid rgba(255,255,255,0.2);
-          transition: all 0.3s ease;
+          border: 1px solid rgba(255,255,255,0.3);
+          transition: all 0.2s ease;
         }
 
         .header-switch:hover {
-          background: rgba(255,255,255,0.2);
-          transform: translateY(-1px);
+          background: rgba(255,255,255,0.25);
         }
 
         .header-button {
-          background: rgba(255,255,255,0.15) !important;
-          border: 1px solid rgba(255,255,255,0.25) !important;
-          border-radius: 10px !important;
+          background: rgba(255,255,255,0.2) !important;
+          border: 1px solid rgba(255,255,255,0.3) !important;
+          border-radius: 6px !important;
           color: white !important;
-          padding: 10px 18px !important;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-          backdrop-filter: blur(10px);
+          padding: 8px 12px !important;
+          transition: all 0.2s ease !important;
           font-weight: 500 !important;
-          min-width: 44px;
-          height: 44px;
+          min-width: 40px;
+          height: 40px;
           display: flex;
           align-items: center;
           justify-content: center;
-          position: relative;
         }
 
         .header-button:hover {
           background: rgba(255,255,255,0.25) !important;
-          border-color: rgba(255,255,255,0.4) !important;
-          transform: translateY(-2px);
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .header-button:active {
-          transform: translateY(0);
+          border-color: rgba(255,255,255,0.5) !important;
         }
 
         .notification-badge {

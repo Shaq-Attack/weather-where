@@ -6,7 +6,7 @@ import { Button } from "@progress/kendo-react-buttons";
 // Add custom CSS for modern styling
 const customStyles = `
   .modern-weather-app-bar {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    background: #3b82f6 !important;
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(255,255,255,0.1);
     box-shadow: 0 8px 32px rgba(0,0,0,0.1);
@@ -106,7 +106,7 @@ export function WeatherAppBar({ cities, city, onCityChange, isCelsius, onUnitTog
     <AppBar
       className="modern-weather-app-bar"
       style={{ 
-        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        background: "#3b82f6",
         color: "white", 
         padding: "0 2rem",
         position: "fixed",

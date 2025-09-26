@@ -290,10 +290,10 @@ export const WeatherDetailsScreen: React.FC<WeatherDetailsScreenProps> = ({
           text-align: center;
           margin-bottom: 32px;
           padding: 32px 24px;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          border-radius: 20px;
+          background: #3b82f6;
+          border-radius: 12px;
           color: white;
-          box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+          box-shadow: 0 4px 16px rgba(59, 130, 246, 0.2);
         }
 
         .details-title {
@@ -323,14 +323,14 @@ export const WeatherDetailsScreen: React.FC<WeatherDetailsScreenProps> = ({
         }
 
         .pagination-button {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: #3b82f6;
           color: white;
           border: none;
-          border-radius: 8px;
-          padding: 12px 20px;
+          border-radius: 6px;
+          padding: 10px 16px;
           cursor: pointer;
-          font-weight: 600;
-          transition: all 0.3s ease;
+          font-weight: 500;
+          transition: all 0.2s ease;
         }
 
         .pagination-button:hover {

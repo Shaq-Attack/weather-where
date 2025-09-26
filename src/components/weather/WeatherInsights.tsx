@@ -175,11 +175,10 @@ export const WeatherInsights: React.FC<WeatherInsightsProps> = ({ lat, lon }) =>
           border: none !important;
         }
         .widget-header {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-          border-radius: 16px 16px 0 0 !important;
+          background: #3b82f6 !important;
+          border-radius: 8px 8px 0 0 !important;
           color: white !important;
           position: relative;
-          overflow: hidden;
         }
         .widget-header::before {
           content: '';
@@ -207,12 +206,12 @@ export const WeatherInsights: React.FC<WeatherInsightsProps> = ({ lat, lon }) =>
           border-radius: 12px;
           margin-bottom: 16px;
           padding: 16px 18px;
-          border-left: 4px solid #667eea;
+          border-left: 4px solid #3b82f6;
           box-shadow: 0 2px 8px rgba(0,0,0,0.03);
         }
         .tip-title {
           font-weight: 600;
-          color: #667eea;
+          color: #3b82f6;
           margin-bottom: 6px;
         }
         .tip-content {
@@ -225,14 +224,14 @@ export const WeatherInsights: React.FC<WeatherInsightsProps> = ({ lat, lon }) =>
           margin-top: 12px;
         }
         .action-btn {
-          background: #667eea !important;
+          background: #3b82f6 !important;
           color: white !important;
-          border-radius: 8px !important;
-          font-weight: 600;
+          border-radius: 6px !important;
+          font-weight: 500;
           border: none !important;
         }
         .action-btn:disabled {
-          background: #b3b7e2 !important;
+          background: #9ca3af !important;
           color: #f8f9fa !important;
         }
       `}</style>

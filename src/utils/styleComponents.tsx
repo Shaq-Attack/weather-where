@@ -49,7 +49,7 @@ export function GlobalAnimationStyles() {
           padding: 1rem;
           border-radius: 12px;
           margin-top: 1rem;
-          border-left: 4px solid #667eea;
+          border-left: 4px solid #3b82f6;
         }
         
         .protection-tip-title {
