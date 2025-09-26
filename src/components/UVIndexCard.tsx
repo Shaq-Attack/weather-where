@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   Card,
   CardHeader,
@@ -7,6 +7,7 @@ import {
 } from "@progress/kendo-react-layout";
 import { Loader } from "@progress/kendo-react-indicators";
 import { Notification } from "@progress/kendo-react-notification";
+import { getCurrentUVIndex, fetchUVIndex, fetchWeather } from '../api/openWeather';
 
 interface UVData {
   uvIndex: number;
@@ -29,77 +30,103 @@ export function UVIndexCard({ lat, lon }: UVIndexCardProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [fadeClass, setFadeClass] = useState("");
-
-  // Mock data for demonstration - replace with real API call
-  const getMockUVData = (): UVData => {
-    const uvValue = Math.floor(Math.random() * 12) + 1;
-    let riskLevel, color, recommendation, spfRecommendation;
-    
-    if (uvValue <= 2) {
-      riskLevel = "Low";
-      color = "#289500";
-      recommendation = "No protection needed. You can safely enjoy the outdoors!";
-      spfRecommendation = "SPF 15+";
-    } else if (uvValue <= 5) {
-      riskLevel = "Moderate";
-      color = "#f7e400";
-      recommendation = "Some protection required. Seek shade during midday hours.";
-      spfRecommendation = "SPF 30+";
-    } else if (uvValue <= 7) {
-      riskLevel = "High";
-      color = "#f85900";
-      recommendation = "Protection essential. Avoid sun during peak hours (10 AM - 4 PM).";
-      spfRecommendation = "SPF 30+";
-    } else if (uvValue <= 10) {
-      riskLevel = "Very High";
-      color = "#d8001d";
-      recommendation = "Extra protection required. Stay in shade, wear protective clothing.";
-      spfRecommendation = "SPF 50+";
-    } else {
-      riskLevel = "Extreme";
-      color = "#6b49c8";
-      recommendation = "Avoid sun exposure. Stay indoors or in complete shade.";
-      spfRecommendation = "SPF 50+";
-    }
-
-    const now = new Date();
-    const sunrise = new Date(now);
-    sunrise.setHours(6, 30, 0);
-    const sunset = new Date(now);
-    sunset.setHours(19, 45, 0);
-
-    return {
-      uvIndex: uvValue,
-      riskLevel,
-      color,
-      sunrise: sunrise.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      sunset: sunset.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      peakUVTime: "12:00 PM - 2:00 PM",
-      recommendation,
-      spfRecommendation
-    };
-  };
+  const cancelTokenRef = useRef<{ cancelled: boolean }>({ cancelled: false });
 
   const loadUVData = async () => {
+    // Cancel any previous request
+    cancelTokenRef.current.cancelled = true;
+    
+    // Create new cancel token for this request
+    const currentToken = { cancelled: false };
+    cancelTokenRef.current = currentToken;
+
+    if (!lat || !lon) {
+      return;
+    }
+
     setLoading(true);
     setError(null);
     setFadeClass("fade-out");
 
     try {
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const [uvData, weatherData] = await Promise.all([
+        fetchUVIndex(lat, lon),
+        fetchWeather(lat, lon)
+      ]);
+      const uvIndex = getCurrentUVIndex(uvData);
       
-      const data = getMockUVData();
+      // Check if this request was cancelled before setting state
+      if (currentToken.cancelled) {
+        return;
+      }
       
-      setTimeout(() => {
-        setUvData(data);
-        setFadeClass("fade-in");
-        setLoading(false);
-      }, 300);
+      let riskLevel, color, recommendation, spfRecommendation;
+      
+      // Handle zero UV Index gracefully
+      if (uvIndex === 0) {
+        riskLevel = "No Risk";
+        color = "#6c757d";
+        recommendation = "No UV exposure risk at this time (nighttime hours or overcast conditions).";
+        spfRecommendation = "No protection needed";
+      } else if (uvIndex <= 2) {
+        riskLevel = "Low";
+        color = "#289500";
+        recommendation = "No protection needed. You can safely enjoy the outdoors!";
+        spfRecommendation = "SPF 15+";
+      } else if (uvIndex <= 5) {
+        riskLevel = "Moderate";
+        color = "#f7e400";
+        recommendation = "Some protection required. Seek shade during midday hours.";
+        spfRecommendation = "SPF 30+";
+      } else if (uvIndex <= 7) {
+        riskLevel = "High";
+        color = "#f85900";
+        recommendation = "Protection required. Seek shade and wear protective clothing.";
+        spfRecommendation = "SPF 30+";
+      } else if (uvIndex <= 10) {
+        riskLevel = "Very High";
+        color = "#d8001d";
+        recommendation = "Extra protection required. Avoid being outside during midday hours.";
+        spfRecommendation = "SPF 50+";
+      } else {
+        riskLevel = "Extreme";
+        color = "#6b49c8";
+        recommendation = "Avoid outside exposure. Take all precautions.";
+        spfRecommendation = "SPF 50+";
+      }
+
+      // Get real sunrise/sunset from weather API
+      const sunriseTime = new Date(weatherData.sys.sunrise * 1000);
+      const sunsetTime = new Date(weatherData.sys.sunset * 1000);
+
+      const data: UVData = {
+        uvIndex,
+        riskLevel,
+        color,
+        sunrise: sunriseTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        sunset: sunsetTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        peakUVTime: "12:00 PM - 2:00 PM",
+        recommendation,
+        spfRecommendation
+      };
+      
+      // Final check before setting state
+      if (!currentToken.cancelled) {
+        setTimeout(() => {
+          if (!currentToken.cancelled) {
+            setUvData(data);
+            setFadeClass("fade-in");
+            setLoading(false);
+          }
+        }, 300);
+      }
     } catch (err: any) {
-      console.error("Error fetching UV data:", err);
-      setError("Failed to load UV index data");
-      setLoading(false);
+      // Only update state if request wasn't cancelled
+      if (!currentToken.cancelled) {
+        console.error("Error fetching UV data:", err);
+        setError("Failed to load UV index data");
+        setLoading(false);
+      }
     }
   };
 
