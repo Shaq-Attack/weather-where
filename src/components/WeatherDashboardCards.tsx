@@ -1,19 +1,78 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardHeader, CardBody, CardTitle, CardSubtitle } from '@progress/kendo-react-layout';
 import { ArcGauge } from '@progress/kendo-react-gauges';
 import { Chart, ChartSeries, ChartSeriesItem, ChartLegend } from '@progress/kendo-react-charts';
 import { ProgressBar } from '@progress/kendo-react-progressbars';
+import { Loader } from '@progress/kendo-react-indicators';
+import { fetchUVIndex, getCurrentUVIndex } from '../api/openWeather';
 import '@progress/kendo-theme-material/dist/all.css';
 
 interface WeatherDashboardCardsProps {
   weatherData: any;
   isCelsius: boolean;
+  lat?: number;
+  lon?: number;
 }
 
 export const WeatherDashboardCards: React.FC<WeatherDashboardCardsProps> = ({
   weatherData,
-  isCelsius
+  isCelsius,
+  lat,
+  lon
 }) => {
+  // UV Index state management
+  const [uvIndex, setUvIndex] = useState<number>(0);
+  const [uvLoading, setUvLoading] = useState<boolean>(true);
+  const [uvError, setUvError] = useState<string | null>(null);
+
+  // Load UV Index data
+  useEffect(() => {
+    let cancelled = false; // Prevent race conditions
+    
+    const loadUVData = async () => {
+      if (!lat || !lon) {
+        setUvLoading(false);
+        return;
+      }
+
+      try {
+        setUvLoading(true);
+        setUvError(null);
+        
+        console.log('Loading UV data for coordinates:', { lat, lon });
+        
+        const uvData = await fetchUVIndex(lat, lon);
+        
+        // Check if this request was cancelled
+        if (cancelled) {
+          console.log('UV request cancelled for:', { lat, lon });
+          return;
+        }
+        
+        const currentUV = getCurrentUVIndex(uvData);
+        console.log('UV data loaded successfully:', { lat, lon, currentUV });
+        
+        setUvIndex(currentUV);
+      } catch (error) {
+        if (!cancelled) {
+          console.error('Error fetching UV data for:', { lat, lon }, error);
+          setUvError('Failed to load UV data');
+          setUvIndex(0);
+        }
+      } finally {
+        if (!cancelled) {
+          setUvLoading(false);
+        }
+      }
+    };
+
+    loadUVData();
+    
+    // Cleanup function to cancel the request
+    return () => {
+      cancelled = true;
+    };
+  }, [lat, lon]);
   if (!weatherData) {
     return (
       <div className="dashboard-grid">
@@ -36,7 +95,6 @@ export const WeatherDashboardCards: React.FC<WeatherDashboardCardsProps> = ({
     humidity: hour.humidity
   }));
 
-  const uvIndex = current?.uvi || 0;
   const visibility = current?.visibility || 0;
   const windSpeed = current?.wind_speed || 0;
 
@@ -625,31 +683,80 @@ export const WeatherDashboardCards: React.FC<WeatherDashboardCardsProps> = ({
                 }}
               >
                 <h3 style={{ margin: '0 0 16px 0', fontSize: '1.2rem', fontWeight: '700' }}>UV Index</h3>
-                <div className="gauge-container" style={{ minHeight: '150px' }}>
-                  <ArcGauge
-                    value={uvIndex}
-                    scale={{
-                      min: 0,
-                      max: 11,
-                      majorTicks: {
-                        visible: true
-                      },
-                      labels: {
-                        visible: true
-                      }
-                    }}
-                    colors={[
-                      { from: 0, to: 2, color: '#00ff00' },
-                      { from: 3, to: 5, color: '#ffff00' },
-                      { from: 6, to: 7, color: '#ff8c00' },
-                      { from: 8, to: 10, color: '#ff0000' },
-                      { from: 11, to: 11, color: '#8b00ff' }
-                    ]}
-                  />
-                </div>
-                <div style={{ textAlign: 'center', marginTop: 10 }}>
-                  <strong>{uvIndex.toFixed(1)}</strong>
-                </div>
+                {uvLoading ? (
+                  <div style={{ 
+                    display: 'flex', 
+                    justifyContent: 'center', 
+                    alignItems: 'center', 
+                    minHeight: '150px',
+                    flexDirection: 'column'
+                  }}>
+                    <Loader type="infinite-spinner" />
+                    <span style={{ marginTop: '8px', fontSize: '0.9rem', color: '#6c757d' }}>
+                      Loading UV data...
+                    </span>
+                  </div>
+                ) : uvError ? (
+                  <div style={{ 
+                    textAlign: 'center', 
+                    minHeight: '150px', 
+                    display: 'flex', 
+                    flexDirection: 'column', 
+                    justifyContent: 'center',
+                    color: '#6c757d'
+                  }}>
+                    <div style={{ fontSize: '2rem', marginBottom: '8px' }}>⚠️</div>
+                    <div style={{ fontSize: '0.9rem' }}>{uvError}</div>
+                  </div>
+                ) : uvIndex === 0 ? (
+                  <div style={{ 
+                    textAlign: 'center', 
+                    minHeight: '150px', 
+                    display: 'flex', 
+                    flexDirection: 'column', 
+                    justifyContent: 'center',
+                    color: '#6c757d'
+                  }}>
+                    <div style={{ fontSize: '2rem', marginBottom: '8px' }}>🌙</div>
+                    <div style={{ fontSize: '1rem', fontWeight: 'bold', marginBottom: '4px' }}>No UV Risk</div>
+                    <div style={{ fontSize: '0.85rem' }}>UV Index not available<br/>during nighttime hours</div>
+                  </div>
+                ) : (
+                  <>
+                    <div className="gauge-container" style={{ minHeight: '150px' }}>
+                      <ArcGauge
+                        value={uvIndex}
+                        scale={{
+                          min: 0,
+                          max: 11,
+                          majorTicks: {
+                            visible: true
+                          },
+                          labels: {
+                            visible: true
+                          }
+                        }}
+                        colors={[
+                          { from: 0, to: 2, color: '#289500' },
+                          { from: 3, to: 5, color: '#f7e400' },
+                          { from: 6, to: 7, color: '#f85900' },
+                          { from: 8, to: 10, color: '#d8001d' },
+                          { from: 11, to: 11, color: '#6b49c8' }
+                        ]}
+                      />
+                    </div>
+                    <div style={{ textAlign: 'center', marginTop: 10 }}>
+                      <strong style={{ fontSize: '1.2rem' }}>{uvIndex}</strong>
+                      <div style={{ fontSize: '0.8rem', color: '#6c757d', marginTop: '4px' }}>
+                        {uvIndex === 0 ? 'No Risk' :
+                         uvIndex <= 2 ? 'Low Risk' :
+                         uvIndex <= 5 ? 'Moderate Risk' :
+                         uvIndex <= 7 ? 'High Risk' :
+                         uvIndex <= 10 ? 'Very High Risk' : 'Extreme Risk'}
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
 
               {/* Temperature Trend Chart */}
