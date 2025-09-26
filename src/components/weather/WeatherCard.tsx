@@ -4,8 +4,6 @@ import {
   CardBody,
   CardTitle,
 } from "@progress/kendo-react-layout";
-import { Loader } from "@progress/kendo-react-indicators";
-import { Notification } from "@progress/kendo-react-notification";
 import {
   SunIcon,
   CloudIcon,
@@ -22,6 +20,9 @@ import {
   MapPinIcon,
 } from "lucide-react";
 import { useState } from "react";
+import { normalizeWeatherCondition, getWeatherBackground } from '../../utils/weather';
+import { LoadingCard, ErrorNotification, formatCurrentDate, formatUnixTime } from '../../utils/components';
+import { MetricItem, GlobalAnimationStyles } from '../../utils/styleComponents';
 
 interface WeatherCardProps {
   loading: boolean;
@@ -33,70 +34,60 @@ interface WeatherCardProps {
 export function WeatherCard({ loading, error, data, isCelsius }: WeatherCardProps) {
   const [hovered, setHovered] = useState(false);
 
-  if (loading)
+  if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <Loader type="infinite-spinner" />
+      <div style={{ 
+        display: "flex", 
+        alignItems: "center", 
+        justifyContent: "center", 
+        height: "100vh" 
+      }}>
+        <LoadingCard message="Loading weather data..." />
       </div>
     );
+  }
 
-  if (error)
+  if (error) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <Notification type={{ style: "error", icon: true }}>{error}</Notification>
-      </div>
+      <>
+        <ErrorNotification message={error} type="error" />
+      </>
     );
+  }
 
   if (!data) return null;
 
   const condition = data.weather[0].main.toLowerCase();
 
-  // Weather icon mapping
+  // Weather icon mapping using clean function
   const getWeatherIcon = (cond: string) => {
-    if (cond.includes("rain")) return <CloudDrizzleIcon size={48} />;
-    if (cond.includes("cloud")) return <CloudIcon size={48} />;
-    if (cond.includes("snow")) return <SnowflakeIcon size={48} />;
-    if (cond.includes("clear")) return <SunIcon size={48} />;
-    return <SunIcon size={48} />;
+    const normalized = normalizeWeatherCondition(cond);
+    const iconMap = {
+      rain: <CloudDrizzleIcon size={48} />,
+      drizzle: <CloudDrizzleIcon size={48} />,
+      thunderstorm: <CloudDrizzleIcon size={48} />,
+      cloud: <CloudIcon size={48} />,
+      snow: <SnowflakeIcon size={48} />,
+      clear: <SunIcon size={48} />,
+      mist: <CloudIcon size={48} />,
+      fog: <CloudIcon size={48} />,
+      haze: <CloudIcon size={48} />,
+    };
+    return iconMap[normalized as keyof typeof iconMap] || <SunIcon size={48} />;
   };
 
-  // Background gradient mapping - made more subtle for background image compatibility
-  const getBackground = (cond: string) => {
-    if (cond.includes("rain"))
-      return "linear-gradient(135deg, rgba(74, 144, 226, 0.9), rgba(0, 91, 234, 0.9))";
-    if (cond.includes("cloud"))
-      return "linear-gradient(135deg, rgba(189, 195, 199, 0.9), rgba(44, 62, 80, 0.9))";
-    if (cond.includes("snow"))
-      return "linear-gradient(135deg, rgba(131, 164, 212, 0.9), rgba(182, 251, 255, 0.9))";
-    if (cond.includes("clear"))
-      return "linear-gradient(135deg, rgba(247, 151, 30, 0.9), rgba(255, 210, 0, 0.9))";
-    return "linear-gradient(135deg, rgba(41, 128, 185, 0.9), rgba(109, 213, 250, 0.9))";
-  };
-
-  const bg = getBackground(condition);
+  const bg = getWeatherBackground(condition);
+  const darkerBg = getWeatherBackground(condition, true);
   const icon = getWeatherIcon(condition);
 
-  // Function to darken the background by two shades - made more subtle
-  const getDarkerBackground = (cond: string) => {
-    if (cond.includes("rain"))
-      return "linear-gradient(135deg, rgba(44, 90, 160, 0.95), rgba(0, 51, 136, 0.95))";
-    if (cond.includes("cloud"))
-      return "linear-gradient(135deg, rgba(127, 140, 141, 0.95), rgba(26, 37, 47, 0.95))";
-    if (cond.includes("snow"))
-      return "linear-gradient(135deg, rgba(90, 127, 167, 0.95), rgba(125, 211, 255, 0.95))";
-    if (cond.includes("clear"))
-      return "linear-gradient(135deg, rgba(204, 85, 0, 0.95), rgba(230, 172, 0, 0.95))";
-    return "linear-gradient(135deg, rgba(30, 95, 140, 0.95), rgba(74, 155, 193, 0.95))";
-  };
-
-  const darkerBg = getDarkerBackground(condition);
-
   return (
-    <div
-      style={{ position: "relative", width: 360, margin: "0 auto" }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
+    <>
+      <GlobalAnimationStyles />
+      <div
+        style={{ position: "relative", width: 360, margin: "0 auto" }}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
       {/* Main Weather Card */}
       <Card
         style={{
@@ -126,12 +117,7 @@ export function WeatherCard({ loading, error, data, isCelsius }: WeatherCardProp
             {data.name}, {data.sys.country}
           </div>
           <div style={{ fontSize: "0.85rem", opacity: 0.8, marginTop: "0.25rem" }}>
-            {new Date().toLocaleDateString('en-US', { 
-              weekday: 'long', 
-              year: 'numeric', 
-              month: 'long', 
-              day: 'numeric' 
-            })}
+            {formatCurrentDate()}
           </div>
         </CardHeader>
         <CardBody style={{ padding: "2rem" }}>
@@ -159,62 +145,27 @@ export function WeatherCard({ loading, error, data, isCelsius }: WeatherCardProp
           </div>
           
           {/* Secondary metrics in clean grid */}
-          <div style={{ 
-            display: "grid", 
-            gridTemplateColumns: "1fr 1fr", 
-            gap: "1.5rem",
-            fontSize: "0.95rem",
-            opacity: 0.9,
-            padding: "1rem 0",
-            borderTop: "1px solid rgba(255,255,255,0.15)"
-          }}>
-            <div style={{ 
-              display: "flex", 
-              flexDirection: "column", 
-              alignItems: "center", 
-              gap: "0.5rem",
-              textAlign: "center"
-            }}>
-              <ThermometerSunIcon size={18} />
-              <div>
-                <div style={{ fontSize: "0.8rem", opacity: 0.8 }}>Feels like</div>
-                <div style={{ fontWeight: "600" }}>{Math.round(data.main.feels_like)}{isCelsius ? "°C" : "°F"}</div>
-              </div>
-            </div>
-            <div style={{ 
-              display: "flex", 
-              flexDirection: "column", 
-              alignItems: "center", 
-              gap: "0.5rem",
-              textAlign: "center"
-            }}>
-              <EyeIcon size={18} />
-              <div>
-                <div style={{ fontSize: "0.8rem", opacity: 0.8 }}>Visibility</div>
-                <div style={{ fontWeight: "600" }}>{data.visibility ? Math.round(data.visibility / 1000) : 10}km</div>
-              </div>
-            </div>
-            <div style={{ 
-              display: "flex", 
-              flexDirection: "column", 
-              alignItems: "center", 
-              gap: "0.5rem",
-              textAlign: "center"
-            }}>
-              <GaugeIcon size={18} />
-              <div>
-                <div style={{ fontSize: "0.8rem", opacity: 0.8 }}>Pressure</div>
-                <div style={{ fontWeight: "600" }}>{data.main.pressure}hPa</div>
-              </div>
-            </div>
-            <div style={{ 
-              display: "flex", 
-              flexDirection: "column", 
-              alignItems: "center", 
-              gap: "0.5rem",
-              textAlign: "center"
-            }}>
-            </div>
+          <div className="metric-grid">
+            <MetricItem
+              icon={<ThermometerSunIcon size={18} />}
+              label="Feels like"
+              value={`${Math.round(data.main.feels_like)}${isCelsius ? "°C" : "°F"}`}
+            />
+            <MetricItem
+              icon={<EyeIcon size={18} />}
+              label="Visibility"
+              value={`${data.visibility ? Math.round(data.visibility / 1000) : 10}km`}
+            />
+            <MetricItem
+              icon={<GaugeIcon size={18} />}
+              label="Pressure"
+              value={`${data.main.pressure}hPa`}
+            />
+            <MetricItem
+              icon={<DropletIcon size={18} />}
+              label="Humidity"
+              value={`${data.main.humidity}%`}
+            />
           </div>
         </CardBody>
       </Card>
@@ -314,7 +265,7 @@ export function WeatherCard({ loading, error, data, isCelsius }: WeatherCardProp
                   Sunrise
                 </div>
                 <div style={{ fontWeight: "600", fontSize: "1rem" }}>
-                  {new Date(data.sys.sunrise * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                  {formatUnixTime(data.sys.sunrise)}
                 </div>
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
@@ -323,7 +274,7 @@ export function WeatherCard({ loading, error, data, isCelsius }: WeatherCardProp
                   Sunset
                 </div>
                 <div style={{ fontWeight: "600", fontSize: "1rem" }}>
-                  {new Date(data.sys.sunset * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                  {formatUnixTime(data.sys.sunset)}
                 </div>
               </div>
             </div>
@@ -332,5 +283,6 @@ export function WeatherCard({ loading, error, data, isCelsius }: WeatherCardProp
         </div>
       </Card>
     </div>
+    </>
   );
 }

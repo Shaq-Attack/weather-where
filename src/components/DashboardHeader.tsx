@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { AppBar, AppBarSection, AppBarSpacer } from '@progress/kendo-react-layout';
 import { DropDownList } from '@progress/kendo-react-dropdowns';
-import { Switch } from '@progress/kendo-react-inputs';
-import { TextBox } from '@progress/kendo-react-inputs';
+import { Switch, TextBox } from '@progress/kendo-react-inputs';
 import '@progress/kendo-theme-material/dist/all.css';
 
 interface DashboardHeaderProps {

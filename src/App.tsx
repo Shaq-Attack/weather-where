@@ -1,15 +1,23 @@
 import { useEffect, useState } from "react";
+
+// Hooks
 import { useGeolocation } from "./hooks/useGeolocation";
 import { useWeather } from "./hooks/useWeather";
 import { useLocalStorage } from "./hooks/useLocalStorage";
+
+// Components
 import { DashboardLayout } from "./components/DashboardLayout";
 import { DashboardHeader } from "./components/DashboardHeader";
 import { DashboardSidebar } from "./components/DashboardSidebar";
-import { WeatherDashboardCards } from "./components/weather/WeatherDashboardCards";
 import { DashboardWidgets } from "./components/DashboardWidgets";
+
+// Weather Components
+import { WeatherDashboardCards } from "./components/weather/WeatherDashboardCards";
 import { ForecastScreen } from "./components/weather/ForecastScreen";
 import { HourlyScreen } from "./components/weather/HourlyScreen";
 import { WeatherDetailsScreen } from "./components/weather/WeatherDetailsScreen";
+
+// Styles and Data
 import "./App.css";
 import cityList from '../city.list.json';
 import "@progress/kendo-theme-material/dist/all.css";

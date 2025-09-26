@@ -1,13 +1,26 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   Card,
   CardHeader,
   CardBody,
   CardTitle,
 } from "@progress/kendo-react-layout";
-import { Loader } from "@progress/kendo-react-indicators";
-import { Notification } from "@progress/kendo-react-notification";
 import { fetchAirPollution, AirPollutionData } from '../../api/openWeather';
+import { cardStyles, headerStyles, bodyStyles } from '../../utils/styles';
+import { 
+  LoadingCard, 
+  ErrorCard, 
+  ErrorNotification, 
+  useLoadingWithFade,
+  createCancelToken,
+  isCancelled,
+  cancelToken
+} from '../../utils/components';
+import { 
+  GlobalAnimationStyles, 
+  CircularIndicator, 
+  ProtectionTip
+} from '../../utils/styleComponents';
 
 interface AirQualityData {
   aqi: number;
@@ -29,9 +42,9 @@ interface AirQualityCardProps {
 
 export function AirQualityCard({ lat, lon }: AirQualityCardProps) {
   const [airQuality, setAirQuality] = useState<AirQualityData | null>(null);
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [fadeClass, setFadeClass] = useState("");
+  const { loading, fadeClass, startLoading, finishLoading } = useLoadingWithFade();
+  const cancelTokenRef = useRef<{ cancelled: boolean }>({ cancelled: false });
 
   // Calculate US EPA AQI from pollutant concentrations
   const calculateUSEPAAQI = (pm25: number, pm10: number, o3: number, no2: number): number => {
@@ -143,28 +156,43 @@ export function AirQualityCard({ lat, lon }: AirQualityCardProps) {
   };
 
   const loadAirQuality = async () => {
+    // Cancel any previous request
+    cancelToken(cancelTokenRef.current);
+    
+    // Create new cancel token for this request
+    const currentToken = createCancelToken();
+    cancelTokenRef.current = currentToken;
+
     if (!lat || !lon) {
       setError("Location coordinates are required");
       return;
     }
 
-    setLoading(true);
+    startLoading();
     setError(null);
-    setFadeClass("fade-out");
 
     try {
       const data = await fetchAirPollution(lat, lon);
+      
+      // Check if this request was cancelled before setting state
+      if (isCancelled(currentToken)) {
+        return;
+      }
+      
       const airQualityData = convertAirQualityData(data);
       
       setTimeout(() => {
-        setAirQuality(airQualityData);
-        setFadeClass("fade-in");
-        setLoading(false);
+        if (!isCancelled(currentToken)) {
+          setAirQuality(airQualityData);
+          finishLoading();
+        }
       }, 300);
     } catch (err: any) {
-      console.error("Error fetching air quality:", err);
-      setError("Failed to load air quality data");
-      setLoading(false);
+      if (!isCancelled(currentToken)) {
+        console.error("Error fetching air quality:", err);
+        setError("Failed to load air quality data");
+        finishLoading();
+      }
     }
   };
 
@@ -173,65 +201,23 @@ export function AirQualityCard({ lat, lon }: AirQualityCardProps) {
   }, [lat, lon]);
 
   if (loading && !airQuality) {
-    return (
-      <Card 
-        style={{ 
-          borderRadius: "20px", 
-          margin: "1rem auto", 
-          maxWidth: "600px",
-          boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
-          minHeight: "300px",
-          height: "auto"
-        }}
-      >
-        <CardBody style={{ 
-          display: "flex", 
-          alignItems: "center", 
-          justifyContent: "center", 
-          padding: "2rem" 
-        }}>
-          <Loader type="infinite-spinner" />
-          <span style={{ marginLeft: "1rem" }}>Loading air quality data...</span>
-        </CardBody>
-      </Card>
-    );
+    return <LoadingCard message="Loading air quality data..." minHeight="300px" />;
   }
 
   if (!airQuality) {
-    return (
-      <Card 
-        style={{ 
-          borderRadius: "20px", 
-          margin: "1rem auto", 
-          maxWidth: "600px",
-          boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
-        }}
-      >
-        <CardBody style={{ padding: "2rem", textAlign: "center" }}>
-          <p>No air quality data available. Location coordinates are required.</p>
-        </CardBody>
-      </Card>
-    );
+    return <ErrorCard message="No air quality data available. Location coordinates are required." />;
   }
 
   return (
     <>
+      <GlobalAnimationStyles />
       <style>
         {`
-          .fade-in {
-            opacity: 1;
-            transition: opacity 0.3s ease-in;
-          }
-          .fade-out {
-            opacity: 0.3;
-            transition: opacity 0.3s ease-out;
-          }
-          .air-quality-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
-          }
-          .air-quality-card {
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+          .pollutant-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
           }
           .aqi-circle {
             width: 120px;
@@ -272,47 +258,31 @@ export function AirQualityCard({ lat, lon }: AirQualityCardProps) {
       </style>
       
       <Card 
-        className={`air-quality-card ${fadeClass}`}
-        style={{ 
-          borderRadius: "20px", 
-          margin: "1rem auto", 
-          maxWidth: "600px",
-          boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
+        className={`card-hover ${fadeClass}`}
+        style={{
+          ...cardStyles.base,
           height: "auto",
           minHeight: "450px"
         }}
         role="article"
         aria-label="Air quality information"
       >
-        <CardHeader style={{ 
-          textAlign: "center", 
-          fontWeight: "bold", 
-          padding: "1.5rem 1.5rem 1rem",
+        <CardHeader style={{
+          ...headerStyles.base,
           background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-          borderTopLeftRadius: "20px",
-          borderTopRightRadius: "20px"
         }}>
-          <CardTitle style={{ 
-            color: "white", 
-            display: "flex", 
-            alignItems: "center", 
-            justifyContent: "center", 
-            gap: "0.5rem" 
-          }}>
+          <CardTitle style={headerStyles.title}>
             🌬️ Air Quality Index
           </CardTitle>
         </CardHeader>
         
-        <CardBody style={{ padding: "1.5rem", textAlign: "center", height: "auto" }}>
-          <div 
-            className="aqi-circle"
-            style={{ backgroundColor: airQuality.color }}
-          >
-            <div>
-              <div style={{ fontSize: "2rem" }}>{airQuality.aqi}</div>
-              <div style={{ fontSize: "0.8rem" }}>AQI</div>
-            </div>
-          </div>
+        <CardBody style={{ ...bodyStyles.base, height: "auto" }}>
+          <CircularIndicator 
+            value={airQuality.aqi}
+            label="AQI"
+            color={airQuality.color}
+            size={120}
+          />
           
           <h3 style={{ 
             margin: "0 0 1rem 0", 
@@ -322,14 +292,10 @@ export function AirQualityCard({ lat, lon }: AirQualityCardProps) {
             {airQuality.level}
           </h3>
           
-          <p style={{ 
-            fontSize: "0.9rem", 
-            lineHeight: "1.5", 
-            margin: "0 0 1rem 0",
-            color: "#495057"
-          }}>
-            {airQuality.healthAdvice}
-          </p>
+          <ProtectionTip
+            title="Health Impact"
+            content={airQuality.healthAdvice}
+          />
 
           <div style={{
             fontSize: "0.75rem",
@@ -366,13 +332,11 @@ export function AirQualityCard({ lat, lon }: AirQualityCardProps) {
       </Card>
 
       {error && (
-        <Notification 
-          type={{ style: "warning", icon: true }}
-          closable
+        <ErrorNotification 
+          message={error}
           onClose={() => setError(null)}
-        >
-          {error}
-        </Notification>
+          type="warning"
+        />
       )}
     </>
   );
