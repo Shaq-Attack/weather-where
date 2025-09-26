@@ -7,7 +7,7 @@ import {
 } from "@progress/kendo-react-layout";
 import { Loader } from "@progress/kendo-react-indicators";
 import { Notification } from "@progress/kendo-react-notification";
-import { getCurrentUVIndex, fetchUVIndex, fetchWeather } from '../api/openWeather';
+import { getCurrentUVIndex, fetchUVIndex, fetchWeather } from '../../api/openWeather';
 
 interface UVData {
   uvIndex: number;

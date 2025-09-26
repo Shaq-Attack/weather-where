@@ -17,9 +17,9 @@ import {
   EyeIcon,
 } from "lucide-react";
 import { useState } from "react";
-import { ForecastHour } from "../api/openWeather";
-import { formatDateTime, formatTime } from "../utils/time";
-import { formatTemperature } from "../utils/convertTemp";
+import { ForecastHour } from "../../api/openWeather";
+import { formatDateTime, formatTime } from "../../utils/time";
+import { formatTemperature } from "../../utils/convertTemp";
 
 interface HourlyGridProps {
   hourly: ForecastHour[];
@@ -54,8 +54,8 @@ export function HourlyGrid({
     id: index + 1,
     formattedTime: formatTime(hour.dt, timezoneOffset),
     formattedDateTime: formatDateTime(hour.dt, timezoneOffset),
-    weatherMain: hour.weather[0].main,
-    weatherDescription: hour.weather[0].description,
+    weatherMain: Array.isArray(hour.weather) ? hour.weather[0].main : hour.weather.main,
+    weatherDescription: Array.isArray(hour.weather) ? hour.weather[0].description : hour.weather.description,
     temperatureFormatted: formatTemperature(hour.temp, tempUnit),
     feelsLikeFormatted: formatTemperature(hour.feels_like, tempUnit),
     precipitationPercent: Math.round(hour.pop * 100),
@@ -75,7 +75,7 @@ export function HourlyGrid({
     return "linear-gradient(135deg, rgba(41, 128, 185, 0.95), rgba(109, 213, 250, 0.95))";
   };
 
-  const condition = selectedHour?.weather[0].main.toLowerCase() || "clear";
+  const condition = selectedHour?.weather?.main?.toLowerCase() || "clear";
   const bg = getBackground(condition);
 
   const handleRowClick = (dataItem: GridData) => {

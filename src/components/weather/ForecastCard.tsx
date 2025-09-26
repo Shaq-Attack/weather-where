@@ -18,9 +18,9 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { ForecastDay, ForecastHour } from "../api/openWeather";
-import { formatDate, formatTime } from "../utils/time";
-import { formatTemperature } from "../utils/convertTemp";
+import { ForecastDay, ForecastHour } from "../../api/openWeather";
+import { formatDate, formatTime } from "../../utils/time";
+import { formatTemperature } from "../../utils/convertTemp";
 
 interface ForecastCardProps {
   daily: ForecastDay[];
@@ -257,14 +257,14 @@ export function ForecastCard({ daily, hourly, isCelsius, timezoneOffset }: Forec
                       border: "1px solid #e0e0e0"
                     }}
                     role="listitem"
-                    aria-label={`Weather at ${formatTime(hour.dt, timezoneOffset)}: ${hour.weather[0].description}, ${formatTemperature(hour.temp, tempUnit)}`}
+                    aria-label={`Weather at ${formatTime(hour.dt, timezoneOffset)}: ${hour.weather.description}, ${formatTemperature(hour.temp, tempUnit)}`}
                   >
                     <CardBody style={{ padding: "0.75rem" }}>
                       <div style={{ fontSize: "0.8rem", fontWeight: "bold", marginBottom: "0.5rem" }}>
                         {formatTime(hour.dt, timezoneOffset)}
                       </div>
                       <div style={{ margin: "0.5rem 0" }}>
-                        {getWeatherIcon(hour.weather[0].main, 24)}
+                        {getWeatherIcon(hour.weather.main, 24)}
                       </div>
                       <div style={{ fontSize: "0.9rem", fontWeight: "bold" }}>
                         {formatTemperature(hour.temp, tempUnit)}
@@ -344,8 +344,8 @@ export function ForecastCard({ daily, hourly, isCelsius, timezoneOffset }: Forec
                       <td style={{ padding: "0.5rem" }}>{formatTemperature(hour.temp, tempUnit)}</td>
                       <td style={{ padding: "0.5rem" }}>
                         <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                          {getWeatherIcon(hour.weather[0].main, 16)}
-                          <span style={{ fontSize: "0.8rem" }}>{hour.weather[0].main}</span>
+                          {getWeatherIcon(hour.weather.main, 16)}
+                          <span style={{ fontSize: "0.8rem" }}>{hour.weather.main}</span>
                         </div>
                       </td>
                       <td style={{ padding: "0.5rem" }}>{Math.round(hour.pop * 100)}%</td>

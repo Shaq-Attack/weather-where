@@ -7,7 +7,7 @@ import {
 } from "@progress/kendo-react-layout";
 import { Loader } from "@progress/kendo-react-indicators";
 import { Notification } from "@progress/kendo-react-notification";
-import { fetchAirPollution, AirPollutionData } from '../api/openWeather';
+import { fetchAirPollution, AirPollutionData } from '../../api/openWeather';
 
 interface AirQualityData {
   aqi: number;

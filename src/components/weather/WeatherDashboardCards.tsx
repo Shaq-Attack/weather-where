@@ -4,7 +4,7 @@ import { ArcGauge } from '@progress/kendo-react-gauges';
 import { Chart, ChartSeries, ChartSeriesItem, ChartLegend, ChartCategoryAxis, ChartCategoryAxisItem, ChartValueAxis, ChartValueAxisItem, ChartTooltip } from '@progress/kendo-react-charts';
 import { ProgressBar } from '@progress/kendo-react-progressbars';
 import { Loader } from '@progress/kendo-react-indicators';
-import { fetchUVIndex, getCurrentUVIndex } from '../api/openWeather';
+import { fetchUVIndex, getCurrentUVIndex } from '../../api/openWeather';
 import '@progress/kendo-theme-material/dist/all.css';
 
 interface WeatherDashboardCardsProps {

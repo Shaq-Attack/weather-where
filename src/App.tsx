@@ -5,8 +5,11 @@ import { useLocalStorage } from "./hooks/useLocalStorage";
 import { DashboardLayout } from "./components/DashboardLayout";
 import { DashboardHeader } from "./components/DashboardHeader";
 import { DashboardSidebar } from "./components/DashboardSidebar";
-import { WeatherDashboardCards } from "./components/WeatherDashboardCards";
+import { WeatherDashboardCards } from "./components/weather/WeatherDashboardCards";
 import { DashboardWidgets } from "./components/DashboardWidgets";
+import { ForecastScreen } from "./components/weather/ForecastScreen";
+import { HourlyScreen } from "./components/weather/HourlyScreen";
+import { WeatherDetailsScreen } from "./components/weather/WeatherDetailsScreen";
 import "./App.css";
 import cityList from '../city.list.json';
 import "@progress/kendo-theme-material/dist/all.css";
@@ -19,6 +22,7 @@ export default function App() {
   const [userSelectedCity, setUserSelectedCity] = useState(false);
   const [lat, setLat] = useState<number | null>(null);
   const [lon, setLon] = useState<number | null>(null);
+  const [currentView, setCurrentView] = useLocalStorage<string>('currentView', 'overview');
 
   const handleUnitToggle = async () => {
     const newIsCelsius = !isCelsius;
@@ -40,6 +44,10 @@ export default function App() {
       setSelectedCity(city);
       setUserSelectedCity(true);
     }
+  };
+
+  const handleNavigation = (view: string) => {
+    setCurrentView(view);
   };
 
   // Filter cities from the imported list
@@ -129,6 +137,47 @@ export default function App() {
     return null;
   };
 
+
+
+  // Render main content based on current view
+  const renderMainContent = () => {
+    switch (currentView) {
+      case 'forecast':
+        return (
+          <ForecastScreen
+            weatherData={weatherData}
+            isCelsius={isCelsius}
+          />
+        );
+      case 'hourly':
+        return (
+          <HourlyScreen
+            weatherData={weatherData}
+            isCelsius={isCelsius}
+          />
+        );
+      case 'details':
+        return (
+          <WeatherDetailsScreen
+            weatherData={weatherData}
+            isCelsius={isCelsius}
+            lat={lat || undefined}
+            lon={lon || undefined}
+          />
+        );
+      case 'overview':
+      default:
+        return (
+          <WeatherDashboardCards
+            weatherData={weatherData}
+            isCelsius={isCelsius}
+            lat={lat || undefined}
+            lon={lon || undefined}
+          />
+        );
+    }
+  };
+
   return (
     <DashboardLayout
       header={
@@ -142,18 +191,13 @@ export default function App() {
         />
       }
       sidebar={
-        <DashboardSidebar />
+        <DashboardSidebar onNavigate={handleNavigation} />
       }
-      mainContent={
-        <WeatherDashboardCards
-          weatherData={weatherData}
-          isCelsius={isCelsius}
-          lat={lat || undefined}
-          lon={lon || undefined}
-        />
-      }
+      mainContent={renderMainContent()}
       rightPanel={
-        <DashboardWidgets lat={lat} lon={lon} />
+        currentView === 'overview' ? (
+          <DashboardWidgets lat={lat} lon={lon} />
+        ) : null
       }
     />
   );

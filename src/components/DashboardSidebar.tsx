@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { TreeView } from '@progress/kendo-react-treeview';
-import { Button } from '@progress/kendo-react-buttons';
 import '@progress/kendo-theme-material/dist/all.css';
 
 interface DashboardSidebarProps {
@@ -19,7 +17,25 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
       id: 'overview',
       title: 'Overview',
       icon: 'k-i-dashboard',
-      route: '/dashboard'
+      route: 'overview'
+    },
+    {
+      id: 'forecast',
+      title: 'Forecast',
+      icon: 'k-i-calendar',
+      route: 'forecast'
+    },
+    {
+      id: 'hourly',
+      title: 'Hourly',
+      icon: 'k-i-clock',
+      route: 'hourly'
+    },
+    {
+      id: 'details',
+      title: 'Details',
+      icon: 'k-i-info',
+      route: 'details'
     }
   ];
 

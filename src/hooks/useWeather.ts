@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { fetchWeather, fetchForecast, ForecastDay, ForecastHour, isOneCallResponse, convertToDaily, convertToHourly } from '../api/openWeather';
+import { fetchWeather, fetchForecast, ForecastDay, ForecastHour, convertToDaily, convertToHourly } from '../api/openWeather';
 
 export interface WeatherData {
   current: any;
@@ -82,29 +82,16 @@ export function useWeather() {
         fetchForecast(lat, lon, units),
       ]);
 
-      let daily: ForecastDay[];
-      let hourly: ForecastHour[];
-      let timezone: string | undefined;
-      let timezone_offset: number | undefined;
-
-      if (isOneCallResponse(forecastData)) {
-        // OneCall API response
-        daily = forecastData.daily.slice(0, 7); // Next 7 days
-        hourly = forecastData.hourly.slice(0, 48); // Next 48 hours
-        timezone = forecastData.timezone;
-        timezone_offset = forecastData.timezone_offset;
-      } else {
-        // 5-day/3-hour forecast response
-        daily = convertToDaily(forecastData).slice(0, 7);
-        hourly = convertToHourly(forecastData);
-        timezone_offset = forecastData.city.timezone;
-      }
+      // Always using 5-day/3-hour forecast response now (free tier)
+      const daily = convertToDaily(forecastData).slice(0, 7);
+      const hourly = convertToHourly(forecastData);
+      const timezone_offset = forecastData.city.timezone;
 
       const weatherData: WeatherData = {
         current: currentWeather,
         daily,
         hourly,
-        timezone,
+        timezone: undefined, // Not available in free tier 2.5 API
         timezone_offset,
       };
 

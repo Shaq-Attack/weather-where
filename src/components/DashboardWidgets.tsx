@@ -1,6 +1,6 @@
-import { AirQualityCard } from './AirQualityCard';
-import { WeatherInsights } from './WeatherInsights';
-import { UVIndexCard } from './UVIndexCard';
+import { AirQualityCard } from './weather/AirQualityCard';
+import { WeatherInsights } from './weather/WeatherInsights';
+import { UVIndexCard } from './weather/UVIndexCard';
 import '@progress/kendo-theme-material/dist/all.css';
 
 interface DashboardWidgetsProps {

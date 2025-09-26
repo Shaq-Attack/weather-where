@@ -67,36 +67,28 @@ export interface FiveDay3HourResponse {
   };
 }
 
-export async function fetchForecast(lat: number, lon: number, units: 'metric' | 'imperial' = 'metric'): Promise<OneCallResponse | FiveDay3HourResponse> {
+export async function fetchForecast(lat: number, lon: number, units: 'metric' | 'imperial' = 'metric'): Promise<FiveDay3HourResponse> {
   const API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
   
-  // Try One Call API first (might require subscription)
-  try {
-    const oneCallUrl = `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=minutely,alerts&units=${units}&appid=${API_KEY}`;
-    const res = await fetch(oneCallUrl);
-    
-    if (res.ok) {
-      return await res.json() as OneCallResponse;
-    }
-  } catch (error) {
-    console.log('One Call API not available, falling back to 5-day forecast');
+  if (!API_KEY) {
+    throw new Error('OpenWeather API key is not configured. Please check your .env file.');
   }
   
-  // Fallback to 5-day/3-hour forecast
+  // Use only the free tier 5-day/3-hour forecast API (2.5 version)
   const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=${units}&appid=${API_KEY}`;
   const res = await fetch(forecastUrl);
   
   if (!res.ok) {
-    throw new Error(`Forecast API error: ${res.status}`);
+    if (res.status === 401) {
+      throw new Error('Invalid API key. Please check your OpenWeather API key in the .env file.');
+    }
+    throw new Error(`Forecast API error: ${res.status} - ${res.statusText}`);
   }
   
   return await res.json() as FiveDay3HourResponse;
 }
 
-// Helper function to determine if response is OneCall or 5-day format
-export function isOneCallResponse(data: OneCallResponse | FiveDay3HourResponse): data is OneCallResponse {
-  return 'daily' in data && 'hourly' in data;
-}
+// Note: OneCall API removed - using only free tier 2.5 API endpoints
 
 // Convert 5-day/3-hour data to daily summaries
 export function convertToDaily(data: FiveDay3HourResponse): ForecastDay[] {

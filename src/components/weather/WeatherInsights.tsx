@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardHeader, CardBody, CardTitle } from '@progress/kendo-react-layout';
 import { Button } from '@progress/kendo-react-buttons';
-import { fetchWeather, fetchForecast, isOneCallResponse, convertToDaily, ForecastDay } from '../api/openWeather';
+import { fetchWeather, fetchForecast, convertToDaily, ForecastDay } from '../../api/openWeather';
 
 interface WeatherInsightsProps {
   lat?: number | null;
@@ -100,13 +100,8 @@ export const WeatherInsights: React.FC<WeatherInsightsProps> = ({ lat, lon }) =>
         fetchForecast(lat, lon)
       ]);
 
-      let dailyData: ForecastDay[] = [];
-
-      if (isOneCallResponse(forecastData)) {
-        dailyData = forecastData.daily;
-      } else {
-        dailyData = convertToDaily(forecastData);
-      }
+      // Always using 5-day/3-hour forecast response now (free tier)
+      const dailyData = convertToDaily(forecastData);
 
       const temperatureTrend = calculateTemperatureTrend(dailyData);
       const precipitationForecast = calculatePrecipitationForecast(dailyData);
