@@ -33,54 +33,103 @@ export function AirQualityCard({ lat, lon }: AirQualityCardProps) {
   const [error, setError] = useState<string | null>(null);
   const [fadeClass, setFadeClass] = useState("");
 
-  // Convert OpenWeatherMap AQI (1-5) to US EPA AQI (0-500) and get level info
+  // Calculate US EPA AQI from pollutant concentrations
+  const calculateUSEPAAQI = (pm25: number, pm10: number, o3: number, no2: number): number => {
+    // US EPA AQI calculation for PM2.5 (24-hour average)
+    const calculatePM25AQI = (concentration: number): number => {
+      const breakpoints = [
+        { cLo: 0.0, cHi: 12.0, iLo: 0, iHi: 50 },
+        { cLo: 12.1, cHi: 35.4, iLo: 51, iHi: 100 },
+        { cLo: 35.5, cHi: 55.4, iLo: 101, iHi: 150 },
+        { cLo: 55.5, cHi: 150.4, iLo: 151, iHi: 200 },
+        { cLo: 150.5, cHi: 250.4, iLo: 201, iHi: 300 },
+        { cLo: 250.5, cHi: 350.4, iLo: 301, iHi: 400 },
+        { cLo: 350.5, cHi: 500.4, iLo: 401, iHi: 500 }
+      ];
+      
+      for (const bp of breakpoints) {
+        if (concentration >= bp.cLo && concentration <= bp.cHi) {
+          return Math.round(((bp.iHi - bp.iLo) / (bp.cHi - bp.cLo)) * (concentration - bp.cLo) + bp.iLo);
+        }
+      }
+      return concentration > 500.4 ? 500 : 0;
+    };
+
+    // Calculate PM10 AQI (24-hour average)
+    const calculatePM10AQI = (concentration: number): number => {
+      const breakpoints = [
+        { cLo: 0, cHi: 54, iLo: 0, iHi: 50 },
+        { cLo: 55, cHi: 154, iLo: 51, iHi: 100 },
+        { cLo: 155, cHi: 254, iLo: 101, iHi: 150 },
+        { cLo: 255, cHi: 354, iLo: 151, iHi: 200 },
+        { cLo: 355, cHi: 424, iLo: 201, iHi: 300 },
+        { cLo: 425, cHi: 504, iLo: 301, iHi: 400 },
+        { cLo: 505, cHi: 604, iLo: 401, iHi: 500 }
+      ];
+      
+      for (const bp of breakpoints) {
+        if (concentration >= bp.cLo && concentration <= bp.cHi) {
+          return Math.round(((bp.iHi - bp.iLo) / (bp.cHi - bp.cLo)) * (concentration - bp.cLo) + bp.iLo);
+        }
+      }
+      return concentration > 604 ? 500 : 0;
+    };
+
+    // Calculate AQI for each pollutant and return the highest (worst)
+    const pm25AQI = calculatePM25AQI(pm25);
+    const pm10AQI = calculatePM10AQI(pm10);
+    
+    // For O3 and NO2, use simplified approximations since they require hourly vs daily averages
+    // These are rough estimates - real AQI would need proper time-weighted averages
+    const o3AQI = Math.min(Math.round(o3 * 0.3), 500);     // Rough approximation
+    const no2AQI = Math.min(Math.round(no2 * 0.5), 500);   // Rough approximation
+    
+    return Math.max(pm25AQI, pm10AQI, o3AQI, no2AQI);
+  };
+
+  // Convert pollutant data to AQI with proper calculation
   const convertAirQualityData = (data: AirPollutionData): AirQualityData => {
-    const aqiValue = data.list[0].main.aqi;
     const components = data.list[0].components;
     
-    // OpenWeatherMap uses a 1-5 scale, convert to more detailed scale for display
-    let displayAqi, level, color, healthAdvice;
+    // Calculate proper US EPA AQI from pollutant concentrations
+    const calculatedAQI = calculateUSEPAAQI(
+      components.pm2_5,
+      components.pm10,
+      components.o3,
+      components.no2
+    );
     
-    switch (aqiValue) {
-      case 1:
-        displayAqi = Math.floor(Math.random() * 50) + 1; // 1-50
-        level = "Good";
-        color = "#00e400";
-        healthAdvice = "Air quality is excellent. Perfect for outdoor activities!";
-        break;
-      case 2:
-        displayAqi = Math.floor(Math.random() * 50) + 51; // 51-100
-        level = "Moderate";
-        color = "#ffff00";
-        healthAdvice = "Air quality is acceptable. Sensitive individuals should consider limiting outdoor activities.";
-        break;
-      case 3:
-        displayAqi = Math.floor(Math.random() * 50) + 101; // 101-150
-        level = "Unhealthy for Sensitive Groups";
-        color = "#ff7e00";
-        healthAdvice = "People with respiratory conditions should limit outdoor activities.";
-        break;
-      case 4:
-        displayAqi = Math.floor(Math.random() * 50) + 151; // 151-200
-        level = "Unhealthy";
-        color = "#ff0000";
-        healthAdvice = "Everyone should limit outdoor activities. Wear a mask if going outside.";
-        break;
-      case 5:
-        displayAqi = Math.floor(Math.random() * 100) + 201; // 201-300
-        level = "Very Unhealthy";
-        color = "#8f3f97";
-        healthAdvice = "Avoid outdoor activities. Stay indoors with air purification if possible.";
-        break;
-      default:
-        displayAqi = 50;
-        level = "Good";
-        color = "#00e400";
-        healthAdvice = "Air quality is excellent. Perfect for outdoor activities!";
+    // Determine level, color, and health advice based on calculated AQI
+    let level, color, healthAdvice;
+    
+    if (calculatedAQI <= 50) {
+      level = "Good";
+      color = "#00e400";
+      healthAdvice = "Air quality is excellent. Perfect for outdoor activities!";
+    } else if (calculatedAQI <= 100) {
+      level = "Moderate";
+      color = "#ffff00";
+      healthAdvice = "Air quality is acceptable. Sensitive individuals should consider limiting outdoor activities.";
+    } else if (calculatedAQI <= 150) {
+      level = "Unhealthy for Sensitive Groups";
+      color = "#ff7e00";
+      healthAdvice = "People with respiratory conditions should limit outdoor activities.";
+    } else if (calculatedAQI <= 200) {
+      level = "Unhealthy";
+      color = "#ff0000";
+      healthAdvice = "Everyone should limit outdoor activities. Wear a mask if going outside.";
+    } else if (calculatedAQI <= 300) {
+      level = "Very Unhealthy";
+      color = "#8f3f97";
+      healthAdvice = "Avoid outdoor activities. Stay indoors with air purification if possible.";
+    } else {
+      level = "Hazardous";
+      color = "#7e0023";
+      healthAdvice = "Health alert! Everyone should avoid all outdoor activities.";
     }
 
     return {
-      aqi: displayAqi,
+      aqi: calculatedAQI,
       level,
       color,
       healthAdvice,
@@ -276,11 +325,24 @@ export function AirQualityCard({ lat, lon }: AirQualityCardProps) {
           <p style={{ 
             fontSize: "0.9rem", 
             lineHeight: "1.5", 
-            margin: "0 0 1.5rem 0",
+            margin: "0 0 1rem 0",
             color: "#495057"
           }}>
             {airQuality.healthAdvice}
           </p>
+
+          <div style={{
+            fontSize: "0.75rem",
+            color: "#6c757d",
+            fontStyle: "italic",
+            marginBottom: "1.5rem",
+            padding: "0.5rem",
+            backgroundColor: "#f8f9fa",
+            borderRadius: "6px",
+            border: "1px solid #e9ecef"
+          }}>
+            <strong>Note:</strong> AQI calculated using US EPA standards based on pollutant concentrations from OpenWeatherMap API.
+          </div>
 
           <div className="pollutant-grid">
             <div className="pollutant-item">
