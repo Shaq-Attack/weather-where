@@ -148,6 +148,8 @@ export default function App() {
         <WeatherDashboardCards
           weatherData={weatherData}
           isCelsius={isCelsius}
+          lat={lat || undefined}
+          lon={lon || undefined}
         />
       }
       rightPanel={
