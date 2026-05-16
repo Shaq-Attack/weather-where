@@ -234,8 +234,8 @@ export function ForecastCard({
                     <XAxis dataKey="time" />
                     <YAxis domain={["dataMin - 2", "dataMax + 2"]} />
                     <Tooltip
-                      formatter={(value: number, name: string) => [
-                        `${value}°${tempUnit}`,
+                      formatter={(value, name) => [
+                        `${value != null ? value : ""}°${tempUnit}`,
                         name === "temperature" ? "Temperature" : "Feels Like",
                       ]}
                     />
