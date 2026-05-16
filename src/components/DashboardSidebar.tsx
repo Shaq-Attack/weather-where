@@ -68,9 +68,9 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
 
         .sidebar-header {
           padding: 20px 16px;
-          border-bottom: 1px solid #e5e7eb;
+          border-bottom: 1px solid #e2e8f0;
           text-align: center;
-          background: #f8f9fa;
+          background: #f8fafc;
         }
 
         .sidebar-header.collapsed {
@@ -93,15 +93,16 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
 
         .nav-button {
           width: 100%;
-          padding: 12px 16px;
+          padding: 11px 16px;
           background: transparent;
           border: none;
-          border-radius: 6px;
+          border-left: 3px solid transparent;
+          border-radius: 0 4px 4px 0;
           color: #64748b;
           font-size: 0.875rem;
           font-weight: 500;
           cursor: pointer;
-          transition: all 0.2s ease;
+          transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
           display: flex;
           align-items: center;
           gap: 12px;
@@ -110,20 +111,19 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
         }
 
         .nav-button:hover {
-          background: #f1f5f9;
-          color: #3b82f6;
-          transform: translateX(2px);
+          background: #f8fafc;
+          color: #0f172a;
         }
 
         .nav-button.active {
-          background: #3b82f6;
-          color: white;
-          transform: translateX(2px);
+          background: #f1f5f9;
+          color: #0f172a;
+          border-left-color: #2563eb;
+          font-weight: 600;
         }
 
         .nav-button.active:hover {
-          background: #2563eb;
-          transform: translateX(4px);
+          background: #e2e8f0;
         }
 
         .nav-button.collapsed {
@@ -187,8 +187,7 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
 
         .k-treeview .k-in:hover {
           background: #f1f5f9;
-          color: #3b82f6;
-          transform: translateX(2px);
+          color: #0f172a;
         }
 
         .quick-actions {
@@ -201,13 +200,13 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
         .quick-action-btn {
           width: 100%;
           margin-bottom: 8px;
-          background: #f8f9fa;
-          border: 1px solid #e5e7eb;
-          border-radius: 6px;
+          background: white;
+          border: 1px solid #e2e8f0;
+          border-radius: 4px;
           padding: 10px 14px;
           font-size: 0.875rem;
           font-weight: 500;
-          transition: all 0.2s ease;
+          transition: border-color 0.15s ease, color 0.15s ease;
           cursor: pointer;
           color: #64748b;
           display: flex;
@@ -216,10 +215,8 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
         }
 
         .quick-action-btn:hover {
-          background: #3b82f6;
-          border-color: #3b82f6;
-          color: white;
-          transform: translateY(-1px);
+          border-color: #2563eb;
+          color: #0f172a;
         }
 
         .quick-action-btn.collapsed {
@@ -243,12 +240,12 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
         }
 
         .dashboard-sidebar-container::-webkit-scrollbar-thumb {
-          background: #3b82f6;
+          background: #cbd5e1;
           border-radius: 2px;
         }
 
         .dashboard-sidebar-container::-webkit-scrollbar-thumb:hover {
-          background: #2563eb;
+          background: #94a3b8;
         }
       `,
         }}

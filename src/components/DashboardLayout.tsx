@@ -23,14 +23,14 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
           height: 100vh;
           display: flex;
           flex-direction: column;
-          background: #f8f9fa;
+          background: #f1f5f9;
           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
         }
 
         .dashboard-header {
           height: 80px;
-          background: #3b82f6;
-          box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15);
+          background: #0f172a;
+          box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06);
           z-index: 1000;
           position: relative;
         }
@@ -46,11 +46,10 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
           width: 280px;
           height: 100%;
           background: #ffffff;
-          border-right: 1px solid rgba(230, 236, 245, 0.8);
+          border-right: 1px solid #e2e8f0;
           padding: 0;
           transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           overflow: hidden;
-          box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
           position: relative;
           z-index: 100;
         }
@@ -58,7 +57,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
         .dashboard-main-content {
           flex: 1;
           padding: 24px;
-          background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+          background: #f1f5f9;
           overflow-y: auto;
           overflow-x: hidden;
           position: relative;
@@ -68,11 +67,10 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
           width: 360px;
           height: 100%;
           background: #ffffff;
-          border-left: 1px solid rgba(230, 236, 245, 0.8);
+          border-left: 1px solid #e2e8f0;
           padding: 24px;
           overflow-y: auto;
           overflow-x: hidden;
-          box-shadow: -2px 0 10px rgba(0, 0, 0, 0.05);
           position: relative;
         }
 
@@ -81,24 +79,23 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
         /* Custom scrollbar for main content */
         .dashboard-main-content::-webkit-scrollbar,
         .dashboard-right-panel::-webkit-scrollbar {
-          width: 8px;
+          width: 6px;
         }
 
         .dashboard-main-content::-webkit-scrollbar-track,
         .dashboard-right-panel::-webkit-scrollbar-track {
-          background: rgba(241, 243, 246, 0.8);
-          border-radius: 4px;
+          background: #f1f5f9;
         }
 
         .dashboard-main-content::-webkit-scrollbar-thumb,
         .dashboard-right-panel::-webkit-scrollbar-thumb {
-          background: #3b82f6;
+          background: #cbd5e1;
           border-radius: 3px;
         }
 
         .dashboard-main-content::-webkit-scrollbar-thumb:hover,
         .dashboard-right-panel::-webkit-scrollbar-thumb:hover {
-          background: #2563eb;
+          background: #94a3b8;
         }
 
         /* Responsive adjustments */

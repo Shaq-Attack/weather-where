@@ -31,7 +31,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
 
         .dashboard-header-container {
           height: 100%;
-          background: #3b82f6;
+          background: #0f172a;
           color: white;
           position: relative;
           display: flex;
@@ -49,76 +49,77 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
         }
 
         .header-logo {
-          font-size: 1.5rem;
+          font-size: 0.875rem;
           font-weight: 600;
           color: white;
           display: flex;
           align-items: center;
           gap: 8px;
           height: 60px;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
         }
 
         .header-controls {
           display: flex;
           align-items: center;
-          gap: 20px;
+          gap: 16px;
           height: 60px;
         }
 
         .header-dropdown {
           min-width: 180px;
-          background: rgba(255,255,255,0.2) !important;
-          border: 1px solid rgba(255,255,255,0.3) !important;
-          border-radius: 6px !important;
+          background: rgba(255,255,255,0.07) !important;
+          border: 1px solid rgba(255,255,255,0.15) !important;
+          border-radius: 4px !important;
           color: white !important;
           padding: 8px 12px !important;
-          transition: all 0.2s ease !important;
+          transition: border-color 0.2s ease !important;
           display: flex;
           align-items: center;
-          height: 40px;
+          height: 38px;
         }
 
         .header-dropdown:hover {
-          background: rgba(255,255,255,0.25) !important;
-          border-color: rgba(255,255,255,0.5) !important;
+          border-color: rgba(255,255,255,0.35) !important;
         }
 
         .header-switch {
-          background: rgba(255,255,255,0.2);
-          border-radius: 6px;
+          background: rgba(255,255,255,0.07);
+          border-radius: 4px;
           padding: 8px 12px;
           display: flex;
           align-items: center;
           gap: 8px;
-          font-size: 0.875rem;
+          font-size: 0.8rem;
           font-weight: 500;
-          border: 1px solid rgba(255,255,255,0.3);
-          transition: all 0.2s ease;
-          height: 40px;
+          color: rgba(255,255,255,0.85);
+          border: 1px solid rgba(255,255,255,0.15);
+          transition: border-color 0.2s ease;
+          height: 38px;
         }
 
         .header-switch:hover {
-          background: rgba(255,255,255,0.25);
+          border-color: rgba(255,255,255,0.35);
         }
 
         .header-button {
-          background: rgba(255,255,255,0.2) !important;
-          border: 1px solid rgba(255,255,255,0.3) !important;
-          border-radius: 6px !important;
+          background: rgba(255,255,255,0.07) !important;
+          border: 1px solid rgba(255,255,255,0.15) !important;
+          border-radius: 4px !important;
           color: white !important;
           padding: 8px 12px !important;
-          transition: all 0.2s ease !important;
+          transition: border-color 0.2s ease !important;
           font-weight: 500 !important;
-          min-width: 40px;
-          height: 40px;
+          min-width: 38px;
+          height: 38px;
           display: flex;
           align-items: center;
           justify-content: center;
         }
 
         .header-button:hover {
-          background: rgba(255,255,255,0.25) !important;
-          border-color: rgba(255,255,255,0.5) !important;
+          border-color: rgba(255,255,255,0.35) !important;
         }
 
         .notification-badge {
@@ -189,7 +190,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
       <div className="dashboard-header-container">
         <AppBar className="dashboard-appbar">
           <AppBarSection>
-            <div className="header-logo">⛅ Weather Dashboard</div>
+            <div className="header-logo">Weather Dashboard</div>
           </AppBarSection>
 
           <AppBarSpacer />
