@@ -100,6 +100,26 @@ export function getWeatherBackground(
 }
 
 /**
+ * Muted, desaturated condition colours for card top-border accents
+ */
+export const weatherBorderColors: Record<string, string> = {
+  [weatherConditions.CLEAR]: "#d97706",
+  [weatherConditions.RAIN]: "#3b82f6",
+  [weatherConditions.DRIZZLE]: "#3b82f6",
+  [weatherConditions.THUNDERSTORM]: "#475569",
+  [weatherConditions.CLOUDS]: "#94a3b8",
+  [weatherConditions.SNOW]: "#7dd3fc",
+  [weatherConditions.MIST]: "#94a3b8",
+  [weatherConditions.FOG]: "#94a3b8",
+  [weatherConditions.HAZE]: "#94a3b8",
+};
+
+export function getWeatherBorderColor(condition: string): string {
+  const normalized = normalizeWeatherCondition(condition);
+  return weatherBorderColors[normalized] ?? "#94a3b8";
+}
+
+/**
  * UV Index risk level mapping
  */
 export const uvIndexLevels = {

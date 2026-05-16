@@ -93,11 +93,10 @@ export const animationStyles = `
 
 // Color palette
 export const colors = {
-  primary: "#667eea",
-  secondary: "#f093fb",
-  success: "#4ade80",
-  warning: "#fbbf24",
-  error: "#ef4444",
+  primary: "#2563eb",
+  success: "#16a34a",
+  warning: "#d97706",
+  error: "#dc2626",
   gray: {
     50: "#f9fafb",
     100: "#f3f4f6",
@@ -124,8 +123,8 @@ export const spacing = {
 
 // Border radius scale
 export const borderRadius = {
-  sm: "6px",
-  md: "12px",
-  lg: "20px",
+  sm: "4px",
+  md: "6px",
+  lg: "8px",
   full: "50%",
 } as const;

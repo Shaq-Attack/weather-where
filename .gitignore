@@ -26,3 +26,6 @@ dist-ssr
 telerik-license.txt
 FullCityList.json
 todo.ts
+
+#Ignore vscode AI rules
+.github/instructions/codacy.instructions.md
