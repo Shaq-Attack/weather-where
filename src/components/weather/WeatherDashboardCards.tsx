@@ -139,10 +139,10 @@ export const WeatherDashboardCards: React.FC<WeatherDashboardCardsProps> = ({
 
         .dashboard-card {
           background: white;
-          border-radius: 16px;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-          border: 1px solid rgba(230, 236, 245, 0.8);
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          border-radius: 8px;
+          box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+          border: 1px solid #e2e8f0;
+          transition: box-shadow 0.2s ease;
           overflow: hidden;
           position: relative;
           height: auto;
@@ -158,31 +158,35 @@ export const WeatherDashboardCards: React.FC<WeatherDashboardCardsProps> = ({
         }
 
         .card-header {
-          padding: 24px 24px 20px 24px;
-          border-bottom: none;
+          padding: 18px 24px;
+          border-bottom: 1px solid #e2e8f0;
           flex-shrink: 0;
-          min-height: 80px;
           display: flex;
           flex-direction: column;
           justify-content: center;
-          background: #3b82f6;
-          color: white;
+          background: #f8fafc;
+          color: #0f172a;
           position: relative;
-          border-radius: 8px 8px 0 0;
         }
 
         .card-title {
-          font-size: 1.5rem;
-          font-weight: 700;
+          font-size: 0.75rem;
+          font-weight: 600;
           margin: 0;
           line-height: 1.2;
+          text-transform: uppercase;
+          letter-spacing: 0.07em;
+          color: #0f172a;
         }
 
         .card-subtitle {
-          font-size: 1rem;
-          opacity: 0.7;
+          font-size: 0.8rem;
+          color: #64748b;
           margin: 4px 0 0 0;
           line-height: 1.2;
+          font-weight: 400;
+          text-transform: none;
+          letter-spacing: 0;
         }
 
         .dashboard-content {
@@ -227,56 +231,8 @@ export const WeatherDashboardCards: React.FC<WeatherDashboardCardsProps> = ({
           height: auto;
         }
 
-        .dashboard-card::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          height: 3px;
-          background: #3b82f6;
-          transition: height 0.3s ease;
-        }
-
         .dashboard-card:hover {
-          transform: translateY(-6px);
-          box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-        }
-
-        .dashboard-card:hover::before {
-          height: 6px;
-        }
-
-
-
-        .card-header::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
-          opacity: 0.5;
-          border-radius: 16px 16px 0 0;
-        }
-
-        .card-title {
-          font-size: 1.2rem;
-          font-weight: 700;
-          margin: 0;
-          position: relative;
-          z-index: 1;
-          letter-spacing: -0.5px;
-        }
-
-        .card-subtitle {
-          font-size: 0.9rem;
-          opacity: 0.9;
-          margin: 6px 0 0 0;
-          position: relative;
-          z-index: 1;
-          font-weight: 500;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
         }
 
         .card-body {
@@ -314,32 +270,30 @@ export const WeatherDashboardCards: React.FC<WeatherDashboardCardsProps> = ({
 
         .detail-item {
           text-align: center;
-          padding: 16px 12px;
-          background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-          border-radius: 12px;
-          transition: all 0.3s ease;
-          border: 1px solid rgba(230, 236, 245, 0.6);
+          padding: 14px 12px;
+          background: #f8fafc;
+          border-radius: 6px;
+          transition: background 0.15s ease;
+          border: 1px solid #e2e8f0;
         }
 
         .detail-item:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-          background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+          background: #f1f5f9;
         }
 
         .detail-label {
-          font-size: 0.8rem;
-          color: #6c757d;
-          margin-bottom: 6px;
+          font-size: 0.7rem;
+          color: #64748b;
+          margin-bottom: 5px;
           font-weight: 600;
           text-transform: uppercase;
-          letter-spacing: 0.5px;
+          letter-spacing: 0.06em;
         }
 
         .detail-value {
-          font-size: 1.2rem;
+          font-size: 1.1rem;
           font-weight: 700;
-          color: #2c3e50;
+          color: #0f172a;
         }
 
         .gauge-container {
@@ -353,8 +307,9 @@ export const WeatherDashboardCards: React.FC<WeatherDashboardCardsProps> = ({
         .chart-container {
           height: 280px;
           padding: 16px;
-          border-radius: 12px;
-          background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+          border-radius: 6px;
+          background: white;
+          border: 1px solid #e2e8f0;
           margin: 8px;
         }
 
@@ -364,11 +319,11 @@ export const WeatherDashboardCards: React.FC<WeatherDashboardCardsProps> = ({
         }
 
         .progress-section {
-          margin: 20px 0;
-          padding: 16px;
-          background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-          border-radius: 12px;
-          border: 1px solid rgba(230, 236, 245, 0.6);
+          margin: 16px 0;
+          padding: 14px 16px;
+          background: #f8fafc;
+          border-radius: 6px;
+          border: 1px solid #e2e8f0;
         }
 
         .progress-label {
@@ -388,66 +343,48 @@ export const WeatherDashboardCards: React.FC<WeatherDashboardCardsProps> = ({
           grid-column: span 1;
         }
 
-        /* Quick stats grid for animated card */
         .quick-stats-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 16px;
+          gap: 12px;
         }
 
         .stat-tile {
-          background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-          border-radius: 12px;
-          padding: 20px;
+          background: #f8fafc;
+          border-radius: 6px;
+          padding: 16px;
           text-align: center;
-          border-left: 4px solid;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          position: relative;
-          overflow: hidden;
-          border: 1px solid rgba(230, 236, 245, 0.6);
-        }
-
-        .stat-tile::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-          transition: left 0.5s ease;
-        }
-
-        .stat-tile:hover::before {
-          left: 100%;
+          border-left: 3px solid;
+          transition: background 0.15s ease;
+          border-top: 1px solid #e2e8f0;
+          border-right: 1px solid #e2e8f0;
+          border-bottom: 1px solid #e2e8f0;
         }
 
         .stat-tile:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-          background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+          background: #f1f5f9;
         }
 
         .stat-title {
-          font-size: 0.8rem;
-          color: #6c757d;
-          margin-bottom: 10px;
+          font-size: 0.7rem;
+          color: #64748b;
+          margin-bottom: 8px;
           font-weight: 600;
           text-transform: uppercase;
-          letter-spacing: 0.5px;
+          letter-spacing: 0.06em;
         }
 
         .stat-value {
-          font-size: 2rem;
+          font-size: 1.75rem;
           font-weight: 700;
-          color: #2c3e50;
-          margin-bottom: 6px;
+          color: #0f172a;
+          margin-bottom: 4px;
           line-height: 1;
         }
 
         .stat-trend {
-          font-size: 0.8rem;
-          color: #28a745;
+          font-size: 0.75rem;
+          color: #16a34a;
           font-weight: 600;
         }
 
@@ -472,14 +409,15 @@ export const WeatherDashboardCards: React.FC<WeatherDashboardCardsProps> = ({
         }
 
         .k-grid-header {
-          background: #3b82f6 !important;
-          color: white !important;
+          background: #f8fafc !important;
+          color: #0f172a !important;
           border: none !important;
+          border-bottom: 1px solid #e2e8f0 !important;
         }
 
         .k-grid-header .k-header {
           background: transparent !important;
-          color: white !important;
+          color: #0f172a !important;
           border: none !important;
           font-weight: 600 !important;
           padding: 12px 16px !important;
@@ -585,7 +523,7 @@ export const WeatherDashboardCards: React.FC<WeatherDashboardCardsProps> = ({
 
       <div className="dashboard-grid">
         {/* Single Unified Weather Dashboard Card */}
-        <div style={{ borderRadius: "16px", overflow: "hidden" }}>
+        <div style={{ borderRadius: "8px", overflow: "hidden" }}>
           <Card
             className="dashboard-card main-dashboard-card"
             style={{ borderRadius: 0 }}
@@ -606,10 +544,10 @@ export const WeatherDashboardCards: React.FC<WeatherDashboardCardsProps> = ({
                   className="current-weather-section"
                   style={{
                     background: "white",
-                    borderRadius: "16px",
+                    borderRadius: "8px",
                     padding: "24px",
-                    border: "1px solid rgba(230, 236, 245, 0.8)",
-                    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
+                    border: "1px solid #e2e8f0",
+                    boxShadow: "0 1px 3px rgba(0, 0, 0, 0.05)",
                   }}
                 >
                   <h3
@@ -679,10 +617,10 @@ export const WeatherDashboardCards: React.FC<WeatherDashboardCardsProps> = ({
                   className="environmental-metrics-section"
                   style={{
                     background: "white",
-                    borderRadius: "16px",
+                    borderRadius: "8px",
                     padding: "24px",
-                    border: "1px solid rgba(230, 236, 245, 0.8)",
-                    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
+                    border: "1px solid #e2e8f0",
+                    boxShadow: "0 1px 3px rgba(0, 0, 0, 0.05)",
                   }}
                 >
                   <h3
@@ -730,10 +668,10 @@ export const WeatherDashboardCards: React.FC<WeatherDashboardCardsProps> = ({
                   className="uv-index-section"
                   style={{
                     background: "white",
-                    borderRadius: "16px",
+                    borderRadius: "8px",
                     padding: "24px",
-                    border: "1px solid rgba(230, 236, 245, 0.8)",
-                    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
+                    border: "1px solid #e2e8f0",
+                    boxShadow: "0 1px 3px rgba(0, 0, 0, 0.05)",
                   }}
                 >
                   <h3
@@ -871,10 +809,10 @@ export const WeatherDashboardCards: React.FC<WeatherDashboardCardsProps> = ({
                   className="temperature-chart-section"
                   style={{
                     background: "white",
-                    borderRadius: "16px",
+                    borderRadius: "8px",
                     padding: "24px",
-                    border: "1px solid rgba(230, 236, 245, 0.8)",
-                    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
+                    border: "1px solid #e2e8f0",
+                    boxShadow: "0 1px 3px rgba(0, 0, 0, 0.05)",
                     display: "flex",
                     flexDirection: "column",
                     overflow: "hidden",
