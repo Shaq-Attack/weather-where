@@ -9,7 +9,6 @@ import {
   CloudIcon,
   CloudDrizzleIcon,
   SnowflakeIcon,
-  WindIcon,
   DropletIcon,
   SunriseIcon,
   SunsetIcon,
@@ -19,10 +18,9 @@ import {
   GaugeIcon,
   MapPinIcon,
 } from "lucide-react";
-import { useState } from "react";
 import {
   normalizeWeatherCondition,
-  getWeatherBackground,
+  getWeatherBorderColor,
 } from "../../utils/weather";
 import {
   LoadingCard,
@@ -30,7 +28,7 @@ import {
   formatCurrentDate,
   formatUnixTime,
 } from "../../utils/components";
-import { MetricItem, GlobalAnimationStyles } from "../../utils/styleComponents";
+import { GlobalAnimationStyles } from "../../utils/styleComponents";
 
 interface WeatherCardProps {
   loading: boolean;
@@ -45,8 +43,6 @@ export function WeatherCard({
   data,
   isCelsius,
 }: WeatherCardProps) {
-  const [hovered, setHovered] = useState(false);
-
   if (loading) {
     return (
       <div
@@ -91,76 +87,63 @@ export function WeatherCard({
     return iconMap[normalized as keyof typeof iconMap] || <SunIcon size={48} />;
   };
 
-  const bg = getWeatherBackground(condition);
-  const darkerBg = getWeatherBackground(condition, true);
+  const borderColor = getWeatherBorderColor(condition);
   const icon = getWeatherIcon(condition);
 
   return (
     <>
       <GlobalAnimationStyles />
-      <div
-        style={{ position: "relative", width: 360, margin: "0 auto" }}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-      >
-        {/* Main Weather Card */}
+      <div style={{ width: "100%", maxWidth: 480, margin: "0 auto" }}>
         <Card
           style={{
-            borderRadius: "20px",
-            color: "white",
-            background: bg,
-            boxShadow: "0 10px 20px rgba(0,0,0,0.3)",
+            borderRadius: "8px",
+            background: "white",
+            boxShadow: "0 1px 4px rgba(0,0,0,0.08)",
             overflow: "hidden",
-            border: "none",
-            outline: "none",
-            transform: hovered ? "translateX(-50%)" : "translateX(0)",
-            transition: "transform 0.3s cubic-bezier(0.4,0,0.2,1)",
-            zIndex: 2,
-            backgroundClip: "padding-box",
-            backdropFilter: "blur(10px)",
+            border: "1px solid #e2e8f0",
+            borderTop: `4px solid ${borderColor}`,
           }}
         >
           <CardHeader
             style={{
-              textAlign: "center",
-              fontWeight: "600",
-              padding: "1.5rem 2rem 1rem",
-              color: "white",
-              borderBottom: "1px solid rgba(255,255,255,0.1)",
+              padding: "1.25rem 1.5rem 1rem",
+              borderBottom: "1px solid #f1f5f9",
             }}
           >
             <div
               style={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
                 gap: "0.5rem",
+                color: "#64748b",
+                fontSize: "0.875rem",
               }}
             >
-              <MapPinIcon size={16} />
+              <MapPinIcon size={14} />
               {data.name}, {data.sys.country}
             </div>
             <div
               style={{
-                fontSize: "0.85rem",
-                opacity: 0.8,
-                marginTop: "0.25rem",
+                fontSize: "0.8rem",
+                color: "#94a3b8",
+                marginTop: "0.2rem",
               }}
             >
               {formatCurrentDate()}
             </div>
           </CardHeader>
-          <CardBody style={{ padding: "2rem" }}>
+          <CardBody style={{ padding: "1.5rem" }}>
             {/* Main temperature display */}
-            <div style={{ textAlign: "center", marginBottom: "2rem" }}>
-              <div style={{ marginBottom: "1rem" }}>{icon}</div>
+            <div style={{ textAlign: "center", marginBottom: "1.5rem" }}>
+              <div style={{ marginBottom: "0.75rem", color: "#475569" }}>{icon}</div>
               <CardTitle
                 style={{
                   fontSize: "4rem",
                   margin: "0",
-                  fontWeight: "200",
+                  fontWeight: "300",
                   lineHeight: "1",
-                  letterSpacing: "-2px",
+                  letterSpacing: "-1px",
+                  color: "#0f172a",
                 }}
               >
                 {Math.round(data.main.temp)}
@@ -169,9 +152,9 @@ export function WeatherCard({
               <p
                 style={{
                   textTransform: "capitalize",
-                  fontSize: "1.2rem",
+                  fontSize: "1rem",
                   margin: "0.5rem 0 0",
-                  opacity: 0.9,
+                  color: "#64748b",
                   fontWeight: "400",
                 }}
               >
@@ -179,278 +162,58 @@ export function WeatherCard({
               </p>
             </div>
 
-            {/* Secondary metrics in clean grid */}
-            <div className="metric-grid">
-              <MetricItem
-                icon={<ThermometerSunIcon size={18} />}
-                label="Feels like"
-                value={`${Math.round(data.main.feels_like)}${isCelsius ? "°C" : "°F"}`}
-              />
-              <MetricItem
-                icon={<EyeIcon size={18} />}
-                label="Visibility"
-                value={`${data.visibility ? Math.round(data.visibility / 1000) : 10}km`}
-              />
-              <MetricItem
-                icon={<GaugeIcon size={18} />}
-                label="Pressure"
-                value={`${data.main.pressure}hPa`}
-              />
-              <MetricItem
-                icon={<DropletIcon size={18} />}
-                label="Humidity"
-                value={`${data.main.humidity}%`}
-              />
+            {/* Secondary metrics */}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: "1px",
+                background: "#e2e8f0",
+                borderRadius: "6px",
+                overflow: "hidden",
+                border: "1px solid #e2e8f0",
+              }}
+            >
+              {[
+                { icon: <ThermometerSunIcon size={14} />, label: "Feels like", value: `${Math.round(data.main.feels_like)}${isCelsius ? "°C" : "°F"}` },
+                { icon: <EyeIcon size={14} />, label: "Visibility", value: `${data.visibility ? Math.round(data.visibility / 1000) : 10} km` },
+                { icon: <GaugeIcon size={14} />, label: "Pressure", value: `${data.main.pressure} hPa` },
+                { icon: <DropletIcon size={14} />, label: "Humidity", value: `${data.main.humidity}%` },
+              ].map((m) => (
+                <div key={m.label} style={{ background: "white", padding: "12px 14px" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "6px", color: "#94a3b8", fontSize: "0.75rem", marginBottom: "4px" }}>
+                    {m.icon} {m.label}
+                  </div>
+                  <div style={{ fontWeight: "600", fontSize: "0.9rem", color: "#0f172a" }}>{m.value}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* Sun times */}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: "12px",
+                marginTop: "12px",
+              }}
+            >
+              {[
+                { icon: <SunriseIcon size={14} />, label: "Sunrise", value: formatUnixTime(data.sys.sunrise) },
+                { icon: <SunsetIcon size={14} />, label: "Sunset", value: formatUnixTime(data.sys.sunset) },
+                { icon: <ThermometerSunIcon size={14} />, label: "High", value: `${Math.round(data.main.temp_max)}${isCelsius ? "°C" : "°F"}` },
+                { icon: <ThermometerSnowflakeIcon size={14} />, label: "Low", value: `${Math.round(data.main.temp_min)}${isCelsius ? "°C" : "°F"}` },
+              ].map((m) => (
+                <div key={m.label} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                  <div style={{ color: "#94a3b8" }}>{m.icon}</div>
+                  <div>
+                    <div style={{ fontSize: "0.7rem", color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.05em" }}>{m.label}</div>
+                    <div style={{ fontWeight: "600", fontSize: "0.875rem", color: "#0f172a" }}>{m.value}</div>
+                  </div>
+                </div>
+              ))}
             </div>
           </CardBody>
-        </Card>
-
-        {/* Sliding Extra Info Card - Clean organized layout */}
-        <Card
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 18,
-            height: "100%",
-            width: "80%",
-            borderRadius: "0 20px 20px 0",
-            color: "white",
-            background: darkerBg,
-            padding: "2rem",
-            boxShadow: hovered ? "0 10px 20px rgba(0,0,0,0.3)" : "none",
-            transform: hovered ? "translateX(50%)" : "translateX(0)",
-            transition: "transform 0.3s cubic-bezier(0.4,0,0.2,1)",
-            zIndex: 1,
-            border: "none",
-            outline: "none",
-            backgroundClip: "padding-box",
-            backdropFilter: "blur(10px)",
-          }}
-        >
-          {/* Weather Details Header */}
-          <div
-            style={{
-              fontSize: "1.1rem",
-              fontWeight: "600",
-              marginBottom: "1.5rem",
-              textAlign: "center",
-              borderBottom: "1px solid rgba(255,255,255,0.2)",
-              paddingBottom: "0.75rem",
-            }}
-          >
-            Weather Details
-          </div>
-
-          {/* Organized metrics in sections */}
-          <div
-            style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}
-          >
-            {/* Atmospheric Section */}
-            <div>
-              <div
-                style={{
-                  fontSize: "0.85rem",
-                  opacity: 0.8,
-                  marginBottom: "0.75rem",
-                  fontWeight: "500",
-                }}
-              >
-                Atmospheric
-              </div>
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr 1fr",
-                  gap: "0.75rem",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "0.25rem",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0.5rem",
-                      fontSize: "0.85rem",
-                      opacity: 0.8,
-                    }}
-                  >
-                    <DropletIcon size={14} />
-                    Humidity
-                  </div>
-                  <div style={{ fontWeight: "600", fontSize: "1rem" }}>
-                    {data.main.humidity}%
-                  </div>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "0.25rem",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0.5rem",
-                      fontSize: "0.85rem",
-                      opacity: 0.8,
-                    }}
-                  >
-                    <WindIcon size={14} />
-                    Wind
-                  </div>
-                  <div style={{ fontWeight: "600", fontSize: "1rem" }}>
-                    {Math.round(data.wind.speed * 3.6)} km/h
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Temperature Section */}
-            <div>
-              <div
-                style={{
-                  fontSize: "0.85rem",
-                  opacity: 0.8,
-                  marginBottom: "0.75rem",
-                  fontWeight: "500",
-                }}
-              >
-                Temperature Range
-              </div>
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr 1fr",
-                  gap: "0.75rem",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "0.25rem",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0.5rem",
-                      fontSize: "0.85rem",
-                      opacity: 0.8,
-                    }}
-                  >
-                    <ThermometerSunIcon size={14} />
-                    High
-                  </div>
-                  <div style={{ fontWeight: "600", fontSize: "1rem" }}>
-                    {Math.round(data.main.temp_max)}
-                    {isCelsius ? "°C" : "°F"}
-                  </div>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "0.25rem",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0.5rem",
-                      fontSize: "0.85rem",
-                      opacity: 0.8,
-                    }}
-                  >
-                    <ThermometerSnowflakeIcon size={14} />
-                    Low
-                  </div>
-                  <div style={{ fontWeight: "600", fontSize: "1rem" }}>
-                    {Math.round(data.main.temp_min)}
-                    {isCelsius ? "°C" : "°F"}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Sun Times Section */}
-            <div>
-              <div
-                style={{
-                  fontSize: "0.85rem",
-                  opacity: 0.8,
-                  marginBottom: "0.75rem",
-                  fontWeight: "500",
-                }}
-              >
-                Sun Times
-              </div>
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr 1fr",
-                  gap: "0.75rem",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "0.25rem",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0.5rem",
-                      fontSize: "0.85rem",
-                      opacity: 0.8,
-                    }}
-                  >
-                    <SunriseIcon size={14} />
-                    Sunrise
-                  </div>
-                  <div style={{ fontWeight: "600", fontSize: "1rem" }}>
-                    {formatUnixTime(data.sys.sunrise)}
-                  </div>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "0.25rem",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0.5rem",
-                      fontSize: "0.85rem",
-                      opacity: 0.8,
-                    }}
-                  >
-                    <SunsetIcon size={14} />
-                    Sunset
-                  </div>
-                  <div style={{ fontWeight: "600", fontSize: "1rem" }}>
-                    {formatUnixTime(data.sys.sunset)}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </Card>
       </div>
     </>

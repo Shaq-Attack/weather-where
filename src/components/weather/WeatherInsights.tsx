@@ -30,12 +30,11 @@ export const WeatherInsights: React.FC<WeatherInsightsProps> = ({
   lat,
   lon,
 }) => {
-  // Add card style for lighter background
   const cardStyle: React.CSSProperties = {
-    background: "linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)",
-    borderRadius: 16,
-    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
-    border: "1px solid rgba(230, 236, 245, 0.8)",
+    background: "white",
+    borderRadius: 8,
+    boxShadow: "0 1px 4px rgba(0, 0, 0, 0.06)",
+    border: "1px solid #e2e8f0",
   };
   const [insights, setInsights] = useState<WeatherInsightsData>({
     temperatureTrend: "Loading temperature data...",
@@ -189,70 +188,69 @@ export const WeatherInsights: React.FC<WeatherInsightsProps> = ({
     <>
       <style>{`
         .widget-card {
-          background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
-          border-radius: 16px !important;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
-          border: none !important;
+          background: white !important;
+          border-radius: 8px !important;
+          box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06) !important;
+          border: 1px solid #e2e8f0 !important;
         }
         .widget-header {
-          background: #3b82f6 !important;
-          border-radius: 8px 8px 0 0 !important;
-          color: white !important;
-          position: relative;
-        }
-        .widget-header::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
-          opacity: 0.5;
-          border-radius: 16px 16px 0 0;
-          pointer-events: none;
+          background: #f8fafc !important;
+          border-bottom: 1px solid #e2e8f0 !important;
+          padding: 14px 20px !important;
         }
         .widget-title {
-          color: white !important;
-          font-weight: 700;
-          position: relative;
-          z-index: 1;
+          font-size: 0.75rem !important;
+          font-weight: 600 !important;
+          color: #0f172a !important;
+          text-transform: uppercase !important;
+          letter-spacing: 0.07em !important;
         }
         .widget-body {
           background: transparent !important;
         }
         .weather-tip {
           background: white;
-          border-radius: 12px;
-          margin-bottom: 16px;
-          padding: 16px 18px;
-          border-left: 4px solid #3b82f6;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+          border-radius: 6px;
+          margin-bottom: 10px;
+          padding: 12px 14px;
+          border-left: 3px solid #2563eb;
+          border-top: 1px solid #e2e8f0;
+          border-right: 1px solid #e2e8f0;
+          border-bottom: 1px solid #e2e8f0;
         }
         .tip-title {
           font-weight: 600;
-          color: #3b82f6;
-          margin-bottom: 6px;
+          color: #0f172a;
+          margin-bottom: 4px;
+          font-size: 0.875rem;
         }
         .tip-content {
-          color: #2c3e50;
-          font-size: 1rem;
+          color: #475569;
+          font-size: 0.875rem;
+          line-height: 1.5;
         }
         .action-buttons {
           display: flex;
-          gap: 12px;
+          gap: 10px;
           margin-top: 12px;
         }
         .action-btn {
-          background: #3b82f6 !important;
-          color: white !important;
-          border-radius: 6px !important;
-          font-weight: 500;
-          border: none !important;
+          background: white !important;
+          color: #0f172a !important;
+          border: 1px solid #e2e8f0 !important;
+          border-radius: 4px !important;
+          font-weight: 500 !important;
+          font-size: 0.8rem !important;
+          transition: border-color 0.15s ease, color 0.15s ease !important;
+        }
+        .action-btn:hover {
+          border-color: #2563eb !important;
+          color: #2563eb !important;
         }
         .action-btn:disabled {
-          background: #9ca3af !important;
-          color: #f8f9fa !important;
+          background: #f8fafc !important;
+          color: #94a3b8 !important;
+          border-color: #e2e8f0 !important;
         }
       `}</style>
       <Card className="widget-card" style={cardStyle}>
@@ -261,7 +259,7 @@ export const WeatherInsights: React.FC<WeatherInsightsProps> = ({
         </CardHeader>
         <CardBody className="widget-body">
           <div className="weather-tip">
-            <div className="tip-title">🌡️ Temperature Trend</div>
+            <div className="tip-title">Temperature Trend</div>
             <div className="tip-content">
               {insights.loading
                 ? "Loading temperature data..."
@@ -270,7 +268,7 @@ export const WeatherInsights: React.FC<WeatherInsightsProps> = ({
           </div>
 
           <div className="weather-tip">
-            <div className="tip-title">🌧️ Precipitation Forecast</div>
+            <div className="tip-title">Precipitation Forecast</div>
             <div className="tip-content">
               {insights.loading
                 ? "Loading precipitation data..."
@@ -279,7 +277,7 @@ export const WeatherInsights: React.FC<WeatherInsightsProps> = ({
           </div>
 
           <div className="weather-tip">
-            <div className="tip-title">💨 Wind Advisory</div>
+            <div className="tip-title">Wind Advisory</div>
             <div className="tip-content">
               {insights.loading
                 ? "Loading wind data..."
@@ -289,7 +287,7 @@ export const WeatherInsights: React.FC<WeatherInsightsProps> = ({
 
           {insights.error && (
             <div className="weather-tip" style={{ borderLeftColor: "#dc3545" }}>
-              <div className="tip-title">⚠️ Error</div>
+              <div className="tip-title">Error</div>
               <div className="tip-content">
                 {insights.error}. Please check your API key and location data.
               </div>
