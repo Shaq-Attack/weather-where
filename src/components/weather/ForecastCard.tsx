@@ -149,7 +149,8 @@ export function ForecastCard({
                       borderRadius: "6px",
                     }}
                     onMouseEnter={(e: React.MouseEvent<HTMLElement>) => {
-                      e.currentTarget.style.boxShadow = "0 2px 8px rgba(0,0,0,0.10)";
+                      e.currentTarget.style.boxShadow =
+                        "0 2px 8px rgba(0,0,0,0.10)";
                     }}
                     onMouseLeave={(e: React.MouseEvent<HTMLElement>) => {
                       e.currentTarget.style.boxShadow = "none";

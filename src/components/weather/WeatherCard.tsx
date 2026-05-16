@@ -135,7 +135,9 @@ export function WeatherCard({
           <CardBody style={{ padding: "1.5rem" }}>
             {/* Main temperature display */}
             <div style={{ textAlign: "center", marginBottom: "1.5rem" }}>
-              <div style={{ marginBottom: "0.75rem", color: "#475569" }}>{icon}</div>
+              <div style={{ marginBottom: "0.75rem", color: "#475569" }}>
+                {icon}
+              </div>
               <CardTitle
                 style={{
                   fontSize: "4rem",
@@ -175,16 +177,52 @@ export function WeatherCard({
               }}
             >
               {[
-                { icon: <ThermometerSunIcon size={14} />, label: "Feels like", value: `${Math.round(data.main.feels_like)}${isCelsius ? "°C" : "°F"}` },
-                { icon: <EyeIcon size={14} />, label: "Visibility", value: `${data.visibility ? Math.round(data.visibility / 1000) : 10} km` },
-                { icon: <GaugeIcon size={14} />, label: "Pressure", value: `${data.main.pressure} hPa` },
-                { icon: <DropletIcon size={14} />, label: "Humidity", value: `${data.main.humidity}%` },
+                {
+                  icon: <ThermometerSunIcon size={14} />,
+                  label: "Feels like",
+                  value: `${Math.round(data.main.feels_like)}${isCelsius ? "°C" : "°F"}`,
+                },
+                {
+                  icon: <EyeIcon size={14} />,
+                  label: "Visibility",
+                  value: `${data.visibility ? Math.round(data.visibility / 1000) : 10} km`,
+                },
+                {
+                  icon: <GaugeIcon size={14} />,
+                  label: "Pressure",
+                  value: `${data.main.pressure} hPa`,
+                },
+                {
+                  icon: <DropletIcon size={14} />,
+                  label: "Humidity",
+                  value: `${data.main.humidity}%`,
+                },
               ].map((m) => (
-                <div key={m.label} style={{ background: "white", padding: "12px 14px" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "6px", color: "#94a3b8", fontSize: "0.75rem", marginBottom: "4px" }}>
+                <div
+                  key={m.label}
+                  style={{ background: "white", padding: "12px 14px" }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "6px",
+                      color: "#94a3b8",
+                      fontSize: "0.75rem",
+                      marginBottom: "4px",
+                    }}
+                  >
                     {m.icon} {m.label}
                   </div>
-                  <div style={{ fontWeight: "600", fontSize: "0.9rem", color: "#0f172a" }}>{m.value}</div>
+                  <div
+                    style={{
+                      fontWeight: "600",
+                      fontSize: "0.9rem",
+                      color: "#0f172a",
+                    }}
+                  >
+                    {m.value}
+                  </div>
                 </div>
               ))}
             </div>
@@ -199,16 +237,52 @@ export function WeatherCard({
               }}
             >
               {[
-                { icon: <SunriseIcon size={14} />, label: "Sunrise", value: formatUnixTime(data.sys.sunrise) },
-                { icon: <SunsetIcon size={14} />, label: "Sunset", value: formatUnixTime(data.sys.sunset) },
-                { icon: <ThermometerSunIcon size={14} />, label: "High", value: `${Math.round(data.main.temp_max)}${isCelsius ? "°C" : "°F"}` },
-                { icon: <ThermometerSnowflakeIcon size={14} />, label: "Low", value: `${Math.round(data.main.temp_min)}${isCelsius ? "°C" : "°F"}` },
+                {
+                  icon: <SunriseIcon size={14} />,
+                  label: "Sunrise",
+                  value: formatUnixTime(data.sys.sunrise),
+                },
+                {
+                  icon: <SunsetIcon size={14} />,
+                  label: "Sunset",
+                  value: formatUnixTime(data.sys.sunset),
+                },
+                {
+                  icon: <ThermometerSunIcon size={14} />,
+                  label: "High",
+                  value: `${Math.round(data.main.temp_max)}${isCelsius ? "°C" : "°F"}`,
+                },
+                {
+                  icon: <ThermometerSnowflakeIcon size={14} />,
+                  label: "Low",
+                  value: `${Math.round(data.main.temp_min)}${isCelsius ? "°C" : "°F"}`,
+                },
               ].map((m) => (
-                <div key={m.label} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <div
+                  key={m.label}
+                  style={{ display: "flex", alignItems: "center", gap: "8px" }}
+                >
                   <div style={{ color: "#94a3b8" }}>{m.icon}</div>
                   <div>
-                    <div style={{ fontSize: "0.7rem", color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.05em" }}>{m.label}</div>
-                    <div style={{ fontWeight: "600", fontSize: "0.875rem", color: "#0f172a" }}>{m.value}</div>
+                    <div
+                      style={{
+                        fontSize: "0.7rem",
+                        color: "#94a3b8",
+                        textTransform: "uppercase",
+                        letterSpacing: "0.05em",
+                      }}
+                    >
+                      {m.label}
+                    </div>
+                    <div
+                      style={{
+                        fontWeight: "600",
+                        fontSize: "0.875rem",
+                        color: "#0f172a",
+                      }}
+                    >
+                      {m.value}
+                    </div>
                   </div>
                 </div>
               ))}
