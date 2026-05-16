@@ -90,28 +90,28 @@ export function ForecastCard({
   return (
     <Card
       style={{
-        borderRadius: "20px",
+        borderRadius: "8px",
         margin: "1rem auto",
         maxWidth: "1500px",
         width: "fit-content",
-        boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
+        boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
+        border: "1px solid #e2e8f0",
       }}
     >
       <CardHeader
         style={{
-          textAlign: "center",
-          fontWeight: "bold",
-          padding: "1.5rem",
-          background: "linear-gradient(135deg, #34495e 0%, #2c3e50 100%)",
+          padding: "14px 20px",
+          background: "#f8fafc",
+          borderBottom: "1px solid #e2e8f0",
         }}
       >
         <CardTitle
           style={{
-            color: "white",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "0.5rem",
+            color: "#0f172a",
+            fontSize: "0.75rem",
+            fontWeight: "600",
+            textTransform: "uppercase",
+            letterSpacing: "0.07em",
           }}
         >
           Weather Forecast
@@ -144,18 +144,15 @@ export function ForecastCard({
                       minWidth: "140px",
                       textAlign: "center",
                       cursor: "pointer",
-                      transition: "transform 0.2s, box-shadow 0.2s",
-                      border: "1px solid #e0e0e0",
+                      transition: "box-shadow 0.15s ease",
+                      border: "1px solid #e2e8f0",
+                      borderRadius: "6px",
                     }}
                     onMouseEnter={(e: React.MouseEvent<HTMLElement>) => {
-                      e.currentTarget.style.transform = "translateY(-4px)";
-                      e.currentTarget.style.boxShadow =
-                        "0 8px 16px rgba(0,0,0,0.15)";
+                      e.currentTarget.style.boxShadow = "0 2px 8px rgba(0,0,0,0.10)";
                     }}
                     onMouseLeave={(e: React.MouseEvent<HTMLElement>) => {
-                      e.currentTarget.style.transform = "translateY(0)";
-                      e.currentTarget.style.boxShadow =
-                        "0 2px 8px rgba(0,0,0,0.1)";
+                      e.currentTarget.style.boxShadow = "none";
                     }}
                     onClick={() => handleDayClick(day)}
                     role="listitem"
